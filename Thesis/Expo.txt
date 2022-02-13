@@ -1,0 +1,17 @@
+NPM command to download Expo:
+npm install -g expo-cli
+
+Create project:
+expo init projectname
+
+Start server:
+npm start
+
+Publish:
+expo publish
+
+
+ReactNativePaper
+
+Button:
+Mode = gomb stíulsát adja

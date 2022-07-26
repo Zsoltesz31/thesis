@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {theme} from './AppStyle'
+import {darkTheme} from './AppStyleDark'
 import {Provider as PaperProvider} from 'react-native-paper'
 import {Text} from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+import { EventRegister } from 'react-native-event-listeners';
 
 import {LoginScreen} from './app/screens/login/loginscreen'
 import MainScreen from './app/screens/mainscreen/mainscreen'
@@ -14,7 +16,6 @@ import TestListScreen from './app/screens/testlistscreen/testlistscreen'
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createDrawerNavigator } from '@react-navigation/drawer'
 
 const loginscreenName= 'Kijelentkezés'
 const mainscreenName ='Főoldal'
@@ -31,15 +32,27 @@ async function componentDidMount() {
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
-const Drawer = createDrawerNavigator();
 
 
 export default function App() {
+  const [isEnabled, setIsEnabled] = useState(false);
+
+useEffect(()=>{
+  let eventListener = EventRegister.addEventListener(
+    "changeTheme",
+    (data) =>{
+      setIsEnabled(data)
+    }
+  )
+  return () => {
+    EventRegister.removeEventListener(eventListener)
+  }
+})
 
   createCourseStack = () =>  {
     return(
     <Stack.Navigator>
-      <Stack.Screen name="Kurzusok" component={CourseScreen} ></Stack.Screen>
+      <Stack.Screen name="Kurzusaid" component={CourseScreen} ></Stack.Screen>
       <Stack.Screen name="Tesztek" component={TestListScreen} ></Stack.Screen>
     </Stack.Navigator>
     )}
@@ -89,7 +102,7 @@ export default function App() {
 
   return (
     <PaperProvider theme={theme}>
-    <NavigationContainer>
+    <NavigationContainer theme={darkTheme}>
     <Stack.Navigator>
       <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
       <Stack.Screen name="Main" children={createMainTabs} options={{header: () => null}}></Stack.Screen>

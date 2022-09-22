@@ -1,8 +1,19 @@
 import React from 'react'
-import {TextInput} from 'react-native-paper'
+import {TextInput,View} from 'react-native'
+import {inputsStyle} from './inputsstyle'
 
-export const CustomInput=() => {
+
+export const CustomInput=({placeholder}) => {
     return(
-        <TextInput theme={{ roundness:10 }}></TextInput>
+        <View style={inputsStyle.container}>
+
+        <TextInput
+        style={inputsStyle.inputText}
+         placeholder={placeholder}>
+
+         </TextInput>
+
+         </View>
     )
 }
+

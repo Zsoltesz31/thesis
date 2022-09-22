@@ -102,7 +102,7 @@ useEffect(()=>{
 
   return (
     <PaperProvider theme={theme}>
-    <NavigationContainer theme={darkTheme}>
+    <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
       <Stack.Screen name="Main" children={createMainTabs} options={{header: () => null}}></Stack.Screen>

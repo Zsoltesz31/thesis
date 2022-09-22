@@ -1,8 +1,10 @@
 import React from 'react'
-import {Button} from 'react-native-paper'
+import {Button,View,Text} from 'react-native'
 
-export const CustomButton=() => {
+export const CustomButton=({buttonName}) => {
     return(
-        <Button></Button>
+        <View>
+            <Text>{buttonName}</Text>
+        </View>
     )
 }

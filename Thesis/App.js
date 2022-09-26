@@ -12,10 +12,12 @@ import ProfileScreen from './app/screens/profilescreen/profilescreen'
 import CourseScreen from './app/screens/coursescreen/coursescreen'
 import SettingsScreen from './app/screens/settingsscreen/settingsscreen'
 import TestListScreen from './app/screens/testlistscreen/testlistscreen'
+import store from "./store"
 
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Provider as StoreProvider} from "react-redux"
 
 const loginscreenName= 'Kijelentkezés'
 const mainscreenName ='Főoldal'
@@ -101,6 +103,7 @@ useEffect(()=>{
 
 
   return (
+    <StoreProvider store={store}>
     <PaperProvider theme={theme}>
     <NavigationContainer>
     <Stack.Navigator>
@@ -109,6 +112,7 @@ useEffect(()=>{
     </Stack.Navigator>
     </NavigationContainer>
     </PaperProvider>
+   </StoreProvider>
   );
 }
 

@@ -65,14 +65,8 @@ useEffect(()=>{
     <Stack.Navigator>
       <Stack.Screen name="Kurzusaid" component={CourseScreen} ></Stack.Screen>
       <Stack.Screen name="Tesztek" component={TestListScreen} ></Stack.Screen>
-      <Stack.Screen name="Teszt létrehozása" component={CreateTestScreen} options={{
-        headerLeft: (props) =>(
-          <HeaderBackButton {...props}
-          onPress={()=>{
-            console.log("awsd")
-          }}/>
-        )
-      }}
+      <Stack.Screen name="Teszt létrehozása" component={CreateTestScreen} 
+       
       ></Stack.Screen>
     </Stack.Navigator>
     )}

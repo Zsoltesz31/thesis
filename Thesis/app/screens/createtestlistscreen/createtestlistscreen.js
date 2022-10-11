@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { SafeAreaView,Text,View } from 'react-native'
 import SelectList from 'react-native-dropdown-select-list'
 import {OptionChoices} from './../../../components/questionCreationComponents/optionChoices/optionChoices'
+import {LongAnwserQuestion} from './../../../components/questionCreationComponents/longAnwserQuestion/longAnwserQuestion'
 
 
 export default function CourseScreen({navigation}){
@@ -15,6 +16,7 @@ export default function CourseScreen({navigation}){
                 return(
                     <View>
                     <Text>Kifejtős</Text>
+                    <LongAnwserQuestion></LongAnwserQuestion>
                     </View>
           
                 )

@@ -24,7 +24,6 @@ export const LoginScreen=( { navigation }) =>{
 
         dispatch(login(user)).then((response)=>{
             if(response.status=="success"){
-                console.log(response.status)
                 navigation.replace('Main')
             }
         })

@@ -6,8 +6,8 @@ import ListView from '../../../components/listview/index'
 export default function CourseScreen({navigation}){
     return(
         <SafeAreaView>
-            <ListView></ListView>
-            <Button mode="contained"  theme={{roundness:30}} onPress={()=> {navigation.navigate('Tesztek')}}>Tesztek</Button>
+           
+            <Button mode="contained"  theme={{roundness:30}} onPress={()=> {navigation.navigate('Teszt létrehozása')}}>Tesztek</Button>
         </SafeAreaView>
     )
 }

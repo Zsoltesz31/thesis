@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { SafeAreaView,Text,View } from 'react-native'
 import SelectList from 'react-native-dropdown-select-list'
+import {OptionChoices} from './../../../components/questionCreationComponents/optionChoices/optionChoices'
 
 
 export default function CourseScreen({navigation}){
@@ -22,7 +23,7 @@ export default function CourseScreen({navigation}){
                 return(
                     <View>
                     <Text>Opciós</Text>
-                    <Text>Szenzációs</Text>
+                   <OptionChoices></OptionChoices>
                     </View>
                 )
                     

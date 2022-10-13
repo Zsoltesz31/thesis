@@ -8,6 +8,7 @@ import { EventRegister } from 'react-native-event-listeners';
 import {HeaderBackButton} from "@react-navigation/stack"
 import {ConfirmationModal} from "./components/modals/confirmation_modal"
 
+import './translations/IMLocalize'
 import {LoginScreen} from './app/screens/login/loginscreen'
 import MainScreen from './app/screens/mainscreen/mainscreen'
 import ProfileScreen from './app/screens/profilescreen/profilescreen'

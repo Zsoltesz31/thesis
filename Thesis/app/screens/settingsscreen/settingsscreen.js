@@ -4,6 +4,7 @@ import {List} from 'react-native-paper'
 import { useState } from 'react'
 import {EventRegister} from 'react-native-event-listeners'
 import {Provider as PaperProvider} from 'react-native-paper'
+import LanguageSelector from './../../../components/languageSelector/index'
 
 
 export default function ProfileScreen(){
@@ -18,6 +19,7 @@ export default function ProfileScreen(){
                 EventRegister.emit("changeTheme",isEnabled)
                 }} value={isEnabled}/>}/>
             </List.Section>
+            <LanguageSelector></LanguageSelector>
         </SafeAreaView>
 
     )

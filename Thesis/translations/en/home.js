@@ -1,3 +1,6 @@
+
+
 export default{
-    welcome:"Welcome"
+    welcome:"Welcome",
+    languageSelector:"Select a language"
 }

@@ -1,3 +1,4 @@
 export default{
-    welcome:"Üdvözöllek"
+    welcome:"Üdvözöllek",
+    languageSelector:"Válasz nyelvet"
 }

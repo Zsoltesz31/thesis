@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import * as RNLocalize from 'react-native-localize'
+//import * as RNLocalize from 'react-native-localize'
 
 import en from './en'
 import hu from './hu'
@@ -39,6 +39,7 @@ const LANGUAGE_DETECTOR = {
 }
 
 i18n.use(LANGUAGE_DETECTOR).use(initReactI18next).init({
+    compatibilityJSON: 'v3',
     resources: LANGUAGES,
     react:{
         useSuspense:false

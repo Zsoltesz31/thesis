@@ -1,24 +1,25 @@
 import React from "react";
 import {View,Text,Pressable,StyleSheet} from 'react-native'
-import { useTranslation } from "react-i18next";
+import { I18nContext, useTranslation } from "react-i18next";
 
 const LANGUAGES = [
     {code:'hu',label:'Hungarian'},
     {code:'en',label:'English'}
 ]
-const LanguageSelector = () =>{
-    const {i18n} = useTranslation()
+export const LanguageSelector = () =>{
+    const {t,i18n} = useTranslation()
     const selectedLanguageCode = i18n.language
 
     const setLanguage = (code) =>{
         return i18n.changeLanguage(code)
+        
     }
 
 
 return(
 <View>
     <View>
-        <Text>Válasz nyelvet</Text>
+        <Text>{t('home:languageSelector')}</Text>
     </View>
     {LANGUAGES.map(language =>{
         const selectedLanguage = language.code === selectedLanguageCode

@@ -1,4 +1,3 @@
-import '../translations/IMLocalize'
 import React from 'react';
 import {Provider as PaperProvider} from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons';

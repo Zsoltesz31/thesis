@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { SafeAreaView, Text,Pressable,View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import {CustomInput} from '../../../components/inputs/inputs'

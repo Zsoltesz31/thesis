@@ -1,4 +1,4 @@
-import React, { useTransition } from 'react'
+import React from 'react'
 import { View ,SafeAreaView, Text, Switch } from 'react-native'
 import {List} from 'react-native-paper'
 import { useState } from 'react'
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 
 export default function ProfileScreen(){
     const [isEnabled, setIsEnabled] = useState(false);
-    const {t} = useTransition()
+    const {t} = useTranslation()
 
     return(
         <SafeAreaView>

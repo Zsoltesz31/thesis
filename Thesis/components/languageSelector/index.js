@@ -1,15 +1,15 @@
 import React from "react";
 import {View,Text,Pressable,StyleSheet} from 'react-native'
-import { I18nContext, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const LANGUAGES = [
     {code:'hu',label:'Hungarian'},
-    {code:'en',label:'English'}
+    {code:'eng',label:'English'}
 ]
 export const LanguageSelector = () =>{
-    const {t,i18n} = useTranslation()
+    const {i18n} = useTranslation()
     const selectedLanguageCode = i18n.language
-
+    console.log(i18n.language)
     const setLanguage = (code) =>{
         return i18n.changeLanguage(code)
         
@@ -19,7 +19,7 @@ export const LanguageSelector = () =>{
 return(
 <View>
     <View>
-        <Text>{t('home:languageSelector')}</Text>
+        <Text>{i18n.t("welcome")}</Text>
     </View>
     {LANGUAGES.map(language =>{
         const selectedLanguage = language.code === selectedLanguageCode

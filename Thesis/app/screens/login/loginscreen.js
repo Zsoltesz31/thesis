@@ -42,7 +42,8 @@ export const LoginScreen=( { navigation }) =>{
                     <TextInput label="Neptun kód" mode='outlined' theme={{roundness:40}} value={username} onChangeText={text => setUsername(text)}></TextInput>
                     <TextInput label="Jelszó" mode ='outlined' secureTextEntry={true} theme={{roundness:40}} value={password} onChangeText={text => setPassword(text)}></TextInput>
                     <Button uppercase={false}>Elfelejtett jelszó</Button>
-                    <Button mode="contained"  theme={{roundness:30}} onPress={()=> onLogin()}>Bejelentkezés</Button>
+
+                    <CustomButton buttonName='Bejelentkezés' onPress={()=>onLogin()}></CustomButton>
                 </Card.Content>
             </Card>
             </View>

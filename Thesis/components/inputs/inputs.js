@@ -1,19 +1,18 @@
 import React from 'react'
-import {TextInput,View} from 'react-native'
+import {View} from 'react-native'
+import { TextInput } from 'react-native-paper'
 import {inputsStyle} from './inputsstyle'
 
 
-export const CustomInput=({placeholder}) => {
+export const CustomInput=({label}) => {
     return(
-        <View style={inputsStyle.container}>
+        
 
-        <TextInput
-        style={inputsStyle.inputText}
-         placeholder={placeholder}>
-
+        <TextInput label={label} theme={{roundness:40}} outlineColor='#009AB9' style={{height:40, width:'70%',margin:5}} mode='outlined'
+         >
          </TextInput>
 
-         </View>
+   
     )
 }
 

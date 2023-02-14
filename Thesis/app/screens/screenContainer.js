@@ -6,7 +6,7 @@ import Navbar from '../../components/navbar/navbar'
 export const ScreenContainer=() => {
     return(
         <SafeAreaView>
-            <Navbar></Navbar>
+
         </SafeAreaView>
     )
 }

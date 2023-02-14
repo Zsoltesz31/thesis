@@ -90,7 +90,7 @@ const openModal=() => {
     return(
         <SafeAreaView style={mainScreenStyle.container}>
         
-           <CustomInput placeholder="asd"></CustomInput>
+           <CustomInput label="asd"></CustomInput>
            <CustomButton buttonName="Teszt gomb" onPress={()=>console.log("szia")}></CustomButton>
            <Text>asd</Text>
            <Pressable

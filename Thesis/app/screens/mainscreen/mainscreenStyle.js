@@ -6,6 +6,7 @@ export const mainScreenStyle = StyleSheet.create({
         flex:1,
         alignItems:'center',
         justifyContent:'center',
-        width:'100%'
+        width:'100%',
+        backgroundColor:'white'
     }
 })

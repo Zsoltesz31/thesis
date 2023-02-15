@@ -1,34 +1,66 @@
-import React, { useState } from 'react'
-import { SafeAreaView, View, Text, ScrollView, TouchableOpcaity } from 'react-native'
-import { TouchableHighlight } from 'react-native'
+import React from 'react'
+import { SafeAreaView, View, Text,TouchableOpcaity, Pressable } from 'react-native'
+import { FlatList } from 'react-native'
 import {styles}  from './style'
 
-export default function ListView(){
-    const [testdata, setTestData] = useState([
-        {course: 'test1', id:'1'},
-        {course: 'test2', id:'2'},
-        {course: 'test3', id:'3'},
-    ])
-    const onPress = () => console.log('hi')
+//TODO pressable opacity változtatási kattintás esetén WRAPPER component létrehozása szükséges a probléma megoldásához
+
+const listTitle='Lista'
+
+const DATA = [
+    {
+      id: '1',
+      title: 'First Item',
+      content: 'Content',
+      link:'Click'
+    },
+    {
+      id: '2',
+      title: 'Second Item',
+      content: 'Content',
+      link:'Click'
+    },
+    {
+      id: '3',
+      title: 'Third Item',
+      content: 'Content',
+      link:'Click'
+    },
+    {
+        id: '4',
+        title: 'Fourth Item',
+        content: 'Content',
+        link:'Click'
+      },
+  ];
+
+const Item = ({item}) => (
+    <Pressable onPress={()=>console.log('helo')} android_ripple="true"> 
+    <View style={styles.listitem}>
+        <Text>{item.title}</Text> 
+        <Text>{item.content}</Text>    
+    </View>
+    </Pressable>
+)
+
+export default function CustomListView(){
+    const renderItem=({item}) =>{
+        return(
+            <Item
+            item={item}
+            />
+        )
+    }
 
 
     return(
-        <ScrollView>
-        <SafeAreaView>
-            <View style={styles.container}>
-           
-            {testdata.map((item)=>{
-                return(
-                <TouchableHighlight onPress={onPress} underlayColor="#ffffff00" style={styles.toucheffect}>
-                <View key={item.key} style={styles.listitem} elevation={2}>
-                    <Text>{item.course}</Text>
-                </View>
-                </TouchableHighlight>
-                )
-            })}
-            
-            </View>
-        </SafeAreaView>
-        </ScrollView>
+      <SafeAreaView style={styles.container}>
+        <Text>{listTitle}</Text>
+        <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor = {item=>item.id}
+        ></FlatList>
+      </SafeAreaView>
     )
 }

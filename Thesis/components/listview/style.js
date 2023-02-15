@@ -4,26 +4,16 @@ import { backgroundColor } from "react-native/Libraries/Components/View/ReactNat
 
 export const styles = StyleSheet.create({
     container:{
-        flex:1,
-        paddingTop:40,
-        paddingBottom:40,
-        paddingHorizontal:20,
-        alignItems:'center',
-        justifyContent:'center'
-        
+      flexGrow:0,
+      alignItems: "center",
+
     },
     listitem:{
-        backgroundColor: '#fff',
-        padding:10,
-        marginTop:30,
-        borderWidth: 2,
-        borderTopLeftRadius: 5,
-        borderTopRightRadius:5 ,
-        borderBottomLeftRadius: 5,
-        borderBottomRightRadius: 5,
-        borderColor:'#0099da',
-    },
-    toucheffect:{
-        width:'100%'
+      color:'white',
+      backgroundColor:'#009AB9',
+      marginVertical:8,
+      padding:20,
+      width:350,
+      borderRadius:5
     }
 })

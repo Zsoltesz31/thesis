@@ -1,15 +1,43 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { SafeAreaView, Text,Pressable,View } from 'react-native'
-import { useTheme } from 'react-native-paper'
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
 import { fetchApi } from "./../../../actions/fetchApi"
-import { useSelector } from 'react-redux'
 import {ConfirmationModal} from "../../../components/modals/confirmation_modal"
 import { mainScreenStyle } from './mainscreenStyle'
+import CustomListView from '../../../components/listview/index'
 
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
+
+const listTitle='Lista'
+
+const DATA = [
+    {
+      id: '1',
+      title: 'First Item',
+      content: 'Content',
+      link:'Click'
+    },
+    {
+      id: '2',
+      title: 'Second Item',
+      content: 'Content',
+      link:'Click'
+    },
+    {
+      id: '3',
+      title: 'Third Item',
+      content: 'Content',
+      link:'Click'
+    },
+    {
+        id: '4',
+        title: 'Fourth Item',
+        content: 'Content',
+        link:'Click'
+      },
+  ];
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -89,7 +117,6 @@ const openModal=() => {
 
     return(
         <SafeAreaView style={mainScreenStyle.container}>
-        
            <CustomInput label="asd"></CustomInput>
            <CustomButton buttonName="Teszt gomb" onPress={()=>console.log("szia")}></CustomButton>
            <Text>asd</Text>
@@ -105,6 +132,7 @@ const openModal=() => {
             <Text>NotiTeszt</Text>
            </Pressable>
            <Text>Title: {notification && notification.request.content.title}</Text>
+           <CustomListView data={DATA} listTitle={listTitle}></CustomListView>
            <ConfirmationModal modaltitle="Ezaz" visible={visible} stateChanger={setVisible}></ConfirmationModal> 
         </SafeAreaView>
     )

@@ -5,35 +5,6 @@ import {styles}  from './style'
 
 //TODO pressable opacity változtatási kattintás esetén WRAPPER component létrehozása szükséges a probléma megoldásához
 
-const listTitle='Lista'
-
-const DATA = [
-    {
-      id: '1',
-      title: 'First Item',
-      content: 'Content',
-      link:'Click'
-    },
-    {
-      id: '2',
-      title: 'Second Item',
-      content: 'Content',
-      link:'Click'
-    },
-    {
-      id: '3',
-      title: 'Third Item',
-      content: 'Content',
-      link:'Click'
-    },
-    {
-        id: '4',
-        title: 'Fourth Item',
-        content: 'Content',
-        link:'Click'
-      },
-  ];
-
 const Item = ({item}) => (
     <Pressable onPress={()=>console.log('helo')} android_ripple="true"> 
     <View style={styles.listitem}>
@@ -43,7 +14,7 @@ const Item = ({item}) => (
     </Pressable>
 )
 
-export default function CustomListView(){
+export default function CustomListView({data,listTitle}){
     const renderItem=({item}) =>{
         return(
             <Item
@@ -57,7 +28,7 @@ export default function CustomListView(){
       <SafeAreaView style={styles.container}>
         <Text>{listTitle}</Text>
         <FlatList
-        data={DATA}
+        data={data}
         renderItem={renderItem}
         keyExtractor = {item=>item.id}
         ></FlatList>

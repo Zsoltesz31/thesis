@@ -21,5 +21,9 @@ export const loginScreenStyle = StyleSheet.create({
 
     cardimage:{
         alignSelf:"center"
+    },
+    button:{
+        marginTop:20,
+        backgroundColor:"black"
     }
 })

@@ -18,6 +18,8 @@ import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 import store from "../store"
 
+
+
 const loginscreenName= 'Kijelentkezés'
 const mainscreenName ='Főoldal'
 const profilescreenName ='Profil'

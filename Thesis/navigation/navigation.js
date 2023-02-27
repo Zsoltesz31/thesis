@@ -86,7 +86,7 @@ export default function Navigations() {
                 <BottomTabs.Screen name={loginscreenName} component={LoginScreen} listeners={({navigation}) => ({
                   tabPress: (e) => {
                     e.preventDefault()
-                    navigation.replace('Login')
+                    navigation.replace('ChooseUserType')
                   }
                 }
                 )}/>

@@ -42,7 +42,7 @@ export default function LoginScreen({ route,navigation }) {
 
         dispatch(login(user)).then((response)=>{
             if(response.status=="success"){
-                navigation.replace('Main')
+                navigation.replace('Main',{loginType:route.params.loginType})
             }
         })
         .catch((error)=>{

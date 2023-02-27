@@ -15,7 +15,6 @@ export default function LoginScreen({ route,navigation }) {
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
     const dispatch = useDispatch()
-    console.log(route.params.loginType)
     const loginTitle = route.params.loginType === 'student' ? 'Bejelentkezés hallgatóknak' : 'Bejelentkezés tanároknak'
     
     /*useFocusEffect(()=>{
@@ -72,6 +71,7 @@ export default function LoginScreen({ route,navigation }) {
                     <TextInput label="Jelszó" mode ='outlined' secureTextEntry={true} theme={{roundness:40}} value={password} onChangeText={text => setPassword(text)}></TextInput>
                     <Button uppercase={false}>Elfelejtett jelszó</Button>
                     <CustomButton buttonName='Bejelentkezés' onPress={()=>onLogin()}></CustomButton>
+                    <CustomButton buttonName='Vissza' onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
                 </Card.Content>
             </Card>
             </View>

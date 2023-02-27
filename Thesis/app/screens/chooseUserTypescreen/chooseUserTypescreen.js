@@ -6,8 +6,10 @@ export default function ChooseUserType({navigation}){
 
     return(
         <SafeAreaView style={chooseUserScreenStyle.content}>
-            <Pressable style={chooseUserScreenStyle.button} onPress={ ()=> navigation.replace('Login',{loginType:'student'})}><Text style={{color:'white'}}>Hallgató</Text></Pressable>
-            <Pressable onPress={ ()=> navigation.replace('Login',{loginType:'teacher'})}><Text>Oktató</Text></Pressable>
+            <Text style={chooseUserScreenStyle.title}>Üdvözöljük!</Text>
+            <Text style={chooseUserScreenStyle.subTitle}>Válassza ki melyik felhasználó fiókba szeretne belépni!</Text>
+            <Pressable style={chooseUserScreenStyle.button} onPress={ ()=> navigation.replace('Login',{loginType:'student'})}><Text style={chooseUserScreenStyle.buttonText}>Hallgató</Text></Pressable>
+            <Pressable style={chooseUserScreenStyle.button} onPress={ ()=> navigation.replace('Login',{loginType:'teacher'})}><Text style={chooseUserScreenStyle.buttonText}>Oktató</Text></Pressable>
         </SafeAreaView>
     )
 }

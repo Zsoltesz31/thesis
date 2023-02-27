@@ -1,8 +1,9 @@
 import React from 'react';
 import {Provider as PaperProvider} from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons';
-import {LoginScreen} from '../app/screens/login/loginscreen'
+import LoginScreen from '../app/screens/login/loginscreen'
 import MainScreen from '../app/screens/mainscreen/mainscreen'
+import ChooseUserType from '../app/screens/chooseUserTypescreen/chooseUserTypescreen'
 import ProfileScreen from '../app/screens/profilescreen/profilescreen'
 import CourseScreen from '../app/screens/coursescreen/coursescreen'
 import SettingsScreen from '../app/screens/settingsscreen/settingsscreen'
@@ -17,6 +18,7 @@ import { Provider as StoreProvider} from "react-redux"
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
 
 import store from "../store"
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -51,6 +53,7 @@ export default function Navigations() {
     
       createMainTabs = () =>  {
         return(
+
           <BottomTabs.Navigator
                 initialRouteName={mainscreenName}
                 screenOptions={({route})=>({
@@ -76,8 +79,8 @@ export default function Navigations() {
                         
                     }
                 })}>
-                <BottomTabs.Screen name={mainscreenName} component={MainScreen} />
-                <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} />
+                <BottomTabs.Screen name={mainscreenName} component={MainScreen} options={{headerShown:"false"}}/>
+                <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} options={{headerShown:"false"}}/>
                 <BottomTabs.Screen name={coursescreenName} children={createCourseStack} options={{header: () => null}}/>
                 <BottomTabs.Screen name={settingsscreenName} component={SettingsScreen} />
                 <BottomTabs.Screen name={loginscreenName} component={LoginScreen} listeners={({navigation}) => ({
@@ -88,6 +91,7 @@ export default function Navigations() {
                 }
                 )}/>
          </BottomTabs.Navigator>
+       
         )
       }
     
@@ -97,6 +101,7 @@ export default function Navigations() {
         <PaperProvider theme={theme}>
         <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="ChooseUserType" component={ChooseUserType} options={{header: () => null}}></Stack.Screen>
           <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
           <Stack.Screen name="Main" children={createMainTabs} options={{header: () => null}}></Stack.Screen>
         </Stack.Navigator>

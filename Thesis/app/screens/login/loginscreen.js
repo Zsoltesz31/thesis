@@ -1,5 +1,5 @@
 import React, {useState,useCallback } from 'react'
-import { SafeAreaView, View, Image } from 'react-native'
+import { SafeAreaView, View, Image, Pressable } from 'react-native'
 import {Card, TextInput, Button} from 'react-native-paper'
 import { loginScreenStyle } from './loginscreenstyle'
 import Images from '../../../images/index';
@@ -69,7 +69,7 @@ export default function LoginScreen({ route,navigation }) {
                     <Image source={ Images.loginimage } style={loginScreenStyle.cardimage}/>
                     <TextInput label="Neptun kód" mode='outlined' theme={{roundness:40}} value={username} onChangeText={text => setUsername(text)}></TextInput>
                     <TextInput label="Jelszó" mode ='outlined' secureTextEntry={true} theme={{roundness:40}} value={password} onChangeText={text => setPassword(text)}></TextInput>
-                    <Button uppercase={false}>Elfelejtett jelszó</Button>
+                    <Pressable onPress={()=>navigation.navigate('ForgotPassword',{loginType:route.params.loginType})}><Button uppercase={false}>Elfelejtett jelszó</Button></Pressable>
                     <CustomButton buttonName='Bejelentkezés' onPress={()=>onLogin()}></CustomButton>
                     <CustomButton buttonName='Vissza' onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
                 </Card.Content>

@@ -8,7 +8,7 @@ export const CustomInput=({label}) => {
     return(
         
 
-        <TextInput label={label} theme={{roundness:40}} outlineColor='#009AB9' style={{height:40, width:'70%',margin:5}} mode='outlined'
+        <TextInput  label={label} theme={{roundness:40}} outlineColor='#009AB9' style={{height:40, width:'70%',margin:5}} mode='outlined'
          >
          </TextInput>
 

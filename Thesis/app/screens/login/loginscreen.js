@@ -15,8 +15,10 @@ export default function LoginScreen({ route,navigation }) {
     const [pwOutlineColor,setPwOutlineColor]=useState('#009AB9')
     const [userNameError,setUserNameError] = useState('')
     const [pswError, setPswError] = useState('')
+    const [loginError,setLoginError] = useState('')
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
+    const [disableStatus,setDisableStatus] = useState(false)
     const dispatch = useDispatch()
     const loginTitle = route.params.loginType === 'student' ? 'Bejelentkezés hallgatóknak' : 'Bejelentkezés tanároknak'
     
@@ -49,7 +51,9 @@ export default function LoginScreen({ route,navigation }) {
             }
         })
         .catch((error)=>{
-            navigation.replace('Login',{loginType:route.params.loginType})
+   
+            setLoginError('Sikertelen bejelentkezés')
+          
         })
     }
 
@@ -58,13 +62,14 @@ export default function LoginScreen({ route,navigation }) {
             return (
                 setUserNameError('A Neptun kód mező nem lehet üresen!'),
                 setOutlineColor('red'),
-                console.log(userNameError)
+                setDisableStatus(true)
                 )
         }
         else{
             return(
                 setOutlineColor('#009AB9'),
-                setUserNameError('')
+                setUserNameError(''),
+                setDisableStatus(false)
             )
         }
     }
@@ -74,13 +79,15 @@ export default function LoginScreen({ route,navigation }) {
         {
             return(
             setPswError('A jelszó mező nem lehet üresen!'),
-            setPwOutlineColor('red')
+            setPwOutlineColor('red'),
+            setDisableStatus(true)
             )
         }
         else{
             return(
             setPwOutlineColor('#009AB9'),
-            setPswError('')
+            setPswError(''),
+            setDisableStatus(false)
             )
         }
     }
@@ -105,7 +112,12 @@ export default function LoginScreen({ route,navigation }) {
                     </Text>
                     }
                     <Pressable onPress={()=>navigation.navigate('ForgotPassword',{loginType:route.params.loginType})}><Button uppercase={false}>Elfelejtett jelszó</Button></Pressable>
-                    <CustomButton buttonName='Bejelentkezés' onPress={()=>onLogin()}></CustomButton>
+                    <CustomButton disabledStatus={disableStatus} buttonName='Bejelentkezés' onPress={()=>onLogin()}></CustomButton>
+                    {loginError.length>0 && 
+                    <Text style={{color:'red'}}>
+                    {loginError}
+                    </Text>
+                    }
                     <CustomButton buttonName='Vissza' onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
                 </Card.Content>
             </Card>

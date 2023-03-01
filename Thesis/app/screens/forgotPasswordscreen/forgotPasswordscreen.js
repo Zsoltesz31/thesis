@@ -14,9 +14,6 @@ export default function ForgotPassword({route,navigation}){
     const [newPassword2,setNewPassword2] = useState('')
     const [emailError,setEmailError] = useState('')
     const [pswError, setPswError] = useState('')
-    
-
-    
 
     const validateEmail = (email) =>{
         var re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i

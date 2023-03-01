@@ -45,7 +45,7 @@ export default function LoginScreen({ route,navigation }) {
             }
         })
         .catch((error)=>{
-            navigation.replace('Login')
+            navigation.replace('Login',{loginType:route.params.loginType})
         })
     }
 

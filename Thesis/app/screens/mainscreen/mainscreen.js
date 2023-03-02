@@ -31,6 +31,24 @@ const DATA = [
       content: 'Content',
       link:'Click'
     },
+    {
+        id: '4',
+        title: 'First Item',
+        content: 'Content',
+        link:'Click'
+      },
+      {
+        id: '5',
+        title: 'Second Item',
+        content: 'Content',
+        link:'Click'
+      },
+      {
+        id: '6',
+        title: 'Third Item',
+        content: 'Content',
+        link:'Click'
+      },
    
   ];
 
@@ -114,7 +132,7 @@ const openModal=() => {
         <SafeAreaView style={mainScreenStyle.container}>
             <Text style={mainScreenStyle.title}>{route.params.userName==='student' ? 'Tanároknak' : 'Hallgatóknak'}</Text>
             <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük {route.params.userName}!</Text>
-            <ScrollView  showsVerticalScrollIndicator={false}>
+        <ScrollView  showsVerticalScrollIndicator={false}>
            <CustomListView data={DATA} listTitle={listTitle}></CustomListView>
            </ScrollView>
            <CustomButton buttonName='Frissít'></CustomButton>

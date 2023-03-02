@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, View, Text,TouchableOpcaity, Pressable } from 'react-native'
-import { FlatList } from 'react-native'
+import { FlatList } from 'react-native';
 import {styles}  from './style'
 
 //TODO pressable opacity változtatási kattintás esetén WRAPPER component létrehozása szükséges a probléma megoldásához

@@ -4,9 +4,9 @@ import { backgroundColor } from "react-native/Libraries/Components/View/ReactNat
 
 export const styles = StyleSheet.create({
     container:{
-      flexGrow:0,
+      display:'flex',
       alignItems: "center",
-
+      width:'100%'
     },
     listitem:{
       color:'white',

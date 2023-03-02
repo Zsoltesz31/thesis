@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { SafeAreaView, Text,Pressable,View } from 'react-native'
+import { SafeAreaView, Text,Pressable,View,ScrollView } from 'react-native'
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
 import { fetchApi } from "./../../../actions/fetchApi"
@@ -31,12 +31,7 @@ const DATA = [
       content: 'Content',
       link:'Click'
     },
-    {
-        id: '4',
-        title: 'Fourth Item',
-        content: 'Content',
-        link:'Click'
-      },
+   
   ];
 
 Notifications.setNotificationHandler({
@@ -89,7 +84,6 @@ async function registerForNotificationAsync() {
 }
 
 export default function MainScreen({route}){
-
     const [visible,setVisible] = useState(false)
     const [expoPushToken, setExpoPushToken] = useState('')
     const [notification, setNotification] = useState(false)
@@ -118,10 +112,13 @@ const openModal=() => {
 
     return(
         <SafeAreaView style={mainScreenStyle.container}>
-            <Text>{route.params.loginType}</Text>
-            <Text>Üdvözöljük {route.params.userName}</Text>
+            <Text style={mainScreenStyle.title}>{route.params.userName==='student' ? 'Tanároknak' : 'Hallgatóknak'}</Text>
+            <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük {route.params.userName}!</Text>
+            <ScrollView  showsVerticalScrollIndicator={false}>
            <CustomListView data={DATA} listTitle={listTitle}></CustomListView>
-           <ConfirmationModal modaltitle="Ezaz" visible={visible} stateChanger={setVisible}></ConfirmationModal> 
+           </ScrollView>
+           <CustomButton buttonName='Frissít'></CustomButton>
+
         </SafeAreaView>
     )
 }

@@ -5,10 +5,12 @@ const logIn = async (user) =>{
     const {username, password} = user;
     if(username === "admin" && password === "admin") {
         AsyncStorage.setItem("user",JSON.stringify(user))
+        console.log("user info: ",user);
         return{
             status:"success",
             message: "Logged in",
             user: username,
+         
         }
     }
 }
@@ -20,6 +22,7 @@ const logOut = async () => {
         message: "Logged out"
     }
 }
+
 
 export default {
     logIn,logOut

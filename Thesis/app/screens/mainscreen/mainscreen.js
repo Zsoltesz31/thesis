@@ -10,7 +10,7 @@ import CustomListView from '../../../components/listview/index'
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 
-const listTitle='Lista'
+const listTitle='Értesítések'
 
 const DATA = [
     {
@@ -88,7 +88,8 @@ async function registerForNotificationAsync() {
     return token
 }
 
-export default function MainScreen(){
+export default function MainScreen({route}){
+
     const [visible,setVisible] = useState(false)
     const [expoPushToken, setExpoPushToken] = useState('')
     const [notification, setNotification] = useState(false)
@@ -117,21 +118,8 @@ const openModal=() => {
 
     return(
         <SafeAreaView style={mainScreenStyle.container}>
-           <CustomInput label="asd"></CustomInput>
-           <CustomButton buttonName="Teszt gomb" onPress={()=>console.log("szia")}></CustomButton>
-           <Text>asd</Text>
-           <Pressable
-           onPress={()=>openModal()
-           }>
-            <Text>Teszt</Text>
-           </Pressable>
-           <Pressable
-           onPress={async()=>{
-            await pushNotification(expoPushToken)
-           }}>
-            <Text>NotiTeszt</Text>
-           </Pressable>
-           <Text>Title: {notification && notification.request.content.title}</Text>
+            <Text>{route.params.loginType}</Text>
+            <Text>Üdvözöljük {route.params.userName}</Text>
            <CustomListView data={DATA} listTitle={listTitle}></CustomListView>
            <ConfirmationModal modaltitle="Ezaz" visible={visible} stateChanger={setVisible}></ConfirmationModal> 
         </SafeAreaView>

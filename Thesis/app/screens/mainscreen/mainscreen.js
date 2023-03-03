@@ -17,37 +17,37 @@ const DATA = [
       id: '1',
       title: 'First Item',
       content: 'Content',
-      link:'Click'
+      sender:'Dr. Tamás Tamás'
     },
     {
       id: '2',
       title: 'Second Item',
       content: 'Content',
-      link:'Click'
+      sender:'Dr. Tamás Tamás'
     },
     {
       id: '3',
       title: 'Third Item',
       content: 'Content',
-      link:'Click'
+      sender:'Dr. Tamás Tamás'
     },
     {
         id: '4',
         title: 'First Item',
         content: 'Content',
-        link:'Click'
+        sender:'Dr. Tamás Tamás'
       },
       {
         id: '5',
         title: 'Second Item',
         content: 'Content',
-        link:'Click'
+        sender:'Dr. Tamás Tamás'
       },
       {
         id: '6',
         title: 'Third Item',
         content: 'Content',
-        link:'Click'
+        sender:'Dr. Tamás Tamás'
       },
    
   ];

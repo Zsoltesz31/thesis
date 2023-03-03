@@ -8,8 +8,9 @@ import {styles}  from './style'
 const Item = ({item}) => (
     <Pressable onPress={()=>console.log('helo')} android_ripple="true"> 
     <View style={styles.listitem}>
-        <Text>{item.title}</Text> 
-        <Text>{item.content}</Text>    
+        <Text style={styles.listItemHeader}>{item.title}</Text> 
+        <Text style={styles.listItemContent}>{item.content}</Text>
+        <Text style={styles.listItemSender}>{item.sender}</Text>    
     </View>
     </Pressable>
 )
@@ -26,7 +27,7 @@ export default function CustomListView({data,listTitle}){
 
     return(
       <SafeAreaView style={styles.container}>
-        <Text>{listTitle}</Text>
+        <Text style={styles.listTitle}>{listTitle}</Text>
         <FlatList
         data={data}
         renderItem={renderItem}

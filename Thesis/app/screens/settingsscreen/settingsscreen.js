@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { settingsscreenStyle } from './settingsscreenStyle'
 import {SectionList,Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+import {CustomHEader} from '../../../components/header/header'
 
 const settingsOptions = [
     {
@@ -58,7 +59,7 @@ export default function ProfileScreen(){
       }
 
         const Item = ({item}) => (
-        <Pressable onPress={()=>console.log(item.id)} android_ripple="true"> 
+        <Pressable onPress={()=>console.log(sid)} android_ripple="true"> 
         <View>
             <Text>{item}</Text>
         </View>

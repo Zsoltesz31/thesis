@@ -3,7 +3,6 @@ import {StyleSheet} from 'react-native'
 export const chooseUserScreenStyle = StyleSheet.create({
     content:{
         flex:1,
-        justifyContent:'center',
         alignItems:'center',
         flexDirection:'column'
     },
@@ -22,7 +21,8 @@ export const chooseUserScreenStyle = StyleSheet.create({
         fontSize:32,
         color:'#009AB9',
         fontWeight:'bold',
-        marginBottom:20
+        marginBottom:20,
+       marginTop:200
 
     },
     subTitle:{

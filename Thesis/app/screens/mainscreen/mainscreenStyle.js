@@ -9,13 +9,14 @@ export const mainScreenStyle = StyleSheet.create({
         alignItems:'center',
     },
     title: {
-        color:'#009AB9',
+        color:'white',
         fontSize:40,
         fontWeight:'bold',
-        marginBottom:10
+        marginBottom:10,
+        marginTop:10
     },
     welcomeTitle:{
-        color:'#009AB9',
+        color:'white',
         fontSize:25,
         marginBottom:50
     }

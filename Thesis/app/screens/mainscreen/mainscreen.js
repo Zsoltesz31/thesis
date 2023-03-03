@@ -6,6 +6,7 @@ import { fetchApi } from "./../../../actions/fetchApi"
 import {ConfirmationModal} from "../../../components/modals/confirmation_modal"
 import { mainScreenStyle } from './mainscreenStyle'
 import CustomListView from '../../../components/listview/index'
+import CustomHeader from '../../../components/header/header'
 
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
@@ -130,6 +131,7 @@ const openModal=() => {
 
     return(
         <SafeAreaView style={mainScreenStyle.container}>
+            <CustomHeader></CustomHeader>
             <Text style={mainScreenStyle.title}>{route.params.userName==='student' ? 'Tanároknak' : 'Hallgatóknak'}</Text>
             <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük {route.params.userName}!</Text>
         <ScrollView  showsVerticalScrollIndicator={false}>

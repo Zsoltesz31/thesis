@@ -8,7 +8,7 @@ export const loginScreenStyle = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
         flexDirection:"row",
-        backgroundColor:"#3367FF",
+        backgroundColor:"white",
     },
     view: {
         width:"90%",

@@ -9,6 +9,9 @@ import {theme} from '../../../AppStyle'
 import { useDispatch } from 'react-redux';
 import { login } from "./../../../actions/auth"
 import { useFocusEffect } from '@react-navigation/native';
+import CustomHeader from '../../../components/header/header';
+import CustomFooter from '../../../components/footer/footer';
+
 
 export default function LoginScreen({ route,navigation }) {
     const [outlineColor,setOutlineColor]=useState('#009AB9')
@@ -96,6 +99,7 @@ export default function LoginScreen({ route,navigation }) {
 
     return(
         <SafeAreaView style={loginScreenStyle.content} theme={theme}>
+            <CustomHeader></CustomHeader>
            <View style={loginScreenStyle.view}>
             <Card style={loginScreenStyle.card} theme={{roundness:20,}}>
                 <Card.Title titleStyle={{ color:"rgba(0,153,218,200)", fontWeight:"bold", textAlign:"center"}} title={loginTitle} ></Card.Title>
@@ -124,6 +128,7 @@ export default function LoginScreen({ route,navigation }) {
                 </Card.Content>
             </Card>
             </View>
+            <CustomFooter></CustomFooter>
         </SafeAreaView>
     )
 }

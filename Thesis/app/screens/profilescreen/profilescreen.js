@@ -20,7 +20,7 @@ const MockProfileData = [
 export default function ProfileScreen({route}){
     return(
         <SafeAreaView style={profilescreenStyle.content}>
-            <CustomHeader title={route.params.profileHeaderText}></CustomHeader>
+            <CustomHeader title={route.params.HeaderText}></CustomHeader>
             <View style={profilescreenStyle.container}>
              <Card theme={{roundness:20,borderStartColor:"black"}}>
                 <Card.Title titleStyle={{ color:"rgba(0,153,218,200)", fontWeight:"bold", textAlign:"center"}} title="Saját adatok" ></Card.Title>

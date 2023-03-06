@@ -6,10 +6,13 @@ export const ForgotPasswordscreenStyle = StyleSheet.create({
         display:"flex",
         flex:1,
         alignItems:'center',
-        flexDirection:'column',
+        flexDirection:'column',      
+    },
+    formContainer:{
+        width:'100%',
         justifyContent:'center',
-        
-
+        alignItems:'center',
+        top:200
     },
     title:{
         fontSize:32,

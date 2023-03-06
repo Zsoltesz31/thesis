@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import { Pressable, SafeAreaView,Text } from 'react-native'
+import { Pressable, SafeAreaView,Text,View } from 'react-native'
 import { ForgotPasswordscreenStyle } from './forgotPasswordscreenStyle'
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
 import { useFocusEffect } from '@react-navigation/native'
-
+import CustomHeader from '../../../components/header/header'
+import CustomFooter from '../../../components/footer/footer'
 
 export default function ForgotPassword({route,navigation}){
     const [outlineColor,setOutlineColor]=useState('#009AB9')
@@ -65,6 +66,8 @@ export default function ForgotPassword({route,navigation}){
 
     return(
         <SafeAreaView style={ForgotPasswordscreenStyle.content}>
+            <CustomHeader></CustomHeader>
+            <View style={ForgotPasswordscreenStyle.formContainer}>
             <Text style={ForgotPasswordscreenStyle.title}>Jelszó emlékeztető</Text>
             <CustomInput onEndEditing={validateEmail} inputValue={email} onChangeTextEvent={text =>setEmail(text)} label={'E-mail'}  outlineColor={outlineColor}></CustomInput>
             {emailError.length>0 && 
@@ -81,6 +84,8 @@ export default function ForgotPassword({route,navigation}){
             }
             <CustomButton buttonName={'Jelszó emlékeztető'} onPress={()=> {validateEmail(email);validatePassword(newPassword,newPassword2)}}></CustomButton>
             <CustomButton style={ForgotPasswordscreenStyle.backButton} buttonName={'Vissza'} onPress={()=>navigation.navigate('Login',{loginType:route.params.loginType})}></CustomButton>
+            </View>
+            <CustomFooter></CustomFooter>
         </SafeAreaView>
     )
 }

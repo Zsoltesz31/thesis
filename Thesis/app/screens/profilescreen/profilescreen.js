@@ -4,6 +4,7 @@ import {Card} from 'react-native-paper'
 import Images from '../../../images/index'
 import { profilescreenStyle } from './profilscreenStyle'
 import { CustomButton } from '../../../components/buttons/buttons'
+import CustomHeader from '../../../components/header/header'
 
 const MockProfileData = [
     {
@@ -16,9 +17,10 @@ const MockProfileData = [
     }
   ]
 
-export default function ProfileScreen(){
+export default function ProfileScreen({route}){
     return(
         <SafeAreaView style={profilescreenStyle.content}>
+            <CustomHeader title={route.params.profileHeaderText}></CustomHeader>
             <View style={profilescreenStyle.container}>
              <Card theme={{roundness:20,borderStartColor:"black"}}>
                 <Card.Title titleStyle={{ color:"rgba(0,153,218,200)", fontWeight:"bold", textAlign:"center"}} title="Saját adatok" ></Card.Title>

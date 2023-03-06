@@ -5,13 +5,13 @@ export const profilescreenStyle = StyleSheet.create({
     content:{
         display:"flex",
         flex:1,
-        justifyContent:"center",
         alignItems:"center",
         flexDirection:"column",
     },
     container:{
+        marginTop:160,
         width:"70%",
-        marginBottom:100,
+        marginBottom:50,
         borderColor:"#009AB9",
         borderWidth:4,
         borderRadius:25,

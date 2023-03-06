@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { settingsscreenStyle } from './settingsscreenStyle'
 import {SectionList,Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
-import {CustomHEader} from '../../../components/header/header'
+import CustomHeader from '../../../components/header/header'
 
 const settingsOptions = [
     {
@@ -47,7 +47,7 @@ const settingsOptions = [
     }
 ]
 
-export default function ProfileScreen(){
+export default function ProfileScreen({route}){
     const [isEnabled, setIsEnabled] = useState(false);
     const {t} = useTranslation()
 
@@ -89,7 +89,7 @@ export default function ProfileScreen(){
 
     return(
         <SafeAreaView style={{flex:1}}>
-
+            <CustomHeader title={route.params.HeaderText}></CustomHeader>
             <SectionList
             sections = {settingsOptions}
             keyExtractor={id=>id}

@@ -44,8 +44,8 @@ export default function Navigations() {
     createCourseStack = () =>  {
         return(
         <Stack.Navigator>
-          <Stack.Screen name="Kurzusaid" component={CourseScreen} options={{headerShown:false}}></Stack.Screen>
-          <Stack.Screen name="Tesztek" component={TestListScreen} ></Stack.Screen>
+          <Stack.Screen name="Kurzusaid" component={CourseScreen} initialParams={{HeaderText:coursescreenName}} options={{headerShown:false}}></Stack.Screen>
+          <Stack.Screen name="Tesztek" component={TestListScreen}  ></Stack.Screen>
           <Stack.Screen name="Teszt létrehozása" component={CreateTestScreen} 
            
           ></Stack.Screen>
@@ -81,9 +81,9 @@ export default function Navigations() {
                     }
                 })}>
                 <BottomTabs.Screen name={mainscreenName} component={MainScreen} options={{headerShown:false}}/>
-                <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} initialParams={{profileHeaderText:profilescreenName}} options={{headerShown:false}}/>
+                <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} initialParams={{HeaderText:profilescreenName}} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={coursescreenName} children={createCourseStack} options={{header: () => null}}/>
-                <BottomTabs.Screen name={settingsscreenName} component={SettingsScreen} options={{headerShown:false}}/>
+                <BottomTabs.Screen name={settingsscreenName} component={SettingsScreen} initialParams={{HeaderText:settingsscreenName}} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={loginscreenName} component={LoginScreen} listeners={({navigation}) => ({
                   tabPress: (e) => {
                     e.preventDefault()

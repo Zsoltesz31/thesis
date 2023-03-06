@@ -14,7 +14,7 @@ const settingsOptions = [
     {
         id:'1',
         title:'Megjelenítés',
-        icon: ( <Ionicons name={'color-palette-outline'} size={10} color={'blue'}/> ),
+        icon: ( <Ionicons name={'color-palette-outline'} size={20} color={"#009AB9"}/> ),
         data : [
             'asd'
         ]
@@ -22,7 +22,7 @@ const settingsOptions = [
     {
         id:'2',
         title:'Nyelv',
-        icon: ( <Ionicons name={'language-outline'} size={10} color={'blue'}/> ),
+        icon: ( <Ionicons  name={'language-outline'} size={20} color={"#009AB9"}/> ),
         data:[
             'asd'
         ] 
@@ -31,7 +31,7 @@ const settingsOptions = [
     {
         id:'3',
         title:'Rólunk',
-        icon: ( <Ionicons name={'information-circle-outline'} size={10} color={'blue'}/> ),
+        icon: ( <Ionicons name={'information-circle-outline'} size={20} color={"#009AB9"}/> ),
         data: [
             'asd'
         ]
@@ -39,7 +39,7 @@ const settingsOptions = [
     {
         id:'4',
         title:'Értesítések',
-        icon: ( <Ionicons name={'notifications-outline'} size={10} color={'blue'}/> ),
+        icon: ( <Ionicons name={'notifications-outline'} size={20} color={"#009AB9"}/> ),
         data: [
             'asd',
             'asdasd'
@@ -59,9 +59,9 @@ export default function ProfileScreen({route}){
       }
 
         const Item = ({item}) => (
-        <Pressable onPress={()=>console.log(sid)} android_ripple="true"> 
-        <View>
-            <Text>{item}</Text>
+        <Pressable android_ripple="true"> 
+        <View style={settingsscreenStyle.settingsOptionContainer}>
+            <Text style={settingsscreenStyle.settingsOptionText}>{item}</Text>
         </View>
         </Pressable>
         )
@@ -88,22 +88,22 @@ export default function ProfileScreen({route}){
 
 
     return(
-        <SafeAreaView style={{flex:1}}>
+        <SafeAreaView style={settingsscreenStyle.container}>
             <CustomHeader title={route.params.HeaderText}></CustomHeader>
+            <View style={settingsscreenStyle.settingListContainer}>
             <SectionList
             sections = {settingsOptions}
             keyExtractor={id=>id}
             renderItem={renderItem}
             renderSectionHeader={({section:{title,icon}}) =>(
-                <Text>{icon}{title}</Text>
+                <View style={settingsscreenStyle.settingsOptionTitleContainer}>
+                <Text style={settingsscreenStyle.settingsOptionTextTitle}>{title}</Text>
+                <View style={settingsscreenStyle.icon}>{icon}</View>
+                </View>
             )}
             />
-            <List.Section>
-                <List.Item title="Sötét mód" right={() => <Switch onValueChange={() => {setIsEnabled((value)=> !value)
-                EventRegister.emit("changeTheme",isEnabled)
-                }} value={isEnabled}/>}/>
-            </List.Section>
-            <LanguageSelector></LanguageSelector>
+            </View>
+            
         </SafeAreaView>
 
     )

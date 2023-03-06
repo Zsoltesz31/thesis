@@ -5,7 +5,7 @@ export const chooseUserScreenStyle = StyleSheet.create({
         flex:1,
         alignItems:'center',
         flexDirection:'column',
-        
+
     },
     button:{
         backgroundColor:'#009AB9',

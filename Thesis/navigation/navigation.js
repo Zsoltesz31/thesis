@@ -81,7 +81,7 @@ export default function Navigations() {
                     }
                 })}>
                 <BottomTabs.Screen name={mainscreenName} component={MainScreen} options={{headerShown:false}}/>
-                <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} options={{headerShown:false}}/>
+                <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} initialParams={{profileHeaderText:profilescreenName}} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={coursescreenName} children={createCourseStack} options={{header: () => null}}/>
                 <BottomTabs.Screen name={settingsscreenName} component={SettingsScreen} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={loginscreenName} component={LoginScreen} listeners={({navigation}) => ({

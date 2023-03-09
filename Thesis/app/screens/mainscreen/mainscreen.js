@@ -38,18 +38,6 @@ const DATA = [
         content: 'Content',
         sender:'Dr. Tamás Tamás'
       },
-      {
-        id: '5',
-        title: 'Second Item',
-        content: 'Content',
-        sender:'Dr. Tamás Tamás'
-      },
-      {
-        id: '6',
-        title: 'Third Item',
-        content: 'Content',
-        sender:'Dr. Tamás Tamás'
-      },
    
   ];
 
@@ -134,10 +122,10 @@ const openModal=() => {
             <CustomHeader></CustomHeader>
             <Text style={mainScreenStyle.title}>{route.params.userName==='student' ? 'Tanároknak' : 'Hallgatóknak'}</Text>
             <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük {route.params.userName}!</Text>
-        <ScrollView  showsVerticalScrollIndicator={false}>
+            <ScrollView  showsVerticalScrollIndicator={false}>
            <CustomListView data={DATA} listTitle={listTitle}></CustomListView>
-           </ScrollView>
            <CustomButton buttonName='Frissít'></CustomButton>
+           </ScrollView>
 
         </SafeAreaView>
     )

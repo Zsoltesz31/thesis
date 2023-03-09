@@ -1,39 +1,36 @@
-import React from "react";
+import React,{useState,useCallback} from "react";
 import {View,Text,Pressable,StyleSheet} from 'react-native'
+import { Dropdown } from 'react-native-element-dropdown';
 import { useTranslation } from "react-i18next";
 
-const LANGUAGES = [
-    {code:'hu',label:'Hungarian'},
-    {code:'eng',label:'English'}
-]
-export const LanguageSelector = () =>{
+
+export default function LanguageSelector(){
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [selected,setSelected] = useState("")
+    const LANGUAGES = [
+        {code:'hu',label:'Hungarian'},
+        {code:'eng',label:'English'}
+    ]
+
+
     const {i18n} = useTranslation()
     const selectedLanguageCode = i18n.language
     console.log(i18n.language)
     const setLanguage = (code) =>{
         return i18n.changeLanguage(code)
-        
     }
+
 
 
 return(
 <View>
-    <View>
-        <Text>{i18n.t("welcome")}</Text>
-    </View>
-    {LANGUAGES.map(language =>{
-        const selectedLanguage = language.code === selectedLanguageCode
-        return(
-            <Pressable
-            key={language.code}
-            disabled={selectedLanguage}
-            onPress={()=>setLanguage(language.code)}
-            >
-                <Text>{language.label}</Text>
-            </Pressable>
-        )
-    })}
+    <Dropdown
+    data={LANGUAGES}
+    labelField='label'
+    valueField="value"
+    placeholder="Válassza ki az alkalmazás nyelvét"
+    />
 </View>
-
 )
 }

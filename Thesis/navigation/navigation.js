@@ -58,7 +58,27 @@ export default function Navigations() {
           <BottomTabs.Navigator
                 initialRouteName={mainscreenName}
                 screenOptions={({route})=>({
-                    tabBarIcon:({focused,color,size}) =>{
+                  tabBarActiveTintColor: "#8CECFF",
+                  tabBarInactiveTintColor: "white",
+                    tabBarStyle:{
+                      backgroundColor:'#009AB9',
+                      display:'flex',
+                      position:'absolute',
+                      elevation:1,
+                      right:10,
+                      left:10,
+                      borderRadius:17,
+                      height:55,
+                      color:'white',
+                      bottom:10
+                    },
+                    tabBarItemStyle:{
+                      margin:6,
+                    },
+                    tabBarLabelStyle:{
+                      fontWeight:'bold',
+                    },
+                    tabBarIcon:({focused,size}) =>{
                         let iconName
                         let routeName = route.name
       
@@ -76,7 +96,7 @@ export default function Navigations() {
                           iconName = focused ? 'settings' : 'settings-outline'
                         }
       
-                        return <Ionicons name={iconName} size={size} color={color}/>
+                        return <Ionicons name={iconName} size={size} color={'white'}/>
                         
                     }
                 })}>

@@ -3,7 +3,7 @@ import { View ,SafeAreaView, Text, Switch, Touchable } from 'react-native'
 import {List} from 'react-native-paper'
 import { useState } from 'react'
 import {EventRegister} from 'react-native-event-listeners'
-import {LanguageSelector} from './../../../components/languageSelector/index'
+import LanguageSelector from './../../../components/languageSelector/index'
 import { useTranslation } from 'react-i18next'
 import { settingsscreenStyle } from './settingsscreenStyle'
 import {SectionList,Pressable } from 'react-native'
@@ -24,7 +24,7 @@ const settingsOptions = [
         title:'Nyelv',
         icon: ( <Ionicons  name={'language-outline'} size={20} color={"#009AB9"}/> ),
         data:[
-            'asd'
+            <LanguageSelector/>
         ] 
     },
 
@@ -68,7 +68,7 @@ export default function ProfileScreen({route}){
     
   
         const renderItem=({item,id}) =>{
-            console.log(id)
+            console.log(settingsOptions.id)
             if(id==='2')
                 return(
                     <LanguageSelector/>

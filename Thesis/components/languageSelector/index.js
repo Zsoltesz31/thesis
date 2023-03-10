@@ -5,8 +5,7 @@ import { useTranslation } from "react-i18next";
 
 
 export default function LanguageSelector(){
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
+    const [value,setValue] = useState(null)
     const [selected,setSelected] = useState("")
     const LANGUAGES = [
         {code:'hu',label:'Hungarian'},
@@ -28,8 +27,13 @@ return(
     <Dropdown
     data={LANGUAGES}
     labelField='label'
-    valueField="value"
+    valueField="code"
+    value={(LANGUAGES.find(element=>element.code===selectedLanguageCode))}
     placeholder="Válassza ki az alkalmazás nyelvét"
+    selectedTextStyle={{color:'white'}}
+    onChange = {item=>{ setLanguage(item.code)
+    }}
+
     />
 </View>
 )

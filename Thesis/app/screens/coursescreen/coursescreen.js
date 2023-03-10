@@ -1,14 +1,17 @@
 import React from 'react'
-import { SafeAreaView,Text } from 'react-native'
+import { SafeAreaView,Text,View } from 'react-native'
 import { Button} from 'react-native-paper'
-import ListView from '../../../components/listview/index'
+import { coursescreenStyle } from './coursescreenStyle'
 import CustomHeader from '../../../components/header/header'
 
 export default function CourseScreen({route,navigation}){
     return(
         <SafeAreaView>
            <CustomHeader title={route.params.HeaderText}></CustomHeader>
+            <View style={coursescreenStyle.container}>
+           <Text style={coursescreenStyle.listTitle}>Kurzusaid</Text>
             <Button mode="contained"  theme={{roundness:30}} onPress={()=> {navigation.navigate('Teszt létrehozása')}}>Tesztek</Button>
+            </View>
         </SafeAreaView>
     )
 }

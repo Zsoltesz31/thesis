@@ -1,10 +1,19 @@
 import {createStore,applyMiddleware, combineReducers} from "redux"
+import { configureStore } from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 
 import authReducer from "./reducers/auth.js"
-import courseReducer from "./reducers/courses.js"
+import course from "./slices/courseSlice"
 
 const middleware = [thunk]
-const store = createStore(combineReducers({authReducer,courseReducer}), applyMiddleware(...middleware));
+const reducer = combineReducers({
+    authReducer,course
+})
+
+const store = configureStore({
+    reducer,
+    middleware: middleware
+
+})
 
 export default store;

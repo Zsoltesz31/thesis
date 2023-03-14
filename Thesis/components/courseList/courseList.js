@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {View,Text,SafeAreaView,FlatList,Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import {courseListStyle} from'./style'
+import { useSelector,useDispatch } from 'react-redux'
+import { fetchPosts } from '../../slices/courseSlice';
+
 
 
 const Item = ({item}) => (
@@ -32,6 +35,14 @@ const data = [
 
 
 export default function courseList(){
+    const dispatch = useDispatch()
+    const {posts,isLoading} = useSelector(store=>store.course)
+
+    useEffect(()=>{
+        dispatch(fetchPosts())
+        console.log('asd')
+    },[])
+    
     const renderItem=({item}) =>{
         return(
             <Item
@@ -39,13 +50,25 @@ export default function courseList(){
             />
         )
     }
+
+
+
+    if(posts==[])
+    {
+    return(
+        <Text>Nincs elérhető kurzosod</Text>
+    )
+    }
+    else{
     return(
           <SafeAreaView style={courseListStyle.container}>
             <FlatList
-            data={data}
+            data={posts}
             renderItem={renderItem}
             keyExtractor = {item=>item.id}
             ></FlatList>
           </SafeAreaView>  
+        
     )
+    }
 }

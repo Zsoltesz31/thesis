@@ -5,6 +5,7 @@ import { coursescreenStyle } from './coursescreenStyle'
 import CustomHeader from '../../../components/header/header'
 import CourseList from '../../../components/courseList/courseList'
 
+
 export default function CourseScreen({route,navigation}){
     return(
         <SafeAreaView>

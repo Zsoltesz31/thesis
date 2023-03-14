@@ -15,10 +15,7 @@ import {theme} from '../AppStyle'
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Provider as StoreProvider} from "react-redux"
 import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
-
-import store from "../store"
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -118,7 +115,6 @@ export default function Navigations() {
     
     
       return (
-        <StoreProvider store={store}>
         <PaperProvider theme={theme}>
         <NavigationContainer>
         <Stack.Navigator>
@@ -129,6 +125,5 @@ export default function Navigations() {
         </Stack.Navigator>
         </NavigationContainer>
         </PaperProvider>
-       </StoreProvider>
       );
 }

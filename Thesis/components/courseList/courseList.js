@@ -65,7 +65,7 @@ export default function courseList(){
             <FlatList
             data={posts}
             renderItem={renderItem}
-            keyExtractor = {item=>item.id}
+            keyExtractor = {item=>item.id.toString()}
             ></FlatList>
           </SafeAreaView>  
         

@@ -9,9 +9,8 @@ export const ForgotPasswordscreenStyle = StyleSheet.create({
         flexDirection:'column',      
     },
     formContainer:{
-        width:'100%',
+        width:'80%',
         justifyContent:'center',
-        alignItems:'center',
         top:200
     },
     title:{
@@ -19,7 +18,8 @@ export const ForgotPasswordscreenStyle = StyleSheet.create({
         color:'#009AB9',
         fontWeight:'bold',
         marginBottom:20,
-        bottom:'10%'
+        bottom:'10%',
+        textAlign:'center'
     },
     backButton:{
         marginTop:300

@@ -124,6 +124,7 @@ export default function LoginScreen({ route,navigation }) {
                     {loginError}
                     </Text>
                     }
+                    <CustomButton buttonName='Regisztráció' onPress={()=>navigation.navigate('Register',{loginType:route.params.loginType})}></CustomButton>
                     <CustomButton buttonName='Vissza' onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
                 </Card.Content>
             </Card>

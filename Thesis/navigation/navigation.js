@@ -10,6 +10,7 @@ import SettingsScreen from '../app/screens/settingsscreen/settingsscreen'
 import TestListScreen from '../app/screens/testlistscreen/testlistscreen'
 import CreateTestScreen from '../app/screens/createtestlistscreen/createtestlistscreen'
 import ForgotPassword from '../app/screens/forgotPasswordscreen/forgotPasswordscreen'
+import RegisterScreen from '../app/screens/registerScreen/registerScreen';
 import {theme} from '../AppStyle'
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -121,6 +122,7 @@ export default function Navigations() {
           <Stack.Screen name="ChooseUserType" component={ChooseUserType} options={{header: () => null}}></Stack.Screen>
           <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{header: () => null}}></Stack.Screen>
+          <Stack.Screen name="Register" component={RegisterScreen} options={{header: () => null}}></Stack.Screen>
           <Stack.Screen name="Main" children={createMainTabs} options={{header: () => null}}></Stack.Screen>
         </Stack.Navigator>
         </NavigationContainer>

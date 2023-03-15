@@ -101,15 +101,14 @@ export default function LoginScreen({ route,navigation }) {
         <SafeAreaView style={loginScreenStyle.content} theme={theme}>
             <CustomHeader></CustomHeader>
            <View style={loginScreenStyle.view}>
-           
-                    <Image source={ Images.loginimage } style={loginScreenStyle.cardimage}/>
-                    <TextInput outlineColor={outlineColor} onBlur={()=>validateNk(username)} label="Neptun kód" mode='outlined' theme={{roundness:40}} value={username} onChangeText={text => setUsername(text)}></TextInput>
+                    <Text style={loginScreenStyle.title}>Bejelentkezés {route.params.loginType=='student'? 'hallgatóknak' : 'oktatóknak'}</Text>
+                    <CustomInput outlineColor={outlineColor} onBlurEvent={()=>validateNk(username)} label="Neptun kód" mode='outlined' theme={{roundness:40}} value={username} onChangeTextEvent={text => setUsername(text)}></CustomInput>
                     {userNameError.length>0 && 
                     <Text>
                         {userNameError}
                     </Text>
                     }
-                    <TextInput outlineColor={pwOutlineColor} onBlur={()=>validatePassword(password)} label="Jelszó" mode ='outlined' secureTextEntry={true} theme={{roundness:40}} value={password} onChangeText={text => setPassword(text)}></TextInput>
+                    <CustomInput outlineColor={pwOutlineColor} onBlurEvent={()=>validatePassword(password)} label="Jelszó" mode ='outlined' secureTextEntry={true} theme={{roundness:40}} value={password} onChangeTextEvent={text => setPassword(text)}></CustomInput>
                     {pswError.length>0 && 
                     <Text>
                     {pswError}

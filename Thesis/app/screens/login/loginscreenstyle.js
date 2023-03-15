@@ -27,5 +27,13 @@ export const loginScreenStyle = StyleSheet.create({
     button:{
         marginTop:20,
         backgroundColor:"black"
+    },
+    title:{
+        textAlign:'center',
+        fontWeight:'bold',
+        fontSize:25,
+        color:'#009AB9'
+
     }
+    
 })

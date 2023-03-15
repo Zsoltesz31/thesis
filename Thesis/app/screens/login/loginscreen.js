@@ -1,6 +1,6 @@
-import React, {useState,useCallback } from 'react'
+import React, {useState } from 'react'
 import { SafeAreaView, View, Image, Pressable,Text } from 'react-native'
-import {Card, TextInput, Button} from 'react-native-paper'
+import {TextInput, Button} from 'react-native-paper'
 import { loginScreenStyle } from './loginscreenstyle'
 import Images from '../../../images/index';
 import {CustomInput} from '../../../components/inputs/inputs'
@@ -101,9 +101,7 @@ export default function LoginScreen({ route,navigation }) {
         <SafeAreaView style={loginScreenStyle.content} theme={theme}>
             <CustomHeader></CustomHeader>
            <View style={loginScreenStyle.view}>
-            <Card style={loginScreenStyle.card} theme={{roundness:20,}}>
-                <Card.Title titleStyle={{ color:"rgba(0,153,218,200)", fontWeight:"bold", textAlign:"center"}} title={loginTitle} ></Card.Title>
-                <Card.Content>
+           
                     <Image source={ Images.loginimage } style={loginScreenStyle.cardimage}/>
                     <TextInput outlineColor={outlineColor} onBlur={()=>validateNk(username)} label="Neptun kód" mode='outlined' theme={{roundness:40}} value={username} onChangeText={text => setUsername(text)}></TextInput>
                     {userNameError.length>0 && 
@@ -126,8 +124,7 @@ export default function LoginScreen({ route,navigation }) {
                     }
                     <CustomButton buttonName='Regisztráció' onPress={()=>navigation.navigate('Register',{loginType:route.params.loginType})}></CustomButton>
                     <CustomButton buttonName='Vissza' onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
-                </Card.Content>
-            </Card>
+  
             </View>
             <CustomFooter></CustomFooter>
         </SafeAreaView>

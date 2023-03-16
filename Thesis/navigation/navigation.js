@@ -43,7 +43,7 @@ export default function Navigations() {
         return(
         <Stack.Navigator>
           <Stack.Screen name="Kurzusaid" component={CourseScreen} initialParams={{HeaderText:coursescreenName}} options={{headerShown:false}}></Stack.Screen>
-          <Stack.Screen name="Tesztek" component={TestListScreen}  ></Stack.Screen>
+          <Stack.Screen name="Tesztek" component={TestListScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="Teszt létrehozása" component={CreateTestScreen} 
            
           ></Stack.Screen>

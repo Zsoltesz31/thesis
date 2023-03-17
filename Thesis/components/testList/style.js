@@ -5,7 +5,7 @@ export const testListStyle = StyleSheet.create({
         alignItems: "center",
         width:'100%',
         display:'flex',
-        marginBottom:50
+
     },
     listTitle:{
         color:'#009AB9',
@@ -38,7 +38,31 @@ export const testListStyle = StyleSheet.create({
         marginLeft:'auto',
         color:'white',
         fontWeight:'bold',
-        marginTop:10,
         top:10
+      },
+      succesBorder:{
+        borderColor:'#28D165',
+        borderWidth:2
+      },
+      failBorder:{
+        borderColor:'#FD2E2E',
+        borderWidth:2
+      },
+      defaultBorder:{
+        borderColor:'white'
+      },
+      icon:{
+        marginRight:'auto',
+        color:'white',
+        top:10,
+      },
+      testFooterContainer:{
+        display:'flex',
+        flexDirection:'row',
+      },
+      listCrudButtons:{
+        marginLeft:'auto',
+        bottom:20,
+        marginBottom:0
       }
 })

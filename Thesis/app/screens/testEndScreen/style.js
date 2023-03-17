@@ -1,0 +1,68 @@
+import { StyleSheet,Dimensions } from "react-native";
+
+export const testEndScreenStyle = StyleSheet.create({
+    icon:{
+        left:10,
+        marginRight:'auto'
+    },
+    title:{
+        color:'white',
+        textAlign:'center',
+        fontWeight:'bold',
+        fontSize:25,
+        width:Dimensions.get('window').width/2,
+        justifyContent:'center',
+        right:Dimensions.get('window').width/2/2,
+
+    },
+    titleContainer:{
+        display:'flex',
+        flexDirection:'row',
+        top:45,
+    },
+    testInformations:{
+        marginTop:180,
+        height:270,
+        width:350,
+        elevation:5,
+        borderRadius:5,
+        marginBottom:50,
+
+    },
+    screenContent:{
+        display:'flex',
+        alignItems:'center'
+    },
+    informationText:{
+        color:'#009AB9',
+        fontWeight:'bold',
+        fontSize:20,
+        padding:10,
+        width:320,
+        borderColor:'#009AB9',
+        left:15,
+        textAlign:'justify',
+        top:40
+        },
+        informationTitle:{
+            textAlign:'center',
+            fontSize:25,
+            color:'#009AB9',
+            fontWeight:'bold',
+        },
+        informationTitleContainer:{
+            top:130
+        },
+        modalContent:{
+            alignItems:'center'
+        },
+        modalTitle:{
+            fontWeight:'bold',
+            fontSize:15
+        },
+        modalDescription:{
+            textAlign:'justify',
+            padding:5,
+            fontSize:15
+        },
+})

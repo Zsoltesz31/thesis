@@ -8,9 +8,11 @@ import ProfileScreen from '../app/screens/profilescreen/profilescreen'
 import CourseScreen from '../app/screens/coursescreen/coursescreen'
 import SettingsScreen from '../app/screens/settingsscreen/settingsscreen'
 import TestListScreen from '../app/screens/testlistscreen/testlistscreen'
+import TestSheetScreen from '../app/screens/testSheetScreen/testSheetScreen'
 import CreateTestScreen from '../app/screens/createtestlistscreen/createtestlistscreen'
 import ForgotPassword from '../app/screens/forgotPasswordscreen/forgotPasswordscreen'
 import RegisterScreen from '../app/screens/registerScreen/registerScreen';
+import TestEndScreen from '../app/screens/testEndScreen/testEndScreen';
 import {theme} from '../AppStyle'
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -44,8 +46,9 @@ export default function Navigations() {
         <Stack.Navigator>
           <Stack.Screen name="Kurzusaid" component={CourseScreen} initialParams={{HeaderText:coursescreenName}} options={{headerShown:false}}></Stack.Screen>
           <Stack.Screen name="Tesztek" component={TestListScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="TestSheet" component={TestSheetScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="TestEndScreen" component={TestEndScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="Teszt létrehozása" component={CreateTestScreen} 
-           
           ></Stack.Screen>
         </Stack.Navigator>
         )}

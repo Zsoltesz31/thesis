@@ -6,7 +6,7 @@ export const coursescreenStyle = StyleSheet.create({
     container:{
         display:'flex',
         flexDirection:'column',
-        top:200,
+        top:150,
         
     },
     listTitle:{

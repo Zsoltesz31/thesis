@@ -15,7 +15,7 @@ export const testListScreenStyle = StyleSheet.create({
     titleContainer:{
         display:'flex',
         flexDirection:'row',
-        top:45
+        top:45,
     },
     listContainer:{
         top:150

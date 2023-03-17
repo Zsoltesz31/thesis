@@ -14,7 +14,7 @@ export default function TestListScreen({navigation,route}){
                 <Text style={testListScreenStyle.title}>{route.params.courseId}</Text>
             </View>
             <View style={testListScreenStyle.listContainer}>
-            <TestList courseId={route.params.courseId}></TestList>
+            <TestList navigation={navigation} courseId={route.params.courseId}></TestList>
             </View>
         </SafeAreaView>
     )

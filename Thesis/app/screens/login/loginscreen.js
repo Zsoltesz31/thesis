@@ -12,8 +12,14 @@ import { useFocusEffect } from '@react-navigation/native';
 import CustomHeader from '../../../components/header/header';
 import CustomFooter from '../../../components/footer/footer';
 
+import axios from 'axios'
+
+import { setUser } from '../../../slices/authSlice';
+
 
 export default function LoginScreen({ route,navigation }) {
+    const dispatch = useDispatch()
+
     const [outlineColor,setOutlineColor]=useState('#009AB9')
     const [pwOutlineColor,setPwOutlineColor]=useState('#009AB9')
     const [userNameError,setUserNameError] = useState('')
@@ -22,44 +28,11 @@ export default function LoginScreen({ route,navigation }) {
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
     const [disableStatus,setDisableStatus] = useState(false)
-    const dispatch = useDispatch()
     const loginTitle = route.params.loginType === 'student' ? 'Bejelentkezés hallgatóknak' : 'Bejelentkezés tanároknak'
-    
-    /*useFocusEffect(()=>{
-        useCallback(()=>{
-        if(loginType==='student'){
-            setLoginTitle('Bejelentkezés hallgatóknak')
-            console.log(loginType)
-        }
-        else if(loginType==='teacher'){
-            setLoginTitle('Bejelentkezés tanároknak')
-            console.log(loginType)
-        }}
-        )
-        return() => {
-            console.log(loginType)
-        }
-    })*/
 
-    const onLogin = () => {
-        let user = {
-            username: username,
-            password: password
-        }
-
-        dispatch(login(user)).then((response)=>{
-            if(response.status=="success"){
-                navigation.replace('Main', {
-                    screen: 'Főoldal',
-                    params: {loginType:route.params.loginType,userName:user.username}
-                })
-            }
-        })
-        .catch((error)=>{
-   
-            setLoginError('Sikertelen bejelentkezés')
-          
-        })
+    const onLogin = async () => {
+        dispatch(setUser(username,password))
+  
     }
 
     const validateNk = (username) =>{

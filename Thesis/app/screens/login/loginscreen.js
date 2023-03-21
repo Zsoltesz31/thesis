@@ -6,19 +6,21 @@ import Images from '../../../images/index';
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
 import {theme} from '../../../AppStyle'
-import { useDispatch } from 'react-redux';
-import { login } from "./../../../actions/auth"
+import { useDispatch,useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import CustomHeader from '../../../components/header/header';
 import CustomFooter from '../../../components/footer/footer';
 
 import axios from 'axios'
 
-import { setUser } from '../../../slices/authSlice';
+import { loginUser } from './../../../actions/auth';
+import { getUserToken } from './../../../actions/auth';
+
 
 
 export default function LoginScreen({ route,navigation }) {
     const dispatch = useDispatch()
+
 
     const [outlineColor,setOutlineColor]=useState('#009AB9')
     const [pwOutlineColor,setPwOutlineColor]=useState('#009AB9')
@@ -31,8 +33,21 @@ export default function LoginScreen({ route,navigation }) {
     const loginTitle = route.params.loginType === 'student' ? 'Bejelentkezés hallgatóknak' : 'Bejelentkezés tanároknak'
 
     const onLogin = async () => {
-        dispatch(setUser(username,password))
-  
+        let user= {
+            email:username,
+            password:password
+        }
+        loginUser(user)
+        await getUserToken('userToken')
+        .then(data=>data)
+        .then(value=>{
+            if(value!=null){
+                navigation.replace('Main', {
+                    screen: 'Főoldal',
+                    params: {loginType:route.params.loginType,userName:user.username}
+                })
+            }
+        })
     }
 
     const validateNk = (username) =>{

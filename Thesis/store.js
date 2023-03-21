@@ -4,7 +4,7 @@ import thunk from "redux-thunk"
 
 import authReducer from "./reducers/auth.js"
 import course from "./slices/courseSlice"
-import user from "./slices/authSlice"
+import user from "./slices/userSlice"
 
 const middleware = [thunk]
 const reducer = combineReducers({

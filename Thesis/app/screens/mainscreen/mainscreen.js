@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react'
 import { SafeAreaView, Text,Pressable,View,ScrollView } from 'react-native'
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
-import { fetchApi } from "./../../../actions/fetchApi"
 import {ConfirmationModal} from "../../../components/modals/confirmation_modal"
 import { mainScreenStyle } from './mainscreenStyle'
 import CustomListView from '../../../components/listview/index'

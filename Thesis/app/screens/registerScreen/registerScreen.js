@@ -5,7 +5,7 @@ import { CustomInput } from "../../../components/inputs/inputs"
 import CustomHeader from "../../../components/header/header"
 import CustomFooter from '../../../components/footer/footer';
 import { registerScreenStyle } from "./style";
-import { createUser } from "../../../slices/userSlice"
+
 import { useDispatch } from "react-redux"
 
 

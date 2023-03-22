@@ -119,8 +119,8 @@ const openModal=() => {
     return(
         <SafeAreaView style={mainScreenStyle.container}>
             <CustomHeader></CustomHeader>
-            <Text style={mainScreenStyle.title}>{route.params.userName==='student' ? 'Tanároknak' : 'Hallgatóknak'}</Text>
-            <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük {route.params.userName}!</Text>
+            <Text style={mainScreenStyle.title}>Felhasználó</Text>
+            <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük!</Text>
             <ScrollView  showsVerticalScrollIndicator={false}>
            <CustomListView data={DATA} listTitle={listTitle}></CustomListView>
            <CustomButton buttonName='Frissít'></CustomButton>

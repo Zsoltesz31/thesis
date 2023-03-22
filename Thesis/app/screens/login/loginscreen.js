@@ -1,4 +1,4 @@
-import React, {useState } from 'react'
+import React, {useContext, useState } from 'react'
 import { SafeAreaView, View, Image, Pressable,Text } from 'react-native'
 import {TextInput, Button} from 'react-native-paper'
 import { loginScreenStyle } from './loginscreenstyle'
@@ -11,16 +11,11 @@ import { useFocusEffect } from '@react-navigation/native';
 import CustomHeader from '../../../components/header/header';
 import CustomFooter from '../../../components/footer/footer';
 
-import axios from 'axios'
-
-import { loginUser } from './../../../actions/auth';
-import { getUserToken } from './../../../actions/auth';
-
-
+import { AuthContext } from '../../../context/AuthContext';
 
 export default function LoginScreen({ route,navigation }) {
     const dispatch = useDispatch()
-
+    const {login} =useContext(AuthContext)
 
     const [outlineColor,setOutlineColor]=useState('#009AB9')
     const [pwOutlineColor,setPwOutlineColor]=useState('#009AB9')
@@ -30,25 +25,7 @@ export default function LoginScreen({ route,navigation }) {
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
     const [disableStatus,setDisableStatus] = useState(false)
-    const loginTitle = route.params.loginType === 'student' ? 'Bejelentkezés hallgatóknak' : 'Bejelentkezés tanároknak'
 
-    const onLogin = async () => {
-        let user= {
-            email:username,
-            password:password
-        }
-        loginUser(user)
-        await getUserToken('userToken')
-        .then(data=>data)
-        .then(value=>{
-            if(value!=null){
-                navigation.replace('Main', {
-                    screen: 'Főoldal',
-                    params: {loginType:route.params.loginType,userName:user.username}
-                })
-            }
-        })
-    }
 
     const validateNk = (username) =>{
         if(username==''){
@@ -103,7 +80,7 @@ export default function LoginScreen({ route,navigation }) {
                     </Text>
                     }
                     <Pressable onPress={()=>navigation.navigate('ForgotPassword',{loginType:route.params.loginType})}><Button uppercase={false}>Elfelejtett jelszó</Button></Pressable>
-                    <CustomButton disabledStatus={disableStatus} buttonName='Bejelentkezés' onPress={()=>onLogin()}></CustomButton>
+                    <CustomButton disabledStatus={disableStatus} buttonName='Bejelentkezés' onPress={()=>{login(username,password)}}></CustomButton>
                     {loginError.length>0 && 
                     <Text style={{color:'red'}}>
                     {loginError}

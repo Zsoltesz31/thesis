@@ -1,17 +1,17 @@
-import React, {useState} from "react"
+import React, {useContext, useState} from "react"
 import { SafeAreaView,View,Text } from "react-native"
 import { CustomButton } from "../../../components/buttons/buttons"
 import { CustomInput } from "../../../components/inputs/inputs"
 import CustomHeader from "../../../components/header/header"
 import CustomFooter from '../../../components/footer/footer';
 import { registerScreenStyle } from "./style";
+import { AuthContext } from '../../../context/AuthContext';
 
 import { useDispatch } from "react-redux"
 
-
-
 export default function RegisterScreen({navigation,route}){
-    const dispatch = useDispatch()
+    const {register} = useContext(AuthContext)
+
 
     const [outlineColorNames,setoutlineColorNames]=useState('#009AB9')
     const [outlineColorEmail,setoutlineColorEmail]=useState('#009AB9')
@@ -91,37 +91,19 @@ export default function RegisterScreen({navigation,route}){
     }
 
     const validateAll = (firstName,lastName,email,password,password1) =>{
-        let validatePass=false
         validateEmail(email)
         validatePassword(password,password1)
         validateNames(firstName,lastName)
-       
         if(nameErrors=='' && emailErrors=='' && passwordErrors==''){
-            validatePass=true
+            register(firstName,lastName,email,password)
+            navigation.navigate('Login',{loginType:route.params.loginType})
         }
         else{
-            validatePass=false
+           console.log('fail')
         }
-        return(
-            validatePass
-        )
         
     }
-
-    const register = (firstName,lastName,email,password,password1)=>{
-        if(validateAll(firstName,lastName,email,password,password1)==true){
-            console.log('succes')
-            let user = {
-                firstName:firstName,
-                lastName:lastName,
-                email:email,
-                password:password
-            }
-            dispatch(createUser(user))
-        }
-        
     
-    }
 
 
     return(
@@ -153,7 +135,7 @@ export default function RegisterScreen({navigation,route}){
                     }
                     </View>
                     <View style={registerScreenStyle.buttons}>
-                        <CustomButton buttonName='Regisztráció' onPress={ ()=>{register(firstName,lastName,email,password,password2)}}/>
+                        <CustomButton buttonName='Regisztráció' onPress={ ()=>{validateAll(firstName,lastName,email,password,password2)}}/>
                             {registerError.length>0 && 
                             <Text>
                                 {registerError}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState,useEffect, useContext} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons';
 import LoginScreen from '../app/screens/login/loginscreen'
@@ -18,10 +18,8 @@ import {theme} from '../AppStyle'
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { ScreenStackHeaderBackButtonImage } from 'react-native-screens';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
-
+import { useDispatch } from 'react-redux';
+import { AuthContext } from '../context/AuthContext';
 
 const loginscreenName= 'Kijelentkezés'
 const mainscreenName ='Főoldal'
@@ -29,18 +27,16 @@ const profilescreenName ='Profil'
 const coursescreenName ='Kurzusok'
 const settingsscreenName ='Beállítások'
 
-async function componentDidMount() {
-    await Font.loadAsync({
-      ionicons: Ionicons.font['ionicons'] 
-    });
-    this.setState({ isReady: true });
-  }
 
 export default function Navigations() {
+    const {userInfo,logout} = useContext(AuthContext)
+    const dispatch = useDispatch()
 
     const Stack = createNativeStackNavigator();
     const BottomTabs = createBottomTabNavigator(); 
 
+
+   
     createCourseStack = () =>  {
         return(
         <Stack.Navigator>
@@ -52,11 +48,11 @@ export default function Navigations() {
           ></Stack.Screen>
         </Stack.Navigator>
         )}
-    
-      createMainTabs = () =>  {
-        return(
-
-          <BottomTabs.Navigator
+   
+      return (
+        <PaperProvider theme={theme}>
+        <NavigationContainer>
+        {userInfo.access_token? <BottomTabs.Navigator
                 initialRouteName={mainscreenName}
                 screenOptions={({route})=>({
                   tabBarActiveTintColor: "#8CECFF",
@@ -108,27 +104,21 @@ export default function Navigations() {
                 <BottomTabs.Screen name={loginscreenName} component={LoginScreen} listeners={({navigation}) => ({
                   tabPress: (e) => {
                     e.preventDefault()
-                    navigation.replace('ChooseUserType')
+                    logout()
                   }
                 }
                 )}/>
-         </BottomTabs.Navigator>
-       
-        )
-      }
-    
-    
-      return (
-        <PaperProvider theme={theme}>
-        <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="ChooseUserType" component={ChooseUserType} options={{header: () => null}}></Stack.Screen>
-          <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{header: () => null}}></Stack.Screen>
-          <Stack.Screen name="Register" component={RegisterScreen} options={{header: () => null}}></Stack.Screen>
-          <Stack.Screen name="Main" children={createMainTabs} options={{header: () => null}}></Stack.Screen>
-        </Stack.Navigator>
+         </BottomTabs.Navigator>:
+         <Stack.Navigator>
+         <Stack.Screen name="ChooseUserType" component={ChooseUserType} options={{header: () => null}}></Stack.Screen>
+         <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
+         <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{header: () => null}}></Stack.Screen>
+         <Stack.Screen name="Register" component={RegisterScreen} options={{header: () => null}}></Stack.Screen>
+       </Stack.Navigator>}
+        
         </NavigationContainer>
         </PaperProvider>
-      );
+      )
+     
+      
 }

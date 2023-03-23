@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef,useContext } from 'react'
 import { SafeAreaView, Text,Pressable,View,ScrollView } from 'react-native'
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
@@ -6,6 +6,7 @@ import {ConfirmationModal} from "../../../components/modals/confirmation_modal"
 import { mainScreenStyle } from './mainscreenStyle'
 import CustomListView from '../../../components/listview/index'
 import CustomHeader from '../../../components/header/header'
+import { AuthContext } from '../../../context/AuthContext'
 
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
@@ -95,6 +96,7 @@ export default function MainScreen({route}){
     const [notification, setNotification] = useState(false)
     const notificationListener = useRef()
     const responseListener = useRef()
+    const {userData} = useContext(AuthContext)
 
 useEffect(()=>{
     registerForNotificationAsync().then(token =>setExpoPushToken(token))
@@ -119,7 +121,7 @@ const openModal=() => {
     return(
         <SafeAreaView style={mainScreenStyle.container}>
             <CustomHeader></CustomHeader>
-            <Text style={mainScreenStyle.title}>Felhasználó</Text>
+            <Text style={mainScreenStyle.title}>{userData.id}</Text>
             <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük!</Text>
             <ScrollView  showsVerticalScrollIndicator={false}>
            <CustomListView data={DATA} listTitle={listTitle}></CustomListView>

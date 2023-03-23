@@ -9,10 +9,10 @@ import CourseScreen from '../app/screens/coursescreen/coursescreen'
 import SettingsScreen from '../app/screens/settingsscreen/settingsscreen'
 import TestListScreen from '../app/screens/testlistscreen/testlistscreen'
 import TestSheetScreen from '../app/screens/testSheetScreen/testSheetScreen'
-import CreateTestScreen from '../app/screens/createtestlistscreen/createtestlistscreen'
 import ForgotPassword from '../app/screens/forgotPasswordscreen/forgotPasswordscreen'
 import RegisterScreen from '../app/screens/registerScreen/registerScreen';
 import TestEndScreen from '../app/screens/testEndScreen/testEndScreen';
+import CreateTestScreen from '../app/screens/createTestScreen/createTestScreen';
 import {theme} from '../AppStyle'
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -29,12 +29,15 @@ const settingsscreenName ='Beállítások'
 
 
 export default function Navigations() {
-    const {userInfo,logout} = useContext(AuthContext)
+    const {userInfo,logout,getUserData} = useContext(AuthContext)
     const dispatch = useDispatch()
 
     const Stack = createNativeStackNavigator();
     const BottomTabs = createBottomTabNavigator(); 
 
+    useEffect(()=>{
+      getUserData(userInfo)
+    },[userInfo])
 
    
     createCourseStack = () =>  {
@@ -44,15 +47,17 @@ export default function Navigations() {
           <Stack.Screen name="Tesztek" component={TestListScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="TestSheet" component={TestSheetScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="TestEndScreen" component={TestEndScreen} options={{headerShown:false}} ></Stack.Screen>
-          <Stack.Screen name="Teszt létrehozása" component={CreateTestScreen} 
-          ></Stack.Screen>
+          <Stack.Screen name="CreateTest" component={CreateTestScreen} options={{headerShown:false}} ></Stack.Screen>
         </Stack.Navigator>
         )}
    
       return (
+        
         <PaperProvider theme={theme}>
         <NavigationContainer>
-        {userInfo.access_token? <BottomTabs.Navigator
+      
+        {userInfo.access_token?
+        <BottomTabs.Navigator
                 initialRouteName={mainscreenName}
                 screenOptions={({route})=>({
                   tabBarActiveTintColor: "#8CECFF",

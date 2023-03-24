@@ -1,51 +1,52 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 
-export const getAllTests = createAsyncThunk('test/getAllTests',()=>{
-    axios.get('http://192.168.1.66:3333/test').then((response)=>response.data)
+const initialState={
+    tests:[],
+    loading:false,
+    error:null
+ }
+
+export const getAllTests = createAsyncThunk('test/getAllTests', ()=>{
+    return axios.get('http://192.168.1.66:3333/test').then((response)=>(response.data))
 })
 
-export const deleteTest = createAsyncThunk('test/deleteTest',({id})=>{
-    axios.delete(`http://192.168.1.66:3333/test/${id}`).then((response)=>response.data)
+
+export const deleteTest = createAsyncThunk('test/deleteTest',(id)=>{
+    console.log(id)
+    return axios.delete(`http://192.168.1.66:3333/test/${id}`).then((response)=>response.data)
 })
 
 export const createTest = createAsyncThunk('test/createTest',(values)=>{
-    console.log(values)
-    axios.post('http://192.168.1.66:3333/test',{
+    return axios.post('http://192.168.1.66:3333/test',{
             title:values.title,
             description:values.description,
             ownerId:values.ownerId
         }
-    ).then((response)=>console.log(response.data)).catch(e=>{
+    ).then((response)=>(response.data)).catch(e=>{
         console.log(e)
     })
 })
 
-export const updateTest = createAsyncThunk('test/updateTest',({id,title,description,ownerId})=>{
-    axios.patch(`http://192.168.1.66:3333/test/${id}}`,{
-        headers:{
-            "Content-type":"application/json"
-        },
-        body:{
+export const updateTest = createAsyncThunk('test/updateTest',(values)=>{
+   return axios.patch(`http://192.168.1.66:3333/test/${values.testId}`,{
             title: values.title,
             description: values.description,
             ownerId:values.ownerId
-        }
-    }).then((response)=>response.data)
+    }).then((response)=>(response.data)).catch(e=>{
+        console.log(e)
+    })
 })
 
 const testSlice = createSlice({
     name:'test',
-    initialState:{
-        tests:[],
-        loading:false,
-        error:null
-    },
+    initialState,
     extraReducers: (builder) => {
         builder.addCase(getAllTests.pending,(state) =>{
             state.loading=true
         })
         builder.addCase(getAllTests.fulfilled,(state,action) => {
+
             state.loading=false
             state.tests=action.payload
             state.error=''
@@ -59,7 +60,7 @@ const testSlice = createSlice({
         })
         builder.addCase(deleteTest.fulfilled,(state,action) => {
             state.loading=false
-            state.tests=action.payload
+            state.test=action.payload
             state.error=''
         })
         builder.addCase(deleteTest.rejected,(state,action) =>{
@@ -71,26 +72,24 @@ const testSlice = createSlice({
         })
         builder.addCase(createTest.fulfilled,(state,action) => {
             state.loading=false
-            state.tests=action.payload
             state.error=''
         })
         builder.addCase(createTest.rejected,(state,action) =>{
             state.loading=false
             state.error=action.error.message
-            console.log(action.payload)
         })
         builder.addCase(updateTest.pending,(state) =>{
             state.loading=true
         })
         builder.addCase(updateTest.fulfilled,(state,action) => {
             state.loading=false
-            state.tests=action.payload
             state.error=''
         })
         builder.addCase(updateTest.rejected,(state,action) =>{
             state.loading=false
             state.error=action.error.message
         })
+        
     }
 })
 

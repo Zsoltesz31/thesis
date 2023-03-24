@@ -1,72 +1,61 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
+import axios from 'axios'
 import {View,Text,SafeAreaView,FlatList,Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import {testListStyle} from'./style'
-
-
-const data = [
-    {
-        id:1,
-        courseId:1,
-        deadline:'10.16 00:00',
-        title:'Programmozás módszertan',
-        succes:null
-    },
-    {
-        id:2,
-        courseId:1,
-        deadline:'10.16 00:00',
-        title:'Magasszintű programmozási nyelvek',
-        succes:false
-    },
-    {
-        id:3,
-        courseId:2,
-        deadline:'10.16 00:00',
-        title:'Webprogrammozás 1',
-        succes:true
-    },
-    {
-        id:4,
-        courseId:2,
-        deadline:'10.16 00:00',
-        title:'Webprogrammozás 1',
-        succes:true
-    },
-    {
-        id:5,
-        courseId:3,
-        deadline:'10.16 00:00',
-        title:'Webprogrammozás 1',
-        succes:true
-    }
-]
+import { deleteTest } from '../../slices/testSlice';
+import { useDispatch, } from 'react-redux';
+import { ConfirmationModal } from '../modals/confirmation_modal';
+import { CustomButton } from '../buttons/buttons';
 
 
 
 
-export default function TestList({navigation,courseId}){
+
+export default function TestList({navigation,courseId,data,changeListener}){
+    const dispatch = useDispatch()
+    const [isModalVisible,setIsModalVisible] = useState(false)
     
+    const modalClose = () =>{
+        setIsModalVisible(false)
+    }
+
+    const handleDelete = (id) =>{
+        console.log(id)
+        dispatch(deleteTest(id)).then(changeListener(true))
+        modalClose()
+    }
+    
+     const passTestDataById = async (id) =>{
+        return await axios.get(`http://192.168.1.66:3333/test/${id}`).
+        then((response)=>{
+            let selectedTest = response.data
+            navigation.navigate('CreateTest',{edit:true,testData:selectedTest})
+        }
+        )
+    }
 
     const Item = ({item}) => (
-        <Pressable onPress={()=>navigation.navigate('TestSheet',{testId:item.id,testName:item.title,courseId:courseId})} android_ripple="true"> 
-        <View style={[testListStyle.listitem, item.succes == null ? testListStyle.defaultBorder : (item.succes && true ? testListStyle.succesBorder : testListStyle.failBorder)]}>
+        <Pressable onPress={()=>console.log('asd')} android_ripple="true">
+        <View style={testListStyle.listitem}>
         <Text style={testListStyle.listItemHeader}>{item.title}</Text>
         <View style={testListStyle.listCrudButtons}>
-        <Pressable><Ionicons name={'create-outline'} size={20} color={"white"}/></Pressable>
-        <Pressable><Ionicons name={'trash-outline'} size={20} color={"white"}/></Pressable>
+        <Pressable onPress={()=>passTestDataById(item.id)}><Ionicons name={'create-outline'} size={20} color={"white"}/></Pressable>
+        <Pressable onPress={()=>setIsModalVisible(true)}><Ionicons name={'trash-outline'} size={20} color={"white"}/></Pressable>
         </View>
         <View style={testListStyle.testFooterContainer}>
-        {item.succes == true &&
-              <Ionicons style={testListStyle.icon} name={'checkmark-outline'} size={20} color={"white"}/>
-        }
-         {item.succes == false &&
-              <Ionicons style={testListStyle.icon} name={'close-outline'} size={20} color={"white"}/>
-        }
-        <Text style={testListStyle.deadline}>Határidő: {item.deadline}</Text>
+        <Text style={testListStyle.deadline}>Határidő: {item.description}</Text>
         </View>
         </View>
+        <ConfirmationModal visible={isModalVisible} onClose={modalClose}>
+                <View style={testListStyle.modalContent}>
+                <Text style={testListStyle.modalTitle}>Biztosan törli ezt a tesztet?</Text>
+                <CustomButton buttonName={'Igen'} onPress={()=>(handleDelete(item.id))}></CustomButton>
+                <CustomButton buttonName={'Nem'} onPress={()=>(modalClose())}></CustomButton>
+                </View>
+        </ConfirmationModal>
         </Pressable>
+        
     )
     
     const renderItem=({item}) =>{
@@ -80,7 +69,7 @@ export default function TestList({navigation,courseId}){
           <SafeAreaView style={testListStyle.container}>
             <FlatList
             showsHorizontalScrollIndicator={false}
-            data={data.filter(item=> item.courseId==courseId)}
+            data={data.tests}
             renderItem={renderItem}
             keyExtractor = {item=>item.id.toString()}
             ></FlatList>

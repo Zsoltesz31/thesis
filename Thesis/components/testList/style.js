@@ -64,5 +64,12 @@ export const testListStyle = StyleSheet.create({
         marginLeft:'auto',
         bottom:20,
         marginBottom:0
-      }
+      },
+      modalContent:{
+        alignItems:'center'
+      },
+    modalTitle:{
+        fontWeight:'bold',
+        fontSize:15
+      },
 })

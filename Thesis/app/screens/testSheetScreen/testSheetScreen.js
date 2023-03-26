@@ -8,6 +8,7 @@ import { ConfirmationModal } from '../../../components/modals/confirmation_modal
 
 
 export default function TestSheetScreen({navigation,route}){
+    console.log(route.params.testId)
     const [isModalVisible,setIsModalVisible] = useState(false)
 
     const modalClose = () =>{
@@ -22,7 +23,7 @@ export default function TestSheetScreen({navigation,route}){
             <CustomHeader/>
             <View style={testSheetScreenStyle.titleContainer}>
                 <Pressable style={testSheetScreenStyle.icon} onPress={()=>navigation.navigate('Tesztek',{courseId:route.params.courseId})}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
-                <Text style={testSheetScreenStyle.title}>{route.params.testName}</Text>
+                <Text style={testSheetScreenStyle.title}>{route.params.testname}</Text>
             </View>
             <View style={testSheetScreenStyle.screenContent}>
             <View style={testSheetScreenStyle.informationTitleContainer}>
@@ -36,6 +37,7 @@ export default function TestSheetScreen({navigation,route}){
             </View>
             <View style={testSheetScreenStyle.testSheetButtons}>
                     <CustomButton buttonName={'Teszt indítása'} onPress={onStartTest}/>
+                    <CustomButton buttonName={'Kérdés hozzáadása'} onPress={()=>(navigation.navigate('AddQuestionWithAnswer',{testId:route.params.testId}))}></CustomButton>
             </View>
             </View>
             <ConfirmationModal visible={isModalVisible} onClose={modalClose}>

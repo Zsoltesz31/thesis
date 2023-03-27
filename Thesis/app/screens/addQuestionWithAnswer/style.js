@@ -18,7 +18,7 @@ export const AddQuestionWithAnswerStyle = StyleSheet.create({
         right:Dimensions.get('window').width/2/2
     },
     formContainer:{
-        top:Dimensions.get('window').height/2/2,
+        top:Dimensions.get('window').height/2/2-70,
         width:'90%',
         display:'flex',
         justifyContent:'center',
@@ -30,5 +30,24 @@ export const AddQuestionWithAnswerStyle = StyleSheet.create({
         fontWeight:'bold',
         fontSize:20,
         color: '#009AB9'
+    },
+    formText:{
+        textAlign:'center',
+        fontWeight:'bold',
+        fontSize:15,
+        color: '#009AB9'
+    },
+    checkBoxContainer:{
+        flexDirection:'row',
+        width:'100%',
+        justifyContent:'center'
+    },
+    checkBoxText:{
+        textAlign:'center',
+        fontWeight:'bold',
+        fontSize:18,
+        color: '#009AB9',
+        alignSelf:'center',
+        bottom:2
     }
 })

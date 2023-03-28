@@ -14,6 +14,7 @@ import RegisterScreen from '../app/screens/registerScreen/registerScreen';
 import TestEndScreen from '../app/screens/testEndScreen/testEndScreen';
 import CreateTestScreen from '../app/screens/createTestScreen/createTestScreen';
 import AddQuestionWithAnswer from '../app/screens/addQuestionWithAnswer/addQuestionWithAnswer';
+import TestScreen from '../app/screens/testScreen/testScreen';
 import {theme} from '../AppStyle'
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -49,6 +50,7 @@ export default function Navigations() {
           <Stack.Screen name="TestSheet" component={TestSheetScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="TestEndScreen" component={TestEndScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="AddQuestionWithAnswer" component={AddQuestionWithAnswer} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="TestScreen" component={TestScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CreateTest" component={CreateTestScreen} options={{headerShown:false}} ></Stack.Screen>
         </Stack.Navigator>
         )}
@@ -74,7 +76,7 @@ export default function Navigations() {
                       borderRadius:17,
                       height:55,
                       color:'white',
-                      bottom:10
+                      bottom:10,
                     },
                     tabBarItemStyle:{
                       margin:6,
@@ -106,7 +108,7 @@ export default function Navigations() {
                 })}>
                 <BottomTabs.Screen name={mainscreenName} component={MainScreen} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} initialParams={{HeaderText:profilescreenName}} options={{headerShown:false}}/>
-                <BottomTabs.Screen name={coursescreenName} children={createCourseStack} options={{header: () => null}}/>
+                <BottomTabs.Screen name={coursescreenName} children={createCourseStack} options={{header: () => null,tabBarStyle:{display:'none'}}}/>
                 <BottomTabs.Screen name={settingsscreenName} component={SettingsScreen} initialParams={{HeaderText:settingsscreenName}} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={loginscreenName} component={LoginScreen} listeners={({navigation}) => ({
                   tabPress: (e) => {

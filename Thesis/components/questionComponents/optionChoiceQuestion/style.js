@@ -1,5 +1,51 @@
-import { StyleSheet } from "react-native-web";
+import { StyleSheet } from "react-native";
 
 export const OptionChoiceQuestionStyle = StyleSheet.create({
-    
+    questionTitle:{
+        fontSize:18,
+        fontWeight:'bold',
+        textAlign:'center',
+        color:'#009AB9',
+        margin:10
+    },
+    questionContainer:{
+        elevation:2,
+        height:150,
+        justifyContent:'center',
+        borderRadius:5,
+        width:'95%',
+        alignSelf:'center',
+        margin:10
+    },
+    answerContainer:{
+        borderWidth:1,
+        borderColor:'#009AB9',
+        borderRadius:5,
+        width:'80%',
+        alignSelf:'center',
+        margin:5,
+        padding:2
+    },
+    answerSelectedContainer:{
+        borderWidth:1,
+        borderColor:'#009AB9',
+        borderRadius:5,
+        backgroundColor:'#009AB9',
+        width:'80%',
+        alignSelf:'center',
+        margin:5,
+        padding:2
+    },
+    answerSelectedTExt:{
+        fontSize:17,
+        fontWeight:'bold',
+        textAlign:'center',
+        color:'white'
+    },
+    answerText:{
+        fontSize:17,
+        fontWeight:'bold',
+        textAlign:'center',
+        color:'#009AB9'
+    }
 })

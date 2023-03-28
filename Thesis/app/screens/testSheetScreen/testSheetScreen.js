@@ -44,7 +44,7 @@ export default function TestSheetScreen({navigation,route}){
                 <View style={testSheetScreenStyle.modalContent}>
                 <Text style={testSheetScreenStyle.modalTitle}>Biztosan elkezdi a tesztet?</Text>
                 <Text style={testSheetScreenStyle.modalDescription}>Az elkezdett tesztet megállítani nem lehet! Ha az alkalmazást bezárja a teszt automatikusan lezár és az addig leadott válaszokkal befejezi a tesztet!</Text>
-                <CustomButton onPress={()=>(navigation.navigate('TestEndScreen',{testId:route.params.testId,testName:route.params.testName,courseId:route.params.courseId}),modalClose())} buttonName={'Igen'}></CustomButton>
+                <CustomButton onPress={()=>(navigation.navigate('TestScreen',{testId:route.params.testId,testName:route.params.testName,courseId:route.params.courseId}),modalClose())} buttonName={'Igen'}></CustomButton>
                 <CustomButton buttonName={'Nem'}></CustomButton>
                 </View>
             </ConfirmationModal>

@@ -9,13 +9,12 @@ import { ConfirmationModal } from '../modals/confirmation_modal';
 import { CustomButton } from '../buttons/buttons';
 
 
-
+//Valami nem stimm a modallal mindig az utolsó elem adatait kapja meg
 
 
 export default function TestList({navigation,courseId,data,changeListener}){
     const dispatch = useDispatch()
     const [isModalVisible,setIsModalVisible] = useState(false)
-    
     const modalClose = () =>{
         setIsModalVisible(false)
     }
@@ -25,23 +24,23 @@ export default function TestList({navigation,courseId,data,changeListener}){
         dispatch(deleteTest(id)).then(changeListener(true))
         modalClose()
     }
-    
+
      const passTestDataById = async (id) =>{
-        return await axios.get(`http://192.168.1.66:3333/test/${id}`).
+        return await axios.get(`http://192.168.1.64:3333/test/${id}`).
         then((response)=>{
-            let selectedTest = response.data
+            let selectedTest = response.data.data
+            console.log(selectedTest)
             navigation.navigate('CreateTest',{edit:true,testData:selectedTest})
         }
         )
     }
-
     const Item = ({item}) => (
         <Pressable onPress={()=>(navigation.navigate('TestSheet',{testname:item.title,testId:item.id}))} android_ripple="true">
         <View style={testListStyle.listitem}>
         <Text style={testListStyle.listItemHeader}>{item.title}</Text>
         <View style={testListStyle.listCrudButtons}>
         <Pressable onPress={()=>passTestDataById(item.id)}><Ionicons name={'create-outline'} size={20} color={"white"}/></Pressable>
-        <Pressable onPress={()=>setIsModalVisible(true)}><Ionicons name={'trash-outline'} size={20} color={"white"}/></Pressable>
+        <Pressable onPress={()=>handleDelete(item.id)}><Ionicons name={'trash-outline'} size={20} color={"white"}/></Pressable>
         </View>
         <View style={testListStyle.testFooterContainer}>
         <Text style={testListStyle.deadline}>Határidő: {item.description}</Text>
@@ -50,7 +49,7 @@ export default function TestList({navigation,courseId,data,changeListener}){
         <ConfirmationModal visible={isModalVisible} onClose={modalClose}>
                 <View style={testListStyle.modalContent}>
                 <Text style={testListStyle.modalTitle}>Biztosan törli ezt a tesztet?</Text>
-                <CustomButton buttonName={'Igen'} onPress={()=>(handleDelete(item.id))}></CustomButton>
+                <CustomButton buttonName={'Igen'} onPress={()=>(console.log(item.title))}></CustomButton>
                 <CustomButton buttonName={'Nem'} onPress={()=>(modalClose())}></CustomButton>
                 </View>
         </ConfirmationModal>
@@ -69,7 +68,7 @@ export default function TestList({navigation,courseId,data,changeListener}){
           <SafeAreaView style={testListStyle.container}>
             <FlatList
             showsHorizontalScrollIndicator={false}
-            data={data.tests}
+            data={data.data}
             renderItem={renderItem}
             keyExtractor = {item=>item.id.toString()}
             ></FlatList>

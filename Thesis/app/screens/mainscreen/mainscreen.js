@@ -123,10 +123,10 @@ const openModal=() => {
             <CustomHeader></CustomHeader>
             <Text style={mainScreenStyle.title}>{userData.id}</Text>
             <Text style={mainScreenStyle.welcomeTitle}>Üdvözöljük!</Text>
-            <ScrollView  showsVerticalScrollIndicator={false}>
+          
            <CustomListView data={DATA} listTitle={listTitle}></CustomListView>
            <CustomButton buttonName='Frissít'></CustomButton>
-           </ScrollView>
+ 
 
         </SafeAreaView>
     )

@@ -17,7 +17,6 @@ export default function TestListScreen({navigation,route}){
 
     useEffect(()=>{
         dispatch(getAllTests())
-        console.log(changeHappened)
         setChangeHappened(false)
     },[changeHappened])
 
@@ -37,7 +36,6 @@ export default function TestListScreen({navigation,route}){
             <View style={testListScreenStyle.listContainer}>
             <TestList changeListener={changeTracker} data={tests} navigation={navigation}></TestList>
             <CustomButton buttonName={'Teszt létrehozása'} onPress={()=>navigation.navigate('CreateTest',{edit:false,testData:{title:'',description:''}})}></CustomButton>
-            <CustomButton buttonName={'Teszt gomb'}></CustomButton>
             </View>
         </SafeAreaView>
     )

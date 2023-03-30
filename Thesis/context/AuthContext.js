@@ -10,7 +10,7 @@ export const AuthProvider = ({children}) => {
     const [userData,setUserData] = useState({})
 
     const register = (firstName,lastName,email,password) =>{
-        axios.post('http://192.168.1.66:3333/auth/signup',{
+        axios.post('http://192.168.1.64:3333/auth/signup',{
             firstName,lastName,email,password
         }).then(res=>{
             let userInfo=res.data
@@ -20,7 +20,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const login =(email,password)=>{
-        axios.post('http://192.168.1.66:3333/auth/signin',{
+        axios.post('http://192.168.1.64:3333/auth/signin',{
         email,password
     }).then(res=>{
             let userInfo=res.data
@@ -34,7 +34,7 @@ export const AuthProvider = ({children}) => {
 
     const getUserData =(userInfo)=>{
 
-        axios.get('http://192.168.1.66:3333/users/me',{
+        axios.get('http://192.168.1.64:3333/users/me',{
             headers:{
                 'Authorization' : `Bearer ${userInfo.access_token}`
             }

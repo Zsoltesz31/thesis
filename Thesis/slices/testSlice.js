@@ -2,23 +2,24 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 
 const initialState={
+    currentAddedTest:null,
     tests:[],
     loading:false,
     error:null
  }
 
 export const getAllTests = createAsyncThunk('test/getAllTests', ()=>{
-    return axios.get('http://192.168.1.66:3333/test').then((response)=>(response.data))
+    return axios.get('http://192.168.1.64:3333/test').then((response)=>(response.data))
 })
 
 
 export const deleteTest = createAsyncThunk('test/deleteTest',(id)=>{
     console.log(id)
-    return axios.delete(`http://192.168.1.66:3333/test/${id}`).then((response)=>response.data)
+    return axios.delete(`http://192.168.1.64:3333/test/${id}`).then((response)=>response.data)
 })
 
 export const createTest = createAsyncThunk('test/createTest',(values)=>{
-    return axios.post('http://192.168.1.66:3333/test',{
+    return axios.post('http://192.168.1.64:3333/test',{
             title:values.title,
             description:values.description,
             ownerId:values.ownerId
@@ -29,7 +30,8 @@ export const createTest = createAsyncThunk('test/createTest',(values)=>{
 })
 
 export const updateTest = createAsyncThunk('test/updateTest',(values)=>{
-   return axios.patch(`http://192.168.1.66:3333/test/${values.testId}`,{
+    console.log(values)
+   return axios.patch(`http://192.168.1.64:3333/test/${values.testId}`,{
             title: values.title,
             description: values.description,
             ownerId:values.ownerId
@@ -72,6 +74,7 @@ const testSlice = createSlice({
         })
         builder.addCase(createTest.fulfilled,(state,action) => {
             state.loading=false
+            state.currentAddedTest=action.payload
             state.error=''
         })
         builder.addCase(createTest.rejected,(state,action) =>{

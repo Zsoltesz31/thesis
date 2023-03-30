@@ -10,12 +10,18 @@ import { createTest,getAllTests,getTestById,updateTest } from '../../../slices/t
 import { AuthContext } from '../../../context/AuthContext'
 
 export default function CreateTestScreen({route,navigation}){
-    const [title,setTitle] = useState('')
-    const [description,setDescription] = useState('')
     const dispatch = useDispatch()
     const {userData} = useContext(AuthContext)
     const editMode = route.params.edit
+    const [title,setTitle] = useState('')
+    const [description,setDescription] = useState('')
 
+    useEffect(()=>{
+        if(editMode){
+            setTitle(route.params.testData.title)
+            setDescription(route.params.testData.description)
+        }
+    },[])
 
     const handleAdd = ()=>{
         let values = {
@@ -25,7 +31,7 @@ export default function CreateTestScreen({route,navigation}){
         }
          dispatch(createTest(values))
         dispatch(getAllTests())
-        navigation.navigate('Tesztek')
+        navigation.navigate('AddQuestionWithAnswer',{FullEditMode:false})
     }
 
     const handleEdit = () =>{
@@ -33,7 +39,7 @@ export default function CreateTestScreen({route,navigation}){
             title:title,
             description:description,
             ownerId:userData.id,
-            testId: route.params.testData.test.id
+            testId: route.params.testData.id
         }
          dispatch(updateTest(values))
         dispatch(getAllTests())
@@ -58,8 +64,6 @@ export default function CreateTestScreen({route,navigation}){
         </SafeAreaView>
     )
     }else if(editMode==true){
-        const [title,setTitle] = useState(route.params.testData.test.title)
-         const [description,setDescription] = useState(route.params.testData.test.description)
         return(
         <SafeAreaView>
             <CustomHeader/>

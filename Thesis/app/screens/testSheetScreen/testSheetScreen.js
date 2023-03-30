@@ -37,7 +37,7 @@ export default function TestSheetScreen({navigation,route}){
             </View>
             <View style={testSheetScreenStyle.testSheetButtons}>
                     <CustomButton buttonName={'Teszt indítása'} onPress={onStartTest}/>
-                    <CustomButton buttonName={'Kérdés hozzáadása'} onPress={()=>(navigation.navigate('AddQuestionWithAnswer',{testId:route.params.testId}))}></CustomButton>
+                    <CustomButton buttonName={'Kérdések módosítása'} onPress={()=>(navigation.navigate('QuestionListScreen',{testname:route.params.testname,testId:route.params.testId}))}></CustomButton>
             </View>
             </View>
             <ConfirmationModal visible={isModalVisible} onClose={modalClose}>

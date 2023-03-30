@@ -14,6 +14,7 @@ import RegisterScreen from '../app/screens/registerScreen/registerScreen';
 import TestEndScreen from '../app/screens/testEndScreen/testEndScreen';
 import CreateTestScreen from '../app/screens/createTestScreen/createTestScreen';
 import AddQuestionWithAnswer from '../app/screens/addQuestionWithAnswer/addQuestionWithAnswer';
+import QuestionListScreen from '../app/screens/questionListScreen/questionListScreen';
 import TestScreen from '../app/screens/testScreen/testScreen';
 import {theme} from '../AppStyle'
 
@@ -52,6 +53,7 @@ export default function Navigations() {
           <Stack.Screen name="AddQuestionWithAnswer" component={AddQuestionWithAnswer} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="TestScreen" component={TestScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CreateTest" component={CreateTestScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="QuestionListScreen" component={QuestionListScreen} options={{headerShown:false}} ></Stack.Screen>
         </Stack.Navigator>
         )}
    

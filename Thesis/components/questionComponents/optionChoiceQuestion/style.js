@@ -26,26 +26,17 @@ export const OptionChoiceQuestionStyle = StyleSheet.create({
         margin:5,
         padding:2
     },
-    answerSelectedContainer:{
-        borderWidth:1,
-        borderColor:'#009AB9',
-        borderRadius:5,
-        backgroundColor:'#009AB9',
-        width:'80%',
-        alignSelf:'center',
-        margin:5,
-        padding:2
-    },
-    answerSelectedTExt:{
-        fontSize:17,
-        fontWeight:'bold',
-        textAlign:'center',
-        color:'white'
-    },
     answerText:{
-        fontSize:17,
+        fontSize:15,
         fontWeight:'bold',
         textAlign:'center',
-        color:'#009AB9'
-    }
+        color:'#009AB9',
+        top:6
+    },
+    radioButtonContainer:{
+        display:'flex',
+        flexDirection:'row',
+        alignSelf:'center'
+    },
+
 })

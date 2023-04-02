@@ -20,7 +20,8 @@ export const createAnswer = createAsyncThunk('answer/createAnswer',(values)=>{
     return axios.post('http://192.168.1.64:3333/answer',{
             questionId:values.questionId,
             text:values.text,
-            correct:values.correct
+            correct:values.correct,
+            point:values.point
            
         }
     ).then((response)=>response.data).catch(e=>{

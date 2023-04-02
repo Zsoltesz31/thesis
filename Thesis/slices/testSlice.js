@@ -4,12 +4,17 @@ import axios from 'axios'
 const initialState={
     currentAddedTest:null,
     tests:[],
+    testById:null,
     loading:false,
     error:null
  }
 
 export const getAllTests = createAsyncThunk('test/getAllTests', ()=>{
     return axios.get('http://192.168.1.64:3333/test').then((response)=>(response.data))
+})
+
+export const getTestById = createAsyncThunk('test/getTestById', (id)=>{
+    return axios.get(`http://192.168.1.64:3333/test/${id}`).then((response)=>(response.data))
 })
 
 
@@ -89,6 +94,18 @@ const testSlice = createSlice({
             state.error=''
         })
         builder.addCase(updateTest.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
+        builder.addCase(getTestById.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(getTestById.fulfilled,(state,action) => {
+            state.loading=false
+            state.testById=action.payload
+            state.error=''
+        })
+        builder.addCase(getTestById.rejected,(state,action) =>{
             state.loading=false
             state.error=action.error.message
         })

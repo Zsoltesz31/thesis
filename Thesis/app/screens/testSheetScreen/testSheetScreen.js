@@ -1,15 +1,21 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Pressable, SafeAreaView,Text,View } from 'react-native'
 import CustomHeader from '../../../components/header/header'
 import { testSheetScreenStyle } from './style'
 import { Ionicons } from '@expo/vector-icons';
 import { CustomButton } from '../../../components/buttons/buttons';
 import { ConfirmationModal } from '../../../components/modals/confirmation_modal';
+import { useDispatch } from 'react-redux';
+import { getTestById } from '../../../slices/testSlice';
 
 
 export default function TestSheetScreen({navigation,route}){
-    console.log(route.params.testId)
     const [isModalVisible,setIsModalVisible] = useState(false)
+    const dispatch = useDispatch()
+    
+    useEffect(()=>{
+        dispatch(getTestById(route.params.testId))
+    },[])
 
     const modalClose = () =>{
         setIsModalVisible(false)
@@ -38,6 +44,7 @@ export default function TestSheetScreen({navigation,route}){
             <View style={testSheetScreenStyle.testSheetButtons}>
                     <CustomButton buttonName={'Teszt indítása'} onPress={onStartTest}/>
                     <CustomButton buttonName={'Kérdések módosítása'} onPress={()=>(navigation.navigate('QuestionListScreen',{testname:route.params.testname,testId:route.params.testId}))}></CustomButton>
+                    <CustomButton buttonName={'Kérdések hozzáadása'} onPress={()=>(navigation.navigate('AddQuestionWithAnswer',{FullEditMode:false,AddNewQuestion:true,TestId:route.params.testId}))}></CustomButton>
             </View>
             </View>
             <ConfirmationModal visible={isModalVisible} onClose={modalClose}>

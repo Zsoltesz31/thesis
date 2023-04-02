@@ -8,7 +8,6 @@ import CourseList from '../../../components/courseList/courseList'
 
 
 export default function CourseScreen({route,navigation}){
-    console.log(route.params.loginType)
     return(
         <SafeAreaView>
            <CustomHeader title={route.params.HeaderText}></CustomHeader>

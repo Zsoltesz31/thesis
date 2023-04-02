@@ -66,23 +66,23 @@ export default function AddQuestionWithAnswer({navigation,route}){
     }
 
     const handleAddQuestion = ()=>{
-        let values = {
-            text:question,
-            type:questionType,
-            testId:currentAddedTest.data.id
-        }
+            let values = {
+                text:question,
+                type:questionType,
+                testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedQuestion.data.id
+            }
         dispatch(createQuestion(values))
         setQuestionCreated(true)
         setChangeHappened(true)
     }
     
 
-    const handleEditQuestion = ()=>{
+    const handleEditQuestion = ()=>{ 
         let values = {
             text:question,
             type:questionType,
             id:currentAddedQuestion.data.id,
-            testId:currentAddedTest.data.id
+            testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedQuestion.data.id
         }
          dispatch(updateQuestion(values))
          setQuestionEditMode(false)
@@ -107,7 +107,8 @@ export default function AddQuestionWithAnswer({navigation,route}){
         let values = {
             text:answer,
             correct:checked,
-            questionId:currentAddedQuestion.data.id
+            questionId:currentAddedQuestion.data.id,
+            point:0
         }
         dispatch(createAnswer(values))
          setQuestionCreated(true)
@@ -179,9 +180,10 @@ return(
             </View>
                 <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
             <CustomButton buttonName={'Következő kérdés'} onPress={()=>resetStatesToAddNewQuestion()}></CustomButton>
+            <CustomButton buttonName={'Befejezés'} onPress={()=>navigation.replace('Tesztek')}></CustomButton>
             </View>
         }
-
+          
     </SafeAreaView>
 )
 }

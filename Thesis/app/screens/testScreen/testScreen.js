@@ -1,26 +1,62 @@
 import React,{useState,useEffect} from 'react'
-import { Pressable, SafeAreaView,Text,View } from 'react-native'
+import { Pressable, SafeAreaView,Text,View,FlatList } from 'react-native'
 import CustomHeader from '../../../components/header/header'
-import { testEndScreenStyle } from './style'
 import { Ionicons } from '@expo/vector-icons';
-import { CustomButton } from '../../../components/buttons/buttons';
 import { ConfirmationModal } from '../../../components/modals/confirmation_modal';
 import { TestScreenStyle } from './style';
 import { LongAnswerQuestion } from '../../../components/questionComponents/longAnswerQuestion/longAnswerQuestion';
 import { OptionChoiceQuestion } from '../../../components/questionComponents/optionChoiceQuestion/optionChoiceQuestion';
 import { MultipleOptionQuestion } from '../../../components/questionComponents/multipleOptionQuestion/multipleOptionQuestion';
 import { ShortAnswerQuestion } from '../../../components/questionComponents/shortAnswerQuestion/shortAnswerQuestion'
+import { useDispatch,useSelector } from 'react-redux';
+import { getQuestionByTestId } from '../../../slices/questionSlice';
+import { getTestById } from '../../../slices/testSlice';
+import { validatePathConfig } from '@react-navigation/native';
+
+
+
 
 
 export default function TestScreen({navigation,route}){
-    const [answers,setAnswers] = useState([])
+    const [Answers,setAnswers] = useState([])
+    const [changeHappened,setChangeHappened] = useState(false)
+    const {questions} = useSelector((state)=>state.question)
+    const {testById} = useSelector((state)=>state.test)
+    const dispatch=useDispatch()
 
-    const getAnwsers = (answer) =>{
-        setAnswers(answer)
-    } 
+
+
     useEffect(()=>{
-        console.log('PARENT:',answers)
-    },[answers])
+        dispatch(getQuestionByTestId(route.params.testId))
+        console.log(testById.data.test.questions)
+        //for (let index = 0; index < testById.data.test.questions.length; index++) {
+           //array.push(testById.data.test.questions[index].answers)
+          // console.log(array)
+      // }
+    },[changeHappened])
+
+
+    const renderItem=({item}) =>{
+        if(item.type=='SIMPLE_ANSWER')
+        return(
+            <ShortAnswerQuestion getAnwsers={getAnwsers} questionText={item.text}></ShortAnswerQuestion>
+        )
+        else if(item.type=='EXPLAIN_ANSWER'){
+        return(
+            <LongAnswerQuestion getAnwsers={getAnwsers} questionText={item.text}></LongAnswerQuestion>
+        )
+        }
+        else if(item.type=='SELECT_ONE'){
+        return(
+            <OptionChoiceQuestion questionId={item.id} questionData={item}></OptionChoiceQuestion>
+        )
+        }
+        else if(item.type=='CHECKBOX'){
+        return(
+            <MultipleOptionQuestion questionId={item.id} getAnwsers={getAnwsers} questionText={item.text}></MultipleOptionQuestion>
+        )
+        }
+    }
 
     return(
         <SafeAreaView style={TestScreenStyle.screenContainer}>
@@ -30,11 +66,13 @@ export default function TestScreen({navigation,route}){
                 <Text style={TestScreenStyle.title}>Teszt kitöltése</Text>
             </View>
             <View style={TestScreenStyle.questionContainer}>
-                <LongAnswerQuestion getAnwsers={getAnwsers}></LongAnswerQuestion>
-                <MultipleOptionQuestion getAnwsers={getAnwsers}></MultipleOptionQuestion>
-                <OptionChoiceQuestion getAnwsers={getAnwsers}></OptionChoiceQuestion>
-                <ShortAnswerQuestion getAnwsers={getAnwsers}></ShortAnswerQuestion>
+                <FlatList
+                data={testById.data.test.questions}
+                renderItem={renderItem}
+                keyExtractor={item=>item.id.toString()}
+                />
             </View>
+            <MultipleOptionQuestion></MultipleOptionQuestion>
         </SafeAreaView>
     )
 }

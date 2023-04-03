@@ -2,84 +2,61 @@ import React, {useState} from 'react'
 import { useEffect } from 'react'
 import {Text,Pressable,View,FlatList} from 'react-native'
 import { MultipleOptionQuestionStyle } from './style'
+import { useDispatch,useSelector } from 'react-redux'
+import { getAnwser } from '../../../slices/answerSlice'
+import { Checkbox } from 'react-native-paper'
 
+// A VÁLASZ OBJECTET MÓDOSÍTJUK LOKÁLISAN MAJD EGY ÚJ MEZŐVEL AMI TÁROLJA HOGY IGAZ VAGY SEM A CHECKBOX STÁTUSZA
 
-const data = [
+const dummyDATA = [
     {
         id:1,
-        answer:'elso valasz'
+        answer:'ASDASD',
+        checked:false
     },
     {
         id:2,
-        answer:'masodik valasz'
-    },
-    {
-        id:3,
-        answer:'harmadik valasz'
-    },
-    {
-        id:4,
-        answer:'negyedik valasz'
-    },
-
+        answer:'ASDASDASDASD',
+        checked:true
+    }
 ]
 
-export const MultipleOptionQuestion=({getAnwsers}) => {
+
+export const MultipleOptionQuestion=({getAnwsers,questionId,questionText}) => {
+    const [checked,setChecked] =useState(dummyDATA)
     const [answer,setAnswer] = useState([])
-    const [clicked,setClicked] = useState(data.map(data=>false))
+    const dispatch=useDispatch()
+    const {answers} =useSelector((state)=>state.answer)
 
 
 
     useEffect(()=>{
-        console.log(clicked)
-        console.log(answer)
-    },[clicked])
+        dispatch(getAnwser(questionId))
+    },[])
 
-    const handleAddAnswer = (answerId,index)=>{
-        handleClicked(index)
-        let foundItem = data.find(element=>element.id==answerId).answer
-        console.log('FOUNDITEM:',foundItem)
-        if(!answer.includes(foundItem))
-        {
-        setAnswer(current => [...current,foundItem])
-        }
-        else if(answer.includes(foundItem)){
-            console.log(answer.includes(foundItem))
-            let array = [...answer]
-            let index = array.indexOf(foundItem)
-            if(index!==-1){
-                array.splice(index,1)
-                setAnswer(array)
-            }
-        }
-        getAnwsers(answer)
+    const toggleCheckbox = (index) => {
 
-    }
+        const checkboxData = [...checked];
+        checkboxData[index].checked = !checkboxData[index].checked;
+        setChecked(checkboxData);
+      }
+
+      const onButtonPress = () => {
+
+        const selectedCheckBoxes = checkboxes.find((cb) => cb.checked === true);
+        // selectedCheckBoxes will have checboxes which are selected to export answers as well
+      }
     
-    const handleClicked = (index)=>{
-        setClicked(prev=>prev.map((element,idx)=>{
-            if(idx===index-1){
-                return !element
-            }
-            return element
-        }))
-    }
 
     const Item = ({item}) => (
-        clicked[item.id-1]  ? (
-        <Pressable onPress={()=>handleAddAnswer(item.id,item.id)}  android_ripple="true">
-        <View style={MultipleOptionQuestionStyle.answerSelectedContainer}>
-        <Text style={MultipleOptionQuestionStyle.answerSelectedTExt}>{item.answer}</Text>
+
+        <Pressable onPress={()=>console.log(checked[item.id-1].checked)}  android_ripple="true">
+        <View style={MultipleOptionQuestionStyle.checkBoxContainer}>
+            <Text style={MultipleOptionQuestionStyle.checkBoxText}>{item.answer}</Text>
+            <Checkbox status={checked[item.id-1].checked ? 'checked' : 'unchecked'} onPress={()=>{toggleCheckbox(item.id-1)}} color={'#009AB9'} uncheckedColor={'#009AB9'}></Checkbox>
         </View>
         </Pressable>
-        ) : (
-        <Pressable onPress={()=>handleAddAnswer(item.id,item.id)} android_ripple="true">
-        <View style={MultipleOptionQuestionStyle.answerContainer}>
-        <Text style={MultipleOptionQuestionStyle.answerText}>{item.answer}</Text>
-        </View>
-        </Pressable>
-        )
-        
+    
         
     )
 
@@ -94,10 +71,10 @@ export const MultipleOptionQuestion=({getAnwsers}) => {
 
     return(
         <View style={MultipleOptionQuestionStyle.questionContainer}>
-            <Text  style={MultipleOptionQuestionStyle.questionTitle}>Kérdés szövege</Text>
+            <Text  style={MultipleOptionQuestionStyle.questionTitle}>KÉRDÉS</Text>
             <FlatList
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={dummyDATA}
             renderItem={renderItem}
             keyExtractor = {item=>item.id.toString()}
             ></FlatList>

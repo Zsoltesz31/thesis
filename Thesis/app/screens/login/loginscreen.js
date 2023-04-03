@@ -73,7 +73,7 @@ export default function LoginScreen({ route,navigation }) {
                         {userNameError}
                     </Text>
                     }
-                    <CustomInput outlineColor={pwOutlineColor} onBlurEvent={()=>validatePassword(password)} label="Jelszó" mode ='outlined' secureTextEntry={true} theme={{roundness:40}} value={password} onChangeTextEvent={text => setPassword(text)}></CustomInput>
+                    <CustomInput secureTextEntry={true} outlineColor={pwOutlineColor} onBlurEvent={()=>validatePassword(password)} label="Jelszó" mode ='outlined' theme={{roundness:40}} value={password} onChangeTextEvent={text => setPassword(text)}></CustomInput>
                     {pswError.length>0 && 
                     <Text>
                     {pswError}

@@ -170,6 +170,7 @@ return(
             <View style={AddQuestionWithAnswerStyle.formContainer}>
             <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés: {question}</Text>
             <CustomButton buttonName={'Módosít'} onPress={()=>handleModifyButtonPress()}></CustomButton>
+            { questionType=='CHECKBOX' || questionType=='SELECT_ONE' &&
             <View>
             <CustomInput label={'Válaszlehetőség'} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
                 <View style={AddQuestionWithAnswerStyle.checkBoxContainer}>
@@ -178,6 +179,7 @@ return(
                 </View>
             <CustomButton buttonName={'Válasz hozzáadása'} onPress={()=>handleAddAnswer()}></CustomButton>
             </View>
+            }
                 <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
             <CustomButton buttonName={'Következő kérdés'} onPress={()=>resetStatesToAddNewQuestion()}></CustomButton>
             <CustomButton buttonName={'Befejezés'} onPress={()=>navigation.replace('Tesztek')}></CustomButton>
@@ -228,6 +230,7 @@ else{
         <CustomButton buttonName={'Kérdés módosítása'} onPress={()=>handleModifyButtonPress()}></CustomButton>
         </>
         }
+        { questionType=='CHECKBOX' || questionType=='SELECT_ONE' &&
         <View> 
         <CustomInput label={'Válaszlehetőség'} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
             <View style={AddQuestionWithAnswerStyle.checkBoxContainer}>
@@ -236,6 +239,7 @@ else{
             </View>
         <CustomButton buttonName={'Válasz hozzáadása'} onPress={()=>handleAddAnswer()}></CustomButton>
         </View>
+        }
             <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
         <CustomButton buttonName={'Módosítás befejezése'} onPress={()=>navigation.replace('QuestionListScreen',{testname:route.params.testName,testId:route.params.testId})}></CustomButton>
         </View>

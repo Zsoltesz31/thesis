@@ -6,10 +6,11 @@ import course from "./slices/courseSlice"
 import test from "./slices/testSlice"
 import question from "./slices/questionSlice"
 import answer from "./slices/answerSlice"
+import upComingTest from "./slices/upcommingTestSlice"
 
 const middleware = [thunk]
 const reducer = combineReducers({
-    course,test,question,answer
+    course,test,question,answer,upComingTest
 })
 
 const store = configureStore({

@@ -21,8 +21,8 @@ export const testSheetScreenStyle = StyleSheet.create({
         top:45,
     },
     testInformations:{
-        marginTop:180,
-        height:270,
+        marginTop:150,
+        height:220,
         width:350,
         elevation:5,
         borderRadius:5,

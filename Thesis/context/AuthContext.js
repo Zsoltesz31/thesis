@@ -8,6 +8,7 @@ export const AuthContext = createContext()
 export const AuthProvider = ({children}) => {
     const [userInfo,setUserInfo] = useState({})
     const [userData,setUserData] = useState({})
+    const [errorMsg,setErrorMsg] = useState('')
 
     const register = (firstName,lastName,email,password) =>{
         axios.post('http://192.168.1.64:3333/auth/signup',{
@@ -28,7 +29,8 @@ export const AuthProvider = ({children}) => {
             AsyncStorage.setItem('userInfo',JSON.stringify(userInfo))
 
         }).catch(e=>{
-            console.log(e)
+            setErrorMsg('Sikertelen bejelentkezés! A jelszó vagy az e-mail cím nem megfelelő!')
+            console.log(errorMsg)
         })
     }
 
@@ -45,7 +47,7 @@ export const AuthProvider = ({children}) => {
             AsyncStorage.setItem('userData',JSON.stringify(userData))
 
         }).catch(e=>{
-            console.log(e)
+     
         })
     }
 
@@ -56,6 +58,6 @@ export const AuthProvider = ({children}) => {
 
 
     return(
-    <AuthContext.Provider value={{login,userInfo,logout,register,getUserData,userData}}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{login,userInfo,logout,register,getUserData,userData,errorMsg}}>{children}</AuthContext.Provider>
     )
 }

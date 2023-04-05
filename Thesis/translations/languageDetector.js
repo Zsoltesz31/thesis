@@ -23,7 +23,7 @@ export const languageDetector = {
     cacheUserLanguage: async function (language) {
         try{
             await AsyncStorage.setItem(STORE_LANGUAGE_KEY,language)
-            console.log(language) 
+           // console.log(language) 
         } catch (error){
             console.log(error)
         }

@@ -6,12 +6,13 @@ import CustomHeader from "../../../components/header/header"
 import CustomFooter from '../../../components/footer/footer';
 import { registerScreenStyle } from "./style";
 import { AuthContext } from '../../../context/AuthContext';
+import { useTranslation } from 'react-i18next'
 
 import { useDispatch } from "react-redux"
 
 export default function RegisterScreen({navigation,route}){
     const {register} = useContext(AuthContext)
-
+    const {t} = useTranslation()
 
     const [outlineColorNames,setoutlineColorNames]=useState('#009AB9')
     const [outlineColorEmail,setoutlineColorEmail]=useState('#009AB9')
@@ -28,7 +29,6 @@ export default function RegisterScreen({navigation,route}){
     const [passwordErrors,setPasswordErrors] = useState('')
     const [registerError,setRegisterError] = useState('')
 
-    //client side validation functions
 
     const validateEmail = (email) =>{
         var re = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
@@ -109,25 +109,25 @@ export default function RegisterScreen({navigation,route}){
     return(
         <SafeAreaView>
             <CustomHeader/>
-                <Text style={registerScreenStyle.screenTitle}>Regisztráció</Text>
+                <Text style={registerScreenStyle.screenTitle}>{t('register')}</Text>
                 <View style={registerScreenStyle.registerFormContainer}>
                     <View style={registerScreenStyle.inputs}>
-                    <Text style={registerScreenStyle.formTitle}>{route.params.loginType=='student'? 'Hallgatóknak' : 'Oktatóknak'}</Text>
-                    <CustomInput label='Vezetéknév'  onChangeTextEvent={text => setFirstName(text)} outlineColor={outlineColorNames} />
-                    <CustomInput label='Keresztnév' onChangeTextEvent={text => setLastName(text)} outlineColor={outlineColorNames} />
+                    <Text style={registerScreenStyle.formTitle}>{route.params.loginType=='student'? t('forStudent') : t('forTeacher')}</Text>
+                    <CustomInput label={t('lastName')}  onChangeTextEvent={text => setFirstName(text)} outlineColor={outlineColorNames} />
+                    <CustomInput label={t('firstName')} onChangeTextEvent={text => setLastName(text)} outlineColor={outlineColorNames} />
                     {nameErrors.length>0 && 
                     <Text>
                         {nameErrors}
                     </Text>
                     }
-                    <CustomInput label='E-mail cím' onChangeTextEvent={text => setEmail(text)} outlineColor={outlineColorEmail}/>
+                    <CustomInput label={t('e_mail')} onChangeTextEvent={text => setEmail(text)} outlineColor={outlineColorEmail}/>
                     {emailErrors.length>0 && 
                     <Text>
                         {emailErrors}
                     </Text>
                     }
-                    <CustomInput label='Jelszó'  onChangeTextEvent={text => setPassword(text)} outlineColor={outlineColorPw}/>
-                    <CustomInput label='Jelszó újra'  onChangeTextEvent={text => setPassword2(text)} outlineColor={outlineColorPw}/>
+                    <CustomInput label={t('password')}  onChangeTextEvent={text => setPassword(text)} outlineColor={outlineColorPw}/>
+                    <CustomInput label={t('passwordRe')}  onChangeTextEvent={text => setPassword2(text)} outlineColor={outlineColorPw}/>
                     {passwordErrors.length>0 && 
                     <Text>
                         {passwordErrors}
@@ -135,13 +135,13 @@ export default function RegisterScreen({navigation,route}){
                     }
                     </View>
                     <View style={registerScreenStyle.buttons}>
-                        <CustomButton buttonName='Regisztráció' onPress={ ()=>{validateAll(firstName,lastName,email,password,password2)}}/>
+                        <CustomButton buttonName={t('register')} onPress={ ()=>{validateAll(firstName,lastName,email,password,password2)}}/>
                             {registerError.length>0 && 
                             <Text>
                                 {registerError}
                             </Text>
                             }
-                        <CustomButton buttonName='Vissza' onPress={()=>navigation.navigate('Login',{loginType:route.params.loginType})}/>
+                        <CustomButton buttonName={t('back')} onPress={()=>navigation.navigate('Login',{loginType:route.params.loginType})}/>
                     </View>
                 </View>
             <CustomFooter/>

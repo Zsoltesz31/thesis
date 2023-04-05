@@ -22,7 +22,7 @@ export default function ProfileScreen({route}){
             title:'Megjelenítés',
             icon: ( <Ionicons name={'color-palette-outline'} size={20} color={"#009AB9"}/> ),
             data : [
-                <CustomSwitch label="Sötét mód" value={isEnabled} onValueChangeEvent={toggleSwitch}></CustomSwitch>
+                <CustomSwitch label={t('darkMode')} value={isEnabled} onValueChangeEvent={toggleSwitch}></CustomSwitch>
             ]
         },
         {
@@ -33,32 +33,8 @@ export default function ProfileScreen({route}){
                 <LanguageSelector/>
             ] 
         },
-    
-        {
-            id:'3',
-            title:'Rólunk',
-            icon: ( <Ionicons name={'information-circle-outline'} size={20} color={"#009AB9"}/> ),
-            data: [
-                'Az alkalmazásról'
-            ]
-        },
-        {
-            id:'4',
-            title:'Értesítések',
-            icon: ( <Ionicons name={'notifications-outline'} size={20} color={"#009AB9"}/> ),
-            data: [
-                'Némítás',
-                'Értesítések kikapcsolása'
-            ]
-        }
     ]
 
-    async function componentDidMount() {
-        await Font.loadAsync({
-          ionicons: Ionicons.font['ionicons'] 
-        });
-        this.setState({ isReady: true });
-      }
 
         const Item = ({item}) => (
         <Pressable android_ripple="true"> 
@@ -89,7 +65,7 @@ export default function ProfileScreen({route}){
             renderItem={renderItem}
             renderSectionHeader={({section:{title,icon}}) =>(
                 <View style={settingsscreenStyle.settingsOptionTitleContainer}>
-                <Text style={settingsscreenStyle.settingsOptionTextTitle}>{title}</Text>
+                <Text style={settingsscreenStyle.settingsOptionTextTitle}>{title=='Megjelenítés' ? t('display') : t('language')}</Text>
                 <View style={settingsscreenStyle.icon}>{icon}</View>
                 </View>
             )}

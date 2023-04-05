@@ -11,22 +11,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { createQuestion,getQuestion,updateQuestion } from '../../../slices/questionSlice'
 import AnswerList from '../../../components/answerList/answerList'
 import { getAnwser,createAnswer } from '../../../slices/answerSlice'
-
-
-const QuestionTypes = [
-    {
-     type:'CHECKBOX'
-    },
-    {
-        type:'SIMPLE_ANSWER'
-    },
-    {
-        type:'EXPLAIN_ANSWER'
-    },
-    {
-        type:'SELECT_ONE'
-    }
-]
+import { useTranslation } from 'react-i18next'
 
 
 export default function AddQuestionWithAnswer({navigation,route}){
@@ -37,14 +22,34 @@ export default function AddQuestionWithAnswer({navigation,route}){
     const [checked,setChecked] =useState(false)
     const [answer,setAnswer] = useState('')
     const [question,setQuestion] = useState('')
-    const [questionType, setQuestionType] = useState(QuestionTypes[3])
     const [editQuestion,setEditQuestion] = useState(false)
     const {currentAddedQuestion} =useSelector((state)=>state.question)
     const {currentAddedTest} = useSelector((state)=>state.test)
     const {answers} =useSelector((state)=>state.answer)
+    const {t} = useTranslation()
+
+    const QuestionTypes = [
+        {
+         type:'CHECKBOX',
+         label:t('checkbox')
+        },
+        {
+            type:'SIMPLE_ANSWER',
+            label:t('simpleAnswer')
+        },
+        {
+            type:'EXPLAIN_ANSWER',
+            label:t('explainAnswer')
+        },
+        {
+            type:'SELECT_ONE',
+            label:t('selectOne')
+        }
+    ]
+    const [questionType, setQuestionType] = useState(QuestionTypes[3].type)
 
     const dispatch = useDispatch()
-
+    console.log(questionType)
     if(route.params.FullEditMode!=true)
     {
     useEffect(()=>{
@@ -139,14 +144,14 @@ return(
         <CustomHeader/>
         <View style={AddQuestionWithAnswerStyle.titleContainer}>
             <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>navigation.navigate('Tesztek')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
-            <Text style={AddQuestionWithAnswerStyle.title1}>Kérdés hozzáadása</Text>
+            <Text style={AddQuestionWithAnswerStyle.title1}>{t('addQuestion')}</Text>
         </View>
         {!questionCreated &&
         <View style={AddQuestionWithAnswerStyle.formContainer}>
-             <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés típusa:</Text>
+             <Text style={AddQuestionWithAnswerStyle.formText}>{t('questionType')}:</Text>
             <Dropdown
                 data={QuestionTypes}
-                labelField='type'
+                labelField='label'
                 valueField='type'
                 value={questionType}
                 placeholder="Válassza ki a kérdés típusát"
@@ -161,28 +166,28 @@ return(
                 itemContainerStyle={{backgroundColor:'#009AB9',left:7}}
                 itemTextStyle={{color:'white',fontWeight:'bold'}}
             />
-                <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés szövege:</Text>
-            <CustomInput label={'Kérdés'} inputValue={question} onChangeTextEvent={text => setQuestion(text)} outlineColor={'#009AB9'}></CustomInput>
+                <Text style={AddQuestionWithAnswerStyle.formText}>{t('questionText')}:</Text>
+            <CustomInput label={t('question')} inputValue={question} onChangeTextEvent={text => setQuestion(text)} outlineColor={'#009AB9'}></CustomInput>
            
-            <CustomButton buttonName={questionEditMode ? 'Módosít' : 'Hozzáad'} onPress={questionEditMode ? ()=>{handleEditQuestion()} : ()=>{handleAddQuestion()}}></CustomButton>
+            <CustomButton buttonName={questionEditMode ? t('modify') : t('add')} onPress={questionEditMode ? ()=>{handleEditQuestion()} : ()=>{handleAddQuestion()}}></CustomButton>
         </View> }
         { questionCreated &&
             <View style={AddQuestionWithAnswerStyle.formContainer}>
-            <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés: {question}</Text>
-            <CustomButton buttonName={'Módosít'} onPress={()=>handleModifyButtonPress()}></CustomButton>
+            <Text style={AddQuestionWithAnswerStyle.formText}>{t('question')}: {question}</Text>
+            <CustomButton buttonName={t('modify')} onPress={()=>handleModifyButtonPress()}></CustomButton>
             { questionType=='CHECKBOX' || questionType=='SELECT_ONE' &&
             <View>
-            <CustomInput label={'Válaszlehetőség'} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
+            <CustomInput label={t('answer')} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
                 <View style={AddQuestionWithAnswerStyle.checkBoxContainer}>
-                    <Text style={AddQuestionWithAnswerStyle.checkBoxText}>Helyes válasz:</Text>
+                    <Text style={AddQuestionWithAnswerStyle.checkBoxText}>{t('correctAnswer')}:</Text>
                     <Checkbox status={checked ? 'checked' : 'unchecked'} onPress={()=>{setChecked(!checked)}} color={'#009AB9'} uncheckedColor={'#009AB9'}></Checkbox>
                 </View>
-            <CustomButton buttonName={'Válasz hozzáadása'} onPress={()=>handleAddAnswer()}></CustomButton>
+            <CustomButton buttonName={t('addAnswer')} onPress={()=>handleAddAnswer()}></CustomButton>
             </View>
             }
                 <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
-            <CustomButton buttonName={'Következő kérdés'} onPress={()=>resetStatesToAddNewQuestion()}></CustomButton>
-            <CustomButton buttonName={'Befejezés'} onPress={()=>navigation.replace('Tesztek')}></CustomButton>
+            <CustomButton buttonName={t('nextQuestion')} onPress={()=>resetStatesToAddNewQuestion()}></CustomButton>
+            <CustomButton buttonName={t('end')} onPress={()=>navigation.replace('Tesztek',{testListMode:'Tests'})}></CustomButton>
             </View>
         }
           
@@ -195,11 +200,11 @@ else{
         <CustomHeader/>
         <View style={AddQuestionWithAnswerStyle.titleContainer}>
             <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>navigation.navigate('Tesztek')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
-            <Text style={AddQuestionWithAnswerStyle.title1}>Kérdés módosítása</Text>
+            <Text style={AddQuestionWithAnswerStyle.title1}>{t('modifyQuestion')}</Text>
         </View>
         {editQuestion &&
         <View style={AddQuestionWithAnswerStyle.formContainer}>
-             <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés típusa:</Text>
+             <Text style={AddQuestionWithAnswerStyle.formText}>{t('questionType')}:</Text>
             <Dropdown
                 data={QuestionTypes}
                 labelField='type'
@@ -218,30 +223,30 @@ else{
                 itemTextStyle={{color:'white',fontWeight:'bold'}}
             />
                 <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés szövege:</Text>
-            <CustomInput label={'Kérdés'} inputValue={question} onChangeTextEvent={text => setQuestion(text)} outlineColor={'#009AB9'}></CustomInput>
+            <CustomInput label={t('question')} inputValue={question} onChangeTextEvent={text => setQuestion(text)} outlineColor={'#009AB9'}></CustomInput>
            
-            <CustomButton buttonName={'Módosít'} onPress={ ()=>{handleEditQuestionFromQuestList()} }></CustomButton>
+            <CustomButton buttonName={t('modify')} onPress={ ()=>{handleEditQuestionFromQuestList()} }></CustomButton>
         </View> }
         
         <View style={AddQuestionWithAnswerStyle.formContainer}>
         {!editQuestion &&
         <>
         <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés: {route.params.qestionText}</Text>
-        <CustomButton buttonName={'Kérdés módosítása'} onPress={()=>handleModifyButtonPress()}></CustomButton>
+        <CustomButton buttonName={t('modifyQuestion')} onPress={()=>handleModifyButtonPress()}></CustomButton>
         </>
         }
         { questionType=='CHECKBOX' || questionType=='SELECT_ONE' &&
         <View> 
-        <CustomInput label={'Válaszlehetőség'} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
+        <CustomInput label={t('answer')} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
             <View style={AddQuestionWithAnswerStyle.checkBoxContainer}>
                 <Text style={AddQuestionWithAnswerStyle.checkBoxText}>Helyes válasz:</Text>
                 <Checkbox status={checked ? 'checked' : 'unchecked'} onPress={()=>{setChecked(!checked)}} color={'#009AB9'} uncheckedColor={'#009AB9'}></Checkbox>
             </View>
-        <CustomButton buttonName={'Válasz hozzáadása'} onPress={()=>handleAddAnswer()}></CustomButton>
+        <CustomButton buttonName={t('addAnswer')} onPress={()=>handleAddAnswer()}></CustomButton>
         </View>
         }
             <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
-        <CustomButton buttonName={'Módosítás befejezése'} onPress={()=>navigation.replace('QuestionListScreen',{testname:route.params.testName,testId:route.params.testId})}></CustomButton>
+        <CustomButton buttonName={t('modifyEnd')} onPress={()=>navigation.replace('QuestionListScreen',{testname:route.params.testName,testId:route.params.testId})}></CustomButton>
         </View>
         </SafeAreaView>
     )

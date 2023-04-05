@@ -6,6 +6,7 @@ import Images from '../../../images/index';
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
 import {theme} from '../../../AppStyle'
+import { useTranslation } from 'react-i18next'
 import { useDispatch,useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import CustomHeader from '../../../components/header/header';
@@ -15,8 +16,8 @@ import { AuthContext } from '../../../context/AuthContext';
 
 export default function LoginScreen({ route,navigation }) {
     const dispatch = useDispatch()
-    const {login} =useContext(AuthContext)
-
+    const {login,errorMsg} =useContext(AuthContext)
+    const {t} = useTranslation() 
     const [outlineColor,setOutlineColor]=useState('#009AB9')
     const [pwOutlineColor,setPwOutlineColor]=useState('#009AB9')
     const [userNameError,setUserNameError] = useState('')
@@ -30,7 +31,7 @@ export default function LoginScreen({ route,navigation }) {
     const validateNk = (username) =>{
         if(username==''){
             return (
-                setUserNameError('A Neptun kód mező nem lehet üresen!'),
+                setUserNameError('Az e-mail cím mező nem lehet üresen!'),
                 setOutlineColor('red'),
                 setDisableStatus(true)
                 )
@@ -66,28 +67,25 @@ export default function LoginScreen({ route,navigation }) {
         <SafeAreaView style={loginScreenStyle.content} theme={theme}>
             <CustomHeader></CustomHeader>
            <View style={loginScreenStyle.view}>
-                    <Text style={loginScreenStyle.title}>Bejelentkezés {route.params.loginType=='student'? 'hallgatóknak' : 'oktatóknak'}</Text>
-                    <CustomInput outlineColor={outlineColor} onBlurEvent={()=>validateNk(username)} label="Neptun kód" mode='outlined' theme={{roundness:40}} value={username} onChangeTextEvent={text => setUsername(text)}></CustomInput>
+                    <Text style={loginScreenStyle.title}>{t('login')} {route.params.loginType=='student'? t('forStudent') : t('forTeacher')}</Text>
+                    <CustomInput outlineColor={outlineColor} onBlurEvent={()=>validateNk(username)} label={t('e_mail')} mode='outlined' theme={{roundness:40}} value={username} onChangeTextEvent={text => setUsername(text)}></CustomInput>
                     {userNameError.length>0 && 
-                    <Text>
+                    <Text style={{color:'red'}}>
                         {userNameError}
                     </Text>
                     }
-                    <CustomInput secureTextEntry={true} outlineColor={pwOutlineColor} onBlurEvent={()=>validatePassword(password)} label="Jelszó" mode ='outlined' theme={{roundness:40}} value={password} onChangeTextEvent={text => setPassword(text)}></CustomInput>
+                    <CustomInput secureTextEntry={true} outlineColor={pwOutlineColor} onBlurEvent={()=>validatePassword(password)} label={t('password')} mode ='outlined' theme={{roundness:40}} value={password} onChangeTextEvent={text => setPassword(text)}></CustomInput>
                     {pswError.length>0 && 
-                    <Text>
+                    <Text style={{color:'red'}}>
                     {pswError}
                     </Text>
                     }
-                    <Pressable onPress={()=>navigation.navigate('ForgotPassword',{loginType:route.params.loginType})}><Button uppercase={false}>Elfelejtett jelszó</Button></Pressable>
-                    <CustomButton disabledStatus={disableStatus} buttonName='Bejelentkezés' onPress={()=>{login(username,password)}}></CustomButton>
-                    {loginError.length>0 && 
+                    <CustomButton disabledStatus={disableStatus} buttonName={t('login')} onPress={()=>{login(username,password)}}></CustomButton>
                     <Text style={{color:'red'}}>
-                    {loginError}
+                    {errorMsg}
                     </Text>
-                    }
-                    <CustomButton buttonName='Regisztráció' onPress={()=>navigation.navigate('Register',{loginType:route.params.loginType})}></CustomButton>
-                    <CustomButton buttonName='Vissza' onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
+                    <CustomButton buttonName={t('register')} onPress={()=>navigation.navigate('Register',{loginType:route.params.loginType})}></CustomButton>
+                    <CustomButton buttonName={t('back')} onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
   
             </View>
             <CustomFooter></CustomFooter>

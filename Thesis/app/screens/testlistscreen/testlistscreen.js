@@ -8,9 +8,11 @@ import {useSelector,useDispatch} from 'react-redux'
 import { getAllTests } from '../../../slices/testSlice'
 import { getUpcomingTestByUserId } from '../../../slices/upcommingTestSlice'
 import TestList from '../../../components/testList/testList'
+import { useTranslation } from 'react-i18next'
 
 
 export default function TestListScreen({navigation,route}){
+    const {t} = useTranslation()
     const dispatch = useDispatch()
     const {tests} =useSelector((state)=>state.test)
     const {upComingTests} =useSelector((state)=>state.upComingTest)
@@ -38,11 +40,11 @@ export default function TestListScreen({navigation,route}){
             <CustomHeader/>
             <View style={testListScreenStyle.titleContainer}>
                 <Pressable style={testListScreenStyle.icon} onPress={()=>navigation.navigate('Kurzusaid')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
-                <Text style={testListScreenStyle.title}>Tesztek</Text>
+                <Text style={testListScreenStyle.title}>{t('tests')}</Text>
             </View>
             <View style={testListScreenStyle.listContainer}>
             <TestList changeListener={changeTracker} data={route.params.testListMode=='Tests'? tests : upComingTests} navigation={navigation} listType={route.params.testListMode}></TestList>
-            <CustomButton buttonName={'Teszt létrehozása'} onPress={()=>navigation.navigate('CreateTest',{edit:false,testData:{title:'',description:''}})}></CustomButton>
+            <CustomButton buttonName={t('createTest')} onPress={()=>navigation.navigate('CreateTest',{edit:false,testData:{title:'',description:''}})}></CustomButton>
             </View>
         </SafeAreaView>
     )

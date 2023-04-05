@@ -11,7 +11,7 @@ export default function LanguageSelector(){
     ]
 
 
-    const {i18n} = useTranslation()
+    const {t,i18n} = useTranslation()
     const selectedLanguageCode = i18n.language
     console.log(i18n.language)
     const setLanguage = (code) =>{
@@ -27,7 +27,7 @@ return(
     labelField='label'
     valueField="code"
     value={(LANGUAGES.find(element=>element.code===selectedLanguageCode))}
-    placeholder="Válassza ki az alkalmazás nyelvét"
+    placeholder={t('')}
     selectedTextStyle={{color:'white',fontWeight:'bold'}}
     onChange = {item=>{ setLanguage(item.code)
     }}

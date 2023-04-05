@@ -9,6 +9,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { getTestById } from '../../../slices/testSlice';
 import { addTestToUpcomingTests } from '../../../slices/upcommingTestSlice';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useTranslation } from 'react-i18next'
 
 
 
@@ -22,9 +23,10 @@ export default function TestSheetScreen({navigation,route}){
     const [lastStartDate,setLastStartDate] = useState(null)
     const dispatch = useDispatch()
     const {testById} = useSelector((state)=>state.test)
+    const {t} = useTranslation()
     
     useEffect(()=>{
-        //dispatch(getTestById(route.params.testId))
+        dispatch(getTestById(route.params.testId))
     },[])
 
     const onChange = (event, selectedDate) => {
@@ -81,18 +83,18 @@ export default function TestSheetScreen({navigation,route}){
             )}
             <View style={testSheetScreenStyle.screenContent}>
             <View style={testSheetScreenStyle.informationTitleContainer}>
-                <Text style={testSheetScreenStyle.informationTitle}>Teszt információk</Text>
+                <Text style={testSheetScreenStyle.informationTitle}>{t('testInformation')}</Text>
             </View>
             <View style={testSheetScreenStyle.testInformations}>
-                <Text style={testSheetScreenStyle.informationText}>Rendelkezésre álló idő: </Text>
-                <Text style={testSheetScreenStyle.informationText}>Kérdések száma: </Text>
-                <Text style={testSheetScreenStyle.informationText}>Próbálkozások száma: 1</Text>
+                <Text style={testSheetScreenStyle.informationText}>{t('timeAvailable')}: 60 {t('min')}</Text>
+                <Text style={testSheetScreenStyle.informationText}>{t('questionNumber')}:</Text>
+                <Text style={testSheetScreenStyle.informationText}>{t('numberOfAttempts')}: 1</Text>
             </View>
             <View style={testSheetScreenStyle.testSheetButtons}>
-                    <CustomButton buttonName={'Teszt indítása'} onPress={onStartTest}/>
-                    <CustomButton buttonName={'Kérdések módosítása'} onPress={()=>(navigation.navigate('QuestionListScreen',{testname:route.params.testname,testId:route.params.testId}))}></CustomButton>
-                    <CustomButton buttonName={'Kérdés hozzáadása'} onPress={()=>(navigation.navigate('AddQuestionWithAnswer',{FullEditMode:false,AddNewQuestion:true,TestId:route.params.testId}))}></CustomButton>
-                    <CustomButton buttonName={'Teszt kiadása'} onPress={()=>setIsDateModalVisible(true)}></CustomButton>
+                    <CustomButton buttonName={t('startTest')} onPress={onStartTest}/>
+                    <CustomButton buttonName={t('modifyQuestions')} onPress={()=>(navigation.navigate('QuestionListScreen',{testname:route.params.testname,testId:route.params.testId}))}></CustomButton>
+                    <CustomButton buttonName={t('addQuestion')} onPress={()=>(navigation.navigate('AddQuestionWithAnswer',{FullEditMode:false,AddNewQuestion:true,TestId:route.params.testId}))}></CustomButton>
+                    <CustomButton buttonName={t('publishTest')} onPress={()=>setIsDateModalVisible(true)}></CustomButton>
             </View>
             </View>
             <ConfirmationModal visible={isModalVisible} onClose={modalClose}>
@@ -105,10 +107,10 @@ export default function TestSheetScreen({navigation,route}){
             </ConfirmationModal>
             <ConfirmationModal visible={isDateModalVisible} onClose={DatemodalClose}>
                 <View style={testSheetScreenStyle.modalContent}>
-                <Text style={testSheetScreenStyle.modalTitle}>Állítsa be a teszt kezdésének időpontját!</Text>
-                <CustomButton buttonName={'Dátum beállítása'} onPress={()=>showMode('date')}></CustomButton>
-                <CustomButton buttonName={'Pontos idő beállítása'} onPress={()=>showMode('time')}></CustomButton>
-                <CustomButton buttonName={'Kiadás'} onPress={()=>handleAddTestToUpcommingTests()}></CustomButton>
+                <Text style={testSheetScreenStyle.modalTitle}>{t('dateModalText')}</Text>
+                <CustomButton buttonName={t('setDate')} onPress={()=>showMode('date')}></CustomButton>
+                <CustomButton buttonName={t('setTime')} onPress={()=>showMode('time')}></CustomButton>
+                <CustomButton buttonName={t('publish')} onPress={()=>handleAddTestToUpcommingTests()}></CustomButton>
                 </View>
             </ConfirmationModal>
         </SafeAreaView>

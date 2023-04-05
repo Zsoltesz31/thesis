@@ -22,10 +22,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../context/AuthContext';
 
 const loginscreenName= 'Kijelentkezés'
-const mainscreenName ='Főoldal'
+const mainscreenName = 'Főoldal'
 const profilescreenName ='Profil'
 const coursescreenName ='Kurzusok'
 const settingsscreenName ='Beállítások'
@@ -34,9 +35,15 @@ const settingsscreenName ='Beállítások'
 export default function Navigations() {
     const {userInfo,logout,getUserData} = useContext(AuthContext)
     const dispatch = useDispatch()
-
+    const {t} = useTranslation()
     const Stack = createNativeStackNavigator();
     const BottomTabs = createBottomTabNavigator(); 
+
+    let loginscreenName= t('logout')
+    let mainscreenName = t('home')
+    let profilescreenName =t('profile')
+    let coursescreenName =t('courses')
+    let settingsscreenName =t('settings')
 
     useEffect(()=>{
       getUserData(userInfo)
@@ -89,18 +96,17 @@ export default function Navigations() {
                     tabBarIcon:({focused,size}) =>{
                         let iconName
                         let routeName = route.name
-      
-                        if(routeName === mainscreenName){
+                        if(routeName == mainscreenName){
                             iconName = focused ? 'home' : 'home-outline'
-                        } else if(routeName === loginscreenName){
+                        } else if(routeName == loginscreenName ){
                             iconName = focused ? 'log-in' : 'log-in-outline'
-                        } else if(routeName===profilescreenName){
+                        } else if(routeName==profilescreenName){
                             iconName = focused ? 'person' : 'person-outline'
                         }
-                        else if(routeName===coursescreenName){
+                        else if(routeName==coursescreenName){
                           iconName = focused ? 'book' : 'book-outline'
                         }
-                        else if(routeName===settingsscreenName){
+                        else if(routeName==settingsscreenName){
                           iconName = focused ? 'settings' : 'settings-outline'
                         }
       

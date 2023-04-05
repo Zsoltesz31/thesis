@@ -10,7 +10,7 @@ export const testListScreenStyle = StyleSheet.create({
         textAlign:'center',
         fontWeight:'bold',
         fontSize:25,
-        right:Dimensions.get('window').width/2
+        right:Dimensions.get('window').width/2-25,
     },
     titleContainer:{
         display:'flex',
@@ -22,5 +22,9 @@ export const testListScreenStyle = StyleSheet.create({
     },
     createButton:{
         top:0
+    },
+    Homeicon:{
+        right:10,
+
     }
 })

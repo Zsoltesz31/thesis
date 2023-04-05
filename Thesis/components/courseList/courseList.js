@@ -6,16 +6,6 @@ import { useSelector,useDispatch } from 'react-redux'
 import { fetchPosts } from '../../slices/courseSlice';
 
 
-
-const Item = ({item}) => (
-    <Pressable onPress={()=>console.log('helo')} android_ripple="true"> 
-    <View style={courseListStyle.listitem}>
-    <Text style={courseListStyle.listItemHeader}>{item.title}</Text> 
-    <Ionicons  name={'book-outline'} size={30} color={"white"}/>
-    </View>
-    </Pressable>
-)
-
 const data = [
     {
         id:1,
@@ -34,13 +24,21 @@ const data = [
 
 
 
-export default function courseList(){
+export default function courseList({navigation}){
     const dispatch = useDispatch()
     const {posts,isLoading} = useSelector(store=>store.course)
 
+    const Item = ({item}) => (
+        <Pressable onPress={()=>navigation.navigate('Tesztek',{testListMode:'Tests'})} android_ripple="true"> 
+        <View style={courseListStyle.listitem}>
+        <Text style={courseListStyle.listItemHeader}>{item.title}</Text> 
+        <Ionicons  name={'book-outline'} size={30} color={"white"}/>
+        </View>
+        </Pressable>
+    )
+
     useEffect(()=>{
         dispatch(fetchPosts())
-        console.log('asd')
     },[])
     
     const renderItem=({item}) =>{

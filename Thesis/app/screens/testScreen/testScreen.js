@@ -18,21 +18,28 @@ import { validatePathConfig } from '@react-navigation/native';
 
 
 export default function TestScreen({navigation,route}){
-    const [Answers,setAnswers] = useState([])
+    const [collectedAnswers,setCollectedAnswers] = useState([])
     const [changeHappened,setChangeHappened] = useState(false)
-    const {questions} = useSelector((state)=>state.question)
     const {testById} = useSelector((state)=>state.test)
     const dispatch=useDispatch()
 
-
+    const handleCollectAnswers = (answer) =>{
+        setCollectedAnswers([
+            ...collectedAnswers,
+            {answer}
+        ])
+        if(answer!=[]){
+        if(!answer.some((a)=>answer===a.answer)){
+        setCollectedAnswers([
+            ...collectedAnswers,
+            {answer}
+        ])
+        }
+    }
+    }
 
     useEffect(()=>{
-        dispatch(getQuestionByTestId(route.params.testId))
-        console.log(testById.data.test.questions)
-        //for (let index = 0; index < testById.data.test.questions.length; index++) {
-           //array.push(testById.data.test.questions[index].answers)
-          // console.log(array)
-      // }
+        console.log(collectedAnswers)
     },[changeHappened])
 
 
@@ -48,7 +55,7 @@ export default function TestScreen({navigation,route}){
         }
         else if(item.type=='SELECT_ONE'){
         return(
-            <OptionChoiceQuestion questionId={item.id} questionData={item}></OptionChoiceQuestion>
+            <OptionChoiceQuestion questionId={item.id} questionData={item} ></OptionChoiceQuestion>
         )
         }
         else if(item.type=='CHECKBOX'){

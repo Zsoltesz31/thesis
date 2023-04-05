@@ -41,82 +41,9 @@ const DATA = [
    
   ];
 
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: false,
-        shouldSetBadge: false
-    })
-})
-
-async function pushNotification(pushtoken) {
-    const message = {
-        to: pushtoken,
-        sound: 'default',
-        title:'A title',
-        body: 'A body',
-        data: {someData: "data"}
-    }
-
-}
-
-async function registerForNotificationAsync() {
-    let token
-    if(Device.isDevice) {
-        const {status: existingStatus} = await Notifications.getPermissionsAsync()
-        let finalStatus = existingStatus
-        if(existingStatus!=='granted'){
-            const {status} = await Notifications.requestPermissionsAsync()
-            finalStatus=status
-        }
-        if(finalStatus !=='granted'){
-            alert('Failed to get push token')
-            return
-        }
-        token = (await Notifications.getExpoPushTokenAsync)
-        console.log(token)  
-    }
-    else {
-        alert('Must use physical device')
-    }
-    if(Platform.OS ==='android'){
-        Notifications.setNotificationChannelAsync('default',{
-            name:'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0,250,250,250],
-            lightColor:'#FF231F7C'
-        })
-    }
-    return token
-}
-
 export default function MainScreen({route}){
-    const [visible,setVisible] = useState(false)
-    const [expoPushToken, setExpoPushToken] = useState('')
-    const [notification, setNotification] = useState(false)
-    const notificationListener = useRef()
-    const responseListener = useRef()
     const {userData} = useContext(AuthContext)
 
-useEffect(()=>{
-    registerForNotificationAsync().then(token =>setExpoPushToken(token))
-
-    notificationListener.current=Notifications.addNotificationReceivedListener(notification =>{
-        setNotification(notification)
-    })
-    responseListener.current=Notifications.addNotificationResponseReceivedListener(response=>{
-        console.log(response)
-    })
-    return()=>{
-        Notifications.removeNotificationSubscription(notificationListener.current)
-        Notifications.removeNotificationSubscription(responseListener.current)
-    }
-})
-
-
-const openModal=() => {
-    setVisible(true)
-}
 
     return(
         <SafeAreaView style={mainScreenStyle.container}>

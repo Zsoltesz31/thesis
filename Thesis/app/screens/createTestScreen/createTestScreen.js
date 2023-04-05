@@ -8,6 +8,7 @@ import { CreateTestScreenStyle } from './style'
 import { Ionicons } from '@expo/vector-icons';
 import { createTest,getAllTests,getTestById,updateTest } from '../../../slices/testSlice'
 import { AuthContext } from '../../../context/AuthContext'
+import { useTranslation } from 'react-i18next'
 
 export default function CreateTestScreen({route,navigation}){
     const dispatch = useDispatch()
@@ -15,6 +16,7 @@ export default function CreateTestScreen({route,navigation}){
     const editMode = route.params.edit
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
+    const {t} = useTranslation()
 
     useEffect(()=>{
         if(editMode){
@@ -53,13 +55,13 @@ export default function CreateTestScreen({route,navigation}){
             <CustomHeader/>
             <View style={CreateTestScreenStyle.titleContainer}>
                 <Pressable style={CreateTestScreenStyle.icon} onPress={()=>navigation.navigate('Kurzusaid')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
-                <Text style={CreateTestScreenStyle.title1}>Teszt létrehozása</Text>
+                <Text style={CreateTestScreenStyle.title1}>{t('createTest')}</Text>
             </View>
             <View style={CreateTestScreenStyle.formContainer}>
-                <Text style={CreateTestScreenStyle.formTitle}>Teszt adatai</Text>
-                <CustomInput label={'Teszt neve'} onChangeTextEvent={text => setTitle(text)} outlineColor={'#009AB9'}></CustomInput>
-                <CustomInput label={'Teszt leírása'} onChangeTextEvent={text => setDescription(text)} outlineColor={'#009AB9'}></CustomInput>
-                <CustomButton buttonName={'Létrehoz'} onPress={()=>handleAdd()}></CustomButton>
+                <Text style={CreateTestScreenStyle.formTitle}>{t('testData')}</Text>
+                <CustomInput label={t('testName')} onChangeTextEvent={text => setTitle(text)} outlineColor={'#009AB9'}></CustomInput>
+                <CustomInput label={t('testDesc')} onChangeTextEvent={text => setDescription(text)} outlineColor={'#009AB9'}></CustomInput>
+                <CustomButton buttonName={t('create')} onPress={()=>handleAdd()}></CustomButton>
             </View>
         </SafeAreaView>
     )
@@ -69,13 +71,13 @@ export default function CreateTestScreen({route,navigation}){
             <CustomHeader/>
             <View style={CreateTestScreenStyle.titleContainer}>
                 <Pressable style={CreateTestScreenStyle.icon} onPress={()=>navigation.navigate('Kurzusaid')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
-                <Text style={CreateTestScreenStyle.title1}>Teszt módosítása</Text>
+                <Text style={CreateTestScreenStyle.title1}>{t('modifyTest')}</Text>
             </View>
             <View style={CreateTestScreenStyle.formContainer}>
-                <Text style={CreateTestScreenStyle.formTitle}>Teszt adatai</Text>
-                <CustomInput inputValue={title} label={'Teszt neve'} onChangeTextEvent={text => setTitle(text)} outlineColor={'#009AB9'}></CustomInput>
-                <CustomInput inputValue={description} label={'Teszt leírása'} onChangeTextEvent={text => setDescription(text)} outlineColor={'#009AB9'}></CustomInput>
-                <CustomButton buttonName={'Módosít'} onPress={()=>handleEdit()}></CustomButton>
+                <Text style={CreateTestScreenStyle.formTitle}>{t('testData')}</Text>
+                <CustomInput inputValue={title} label={t('testName')} onChangeTextEvent={text => setTitle(text)} outlineColor={'#009AB9'}></CustomInput>
+                <CustomInput inputValue={description} label={t('testDesc')} onChangeTextEvent={text => setDescription(text)} outlineColor={'#009AB9'}></CustomInput>
+                <CustomButton buttonName={t('modify')} onPress={()=>handleEdit()}></CustomButton>
             </View>
         </SafeAreaView>
         )

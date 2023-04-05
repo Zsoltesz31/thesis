@@ -48,7 +48,7 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
     }
 
     const Item = ({item}) => (
-        <Pressable onPress={()=>{navigation.navigate('TestSheet',{testname:item.title,testId:item.id}),handleDispatch(item.id)}} android_ripple="true">
+        <Pressable onPress={()=>{navigation.navigate('TestSheet',{testname:item.title,testId:item.id})}} android_ripple="true">
         <View style={testListStyle.listitem}>
         <Text style={testListStyle.listItemHeader}>{item.title}</Text>
         <View style={testListStyle.listCrudButtons}>

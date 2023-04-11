@@ -65,6 +65,10 @@ const hu ={
     nextQuestion:'Következő kérdés',
     end:'Befejezés',
     modifyQuestion:'Kérdés módosítása',
-    modifyEnd:'Módosítás befejezése'
+    modifyEnd:'Módosítás befejezése',
+    createCourse:'Kurzus létrehozása',
+    courseData:'Kurzus adatok',
+    courseName:'Kurzus neve',
+    courseDesc:'Kurzus leírása'
 }
 export {hu}

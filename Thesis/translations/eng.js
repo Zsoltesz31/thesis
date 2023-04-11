@@ -65,6 +65,10 @@ const eng = {
     nextQuestion:'Next question',
     end:'End',
     modifyQuestion:'Modify question',
-    modifyEnd:'Modify end'
+    modifyEnd:'Modify end',
+    createCourse:'Create course',
+    courseData:'Course data',
+    courseName:'Course name',
+    courseDesc:'Course description'
 }
 export {eng}

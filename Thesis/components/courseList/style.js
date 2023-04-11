@@ -6,6 +6,7 @@ export const courseListStyle = StyleSheet.create({
         width:'100%',
         display:'flex',
         marginBottom:600,
+        height:400
     },
     listTitle:{
         color:'#009AB9',

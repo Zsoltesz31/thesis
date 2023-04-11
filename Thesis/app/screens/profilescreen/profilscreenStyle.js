@@ -10,22 +10,18 @@ export const profilescreenStyle = StyleSheet.create({
     },
     container:{
         marginTop:160,
-        width:"70%",
-        marginBottom:50,
-        borderColor:"#009AB9",
-        borderWidth:4,
-        borderRadius:25,
-        elevation:20
     },
     Text:{
-        fontWeight:"bold"
+        fontWeight:"bold",
+        marginRight:0,
+        color:"#009AB9",
+        fontSize:20,
+        padding:10,
+        textAlign:'left'
     },
     image:{
+        top:170,
         alignSelf:"center",
         marginBottom:50,
-
     },
-    button:{
-
-    }
 })

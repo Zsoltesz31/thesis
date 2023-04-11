@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import { Pressable, SafeAreaView,Text,View } from 'react-native'
 import CustomHeader from '../../../components/header/header'
 import { CustomButton } from '../../../components/buttons/buttons'
@@ -9,6 +9,7 @@ import { getAllTests } from '../../../slices/testSlice'
 import { getUpcomingTestByUserId } from '../../../slices/upcommingTestSlice'
 import TestList from '../../../components/testList/testList'
 import { useTranslation } from 'react-i18next'
+import { AuthContext } from '../../../context/AuthContext'
 
 
 export default function TestListScreen({navigation,route}){
@@ -17,6 +18,7 @@ export default function TestListScreen({navigation,route}){
     const {tests} =useSelector((state)=>state.test)
     const {upComingTests} =useSelector((state)=>state.upComingTest)
     const [changeHappened,setChangeHappened] = useState(false)
+    const {userData} = useContext(AuthContext)
 
     useEffect(()=>{
         if(route.params.testListMode=='Tests'){
@@ -44,7 +46,9 @@ export default function TestListScreen({navigation,route}){
             </View>
             <View style={testListScreenStyle.listContainer}>
             <TestList changeListener={changeTracker} data={route.params.testListMode=='Tests'? tests : upComingTests} navigation={navigation} listType={route.params.testListMode}></TestList>
+            { userData.role=='TEACHER' &&
             <CustomButton buttonName={t('createTest')} onPress={()=>navigation.navigate('CreateTest',{edit:false,testData:{title:'',description:''}})}></CustomButton>
+            }
             </View>
         </SafeAreaView>
     )

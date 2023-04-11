@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useContext } from 'react'
 import {View,Text,SafeAreaView,FlatList,Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import {courseListStyle} from'./style'
 import { useSelector,useDispatch } from 'react-redux'
 import { fetchPosts } from '../../slices/courseSlice';
+import { AuthContext } from '../../context/AuthContext';
 
 
 const data = [
@@ -27,9 +28,9 @@ const data = [
 export default function courseList({navigation}){
     const dispatch = useDispatch()
     const {posts,isLoading} = useSelector(store=>store.course)
-
+    const {userData} = useContext(AuthContext)
     const Item = ({item}) => (
-        <Pressable onPress={()=>navigation.navigate('Tesztek',{testListMode:'Tests'})} android_ripple="true"> 
+        <Pressable onPress={()=>navigation.navigate('Tesztek',{testListMode:userData.role=='TEACHER' ? 'Tests' : 'upComingTests'})} android_ripple="true"> 
         <View style={courseListStyle.listitem}>
         <Text style={courseListStyle.listItemHeader}>{item.title}</Text> 
         <Ionicons  name={'book-outline'} size={30} color={"white"}/>

@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState,useContext} from 'react'
 import { Pressable, SafeAreaView,Text,View } from 'react-native'
 import CustomHeader from '../../../components/header/header'
 import { testSheetScreenStyle } from './style'
@@ -10,7 +10,7 @@ import { getTestById } from '../../../slices/testSlice';
 import { addTestToUpcomingTests } from '../../../slices/upcommingTestSlice';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTranslation } from 'react-i18next'
-
+import { AuthContext } from '../../../context/AuthContext';
 
 
 export default function TestSheetScreen({navigation,route}){
@@ -22,6 +22,8 @@ export default function TestSheetScreen({navigation,route}){
     const [startDate,setStartDate] = useState(new Date())
     const [lastStartDate,setLastStartDate] = useState(null)
     const dispatch = useDispatch()
+    const {userData} = useContext(AuthContext)
+
     const {testById} = useSelector((state)=>state.test)
     const {t} = useTranslation()
     
@@ -92,9 +94,15 @@ export default function TestSheetScreen({navigation,route}){
             </View>
             <View style={testSheetScreenStyle.testSheetButtons}>
                     <CustomButton buttonName={t('startTest')} onPress={onStartTest}/>
+                    {userData.role=='TEACHER' &&
                     <CustomButton buttonName={t('modifyQuestions')} onPress={()=>(navigation.navigate('QuestionListScreen',{testname:route.params.testname,testId:route.params.testId}))}></CustomButton>
+                    }
+                    {userData.role=='TEACHER' &&
                     <CustomButton buttonName={t('addQuestion')} onPress={()=>(navigation.navigate('AddQuestionWithAnswer',{FullEditMode:false,AddNewQuestion:true,TestId:route.params.testId}))}></CustomButton>
+                    }
+                    {userData.role=='TEACHER' &&
                     <CustomButton buttonName={t('publishTest')} onPress={()=>setIsDateModalVisible(true)}></CustomButton>
+                    }
             </View>
             </View>
             <ConfirmationModal visible={isModalVisible} onClose={modalClose}>

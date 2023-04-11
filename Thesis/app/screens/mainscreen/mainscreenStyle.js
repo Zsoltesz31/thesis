@@ -13,13 +13,19 @@ export const mainScreenStyle = StyleSheet.create({
         fontSize:40,
         fontWeight:'bold',
         marginBottom:10,
-        marginTop:10
+        marginTop:20
     },
     welcomeTitle:{
         color:'white',
         fontSize:25,
         marginBottom:50
+    },
+    desc:{
+        textAlign:'justify',
+        color:'#009AB9',
+        fontWeight:'bold',
+        fontSize:18,
+        padding:15
     }
-
     
 })

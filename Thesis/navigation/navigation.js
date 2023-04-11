@@ -16,6 +16,7 @@ import CreateTestScreen from '../app/screens/createTestScreen/createTestScreen';
 import AddQuestionWithAnswer from '../app/screens/addQuestionWithAnswer/addQuestionWithAnswer';
 import QuestionListScreen from '../app/screens/questionListScreen/questionListScreen';
 import TestScreen from '../app/screens/testScreen/testScreen';
+import CreateCourseScreen from '../app/screens/createCourseScreen/createCourseScreen';
 import {theme} from '../AppStyle'
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -61,6 +62,7 @@ export default function Navigations() {
           <Stack.Screen name="TestScreen" component={TestScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CreateTest" component={CreateTestScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="QuestionListScreen" component={QuestionListScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="CreateCourse" component={CreateCourseScreen} options={{headerShown:false}} ></Stack.Screen>
         </Stack.Navigator>
         )}
    

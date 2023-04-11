@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import { Pressable, SafeAreaView,Text,View,FlatList } from 'react-native'
 import CustomHeader from '../../../components/header/header'
 import { Ionicons } from '@expo/vector-icons';
@@ -22,6 +22,39 @@ export default function TestScreen({navigation,route}){
     const [changeHappened,setChangeHappened] = useState(false)
     const {testById} = useSelector((state)=>state.test)
     const dispatch=useDispatch()
+    const [timer,setTimer] = useState('00:00:00')
+    const Ref = useRef(null)
+
+    const getTimeRemaining = (time) =>{
+        const d = Date.parse(time) - Date.parse(new Date())
+        const seconds = Math.floor((d/1000)%60)
+        const minutes = Math.floor((d/1000/60)%60)
+        const hours = Math.floor((d/1000/60/60)%24)
+        return{
+            d,seconds,minutes,hours
+        }
+    } 
+
+    const startTimer = (e) => {
+        let {d,seconds,minutes,hours} = getTimeRemaining(e)
+        if(d>=0){
+            setTimer(
+                (hours > 9 ? hours : '0' + hours) + ':' +
+                (minutes > 9 ? minutes : '0' + minutes) + ':'
+                + (seconds > 9 ? seconds : '0' + seconds)
+            )
+        }
+    }
+
+    const clearTimer = (e) => {
+        if(Ref.current)
+            clearInterval(Ref.current)
+        const id = setInterval(()=>{
+            startTimer(e)
+        },1000)
+        Ref.current=id
+    }
+
 
     const handleCollectAnswers = (answer) =>{
         setCollectedAnswers([
@@ -37,10 +70,16 @@ export default function TestScreen({navigation,route}){
         }
     }
     }
+    // ITT KELL ÁLLÍTANI A HATÁRIDŐT AMI MAJD EGY ÓRA LESZ
+    const getDeadTime = () => {
+        let deadline = new Date();
+        deadline.setSeconds(deadline.getSeconds() + 10);
+        return deadline;
+    }
 
     useEffect(()=>{
-        console.log(collectedAnswers)
-    },[changeHappened])
+        clearTimer(getDeadTime())
+    },[])
 
 
     const renderItem=({item}) =>{
@@ -70,7 +109,7 @@ export default function TestScreen({navigation,route}){
             <CustomHeader/>
             <View style={TestScreenStyle.titleContainer}>
                 <Pressable style={TestScreenStyle.icon} onPress={()=>navigation.navigate('TestSheet',{testId:route.params.testId,testName:route.params.testName,courseId:route.params.courseId})}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
-                <Text style={TestScreenStyle.title}>Teszt kitöltése</Text>
+                <Text style={TestScreenStyle.title}>{timer}</Text>
             </View>
             <View style={TestScreenStyle.questionContainer}>
                 <FlatList

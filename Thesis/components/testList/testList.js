@@ -25,15 +25,16 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
         modalClose()
     }
 
-    const CheckDate = (date) =>{
-        console.log(date)
+    const CheckDate = (date,title,id) =>{
         let today = new Date()
         if(date!=today){
             console.log('NEM KEZDHETŐ EL A TESZT')
+
+            navigation.navigate('TestSheet',{testname:title,testId:id})
         }
         else{
-            handleDispatch(item.id)
-            navigation.navigate('TestSheet',{testname:item.title,testId:item.id})
+
+            navigation.navigate('TestSheet',{testname:title,testId:id})
         }
     }
 
@@ -71,7 +72,7 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
     )
 
     const PublishedItem = ({item,date,actualDate}) =>(
-        <Pressable onPress={()=>CheckDate(actualDate)} android_ripple="true">
+        <Pressable onPress={()=>CheckDate(actualDate,item.title,item.id)} android_ripple="true">
         <View style={testListStyle.listitem}>
         <Text style={testListStyle.listItemHeader}>TestId: {item.testId}</Text>
         <View style={testListStyle.testFooterContainer}>

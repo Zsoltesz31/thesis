@@ -1,30 +1,40 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
+import { getAnwser } from "./answerSlice";
+import BASE_URL from '../config'
 
 const initialState={
     currentAddedQuestion:null,
+    answersToQuestion:[],
     questions:[],
     loading:false,
     error:null
  }
 
 export const getQuestion = createAsyncThunk('question/getQuestion', (id)=>{
-    return axios.get(`http://192.168.1.64:3333/question/${id}`).then((response)=>(response.data))
+    console.log('KÉRDÉS ID:',id)
+    return axios.get(`${BASE_URL}question/${id}`).then((response)=>(response))
+})
+
+export const getQuestionByTestIdWithAnswers = createAsyncThunk('question/getQuestionsByTestIdWithAnswers', (id)=>{
+    console.log(id)
+    return axios.get(`${BASE_URL}answer/${id}`).then((response)=>response.data)
 })
 
 export const getQuestionByTestId = createAsyncThunk('question/getQuestionsByTestId', (id)=>{
-    return axios.get(`http://192.168.1.64:3333/question/test/${id}`).then((response)=>(response.data))
+    return axios.get(`${BASE_URL}question/test/${id}`).then((response)=>(response.data))
 })
 
 export const deleteQuestion = createAsyncThunk('question/deleteQuestion',(id)=>{
-    return axios.delete(`http://192.168.1.64:3333/question/${id}`).then((response)=>response.data)
+    return axios.delete(`${BASE_URL}question/${id}`).then((response)=>response.data)
 })
 
 export const createQuestion = createAsyncThunk('question/createQuestion',(values)=>{
-    return axios.post('http://192.168.1.64:3333/question',{
+    return axios.post(`${BASE_URL}question`,{
             testId:values.testId,
             text:values.text,
-            type:values.type
+            type:values.type,
+            id:values.id
         }
     ).then((response)=>(response.data)).catch(e=>{
         console.log(e)
@@ -32,7 +42,8 @@ export const createQuestion = createAsyncThunk('question/createQuestion',(values
 })
 
 export const updateQuestion = createAsyncThunk('question/updateQuestion',(values)=>{
-   return axios.patch(`http://192.168.1.64:3333/question/${values.id}`,{
+    console.log(values)
+   return axios.patch(`${BASE_URL}question/${values.id}`,{
             testId:values.testId,
             type:values.type,
             text:values.text,
@@ -83,6 +94,7 @@ const questionSlice = createSlice({
             state.loading=true
         })
         builder.addCase(createQuestion.fulfilled,(state,action) => {
+            console.log('CREATE:',action.payload)
             state.loading=false
             state.currentAddedQuestion=action.payload
             state.error=''
@@ -100,6 +112,19 @@ const questionSlice = createSlice({
             state.error=''
         })
         builder.addCase(updateQuestion.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
+        builder.addCase(getQuestionByTestIdWithAnswers.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(getQuestionByTestIdWithAnswers.fulfilled,(state,action) => {
+            state.loading=false
+            state.answersToQuestion=[]
+            state.answersToQuestion.push(action.payload)
+            state.error=''
+        })
+        builder.addCase(getQuestionByTestIdWithAnswers.rejected,(state,action) =>{
             state.loading=false
             state.error=action.error.message
         })

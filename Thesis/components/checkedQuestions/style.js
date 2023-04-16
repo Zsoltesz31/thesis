@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
 
-export const questionListStyle = StyleSheet.create({
+export const CheckedQuestionsListStyle = StyleSheet.create({
     container:{
         alignItems: "center",
         width:'100%',
         display:'flex',
+        marginTop:100,
         height:500
     },
     listTitle:{
@@ -17,7 +18,7 @@ export const questionListStyle = StyleSheet.create({
         alignSelf:'flex-start',
         width:'100%'
     },
-    listitem:{
+    listitemCorrect:{
         color:'white',
         backgroundColor:'#009AB9',
         marginVertical:8,
@@ -25,7 +26,20 @@ export const questionListStyle = StyleSheet.create({
         width:350,
         borderRadius:5,
         elevation:5,
-        flexDirection:'row',
+        flexDirection:'column',
+        borderWidth:1,
+        borderColor:'green'
+      },listitemUnCorrect:{
+        color:'white',
+        backgroundColor:'#009AB9',
+        marginVertical:8,
+        padding:20,
+        width:350,
+        borderRadius:5,
+        elevation:5,
+        flexDirection:'column',
+        borderWidth:1,
+        borderColor:'red'
       },
       listItemHeader:{
         color:'white',
@@ -34,5 +48,5 @@ export const questionListStyle = StyleSheet.create({
         alignSelf:'center',
         fontSize:15
       },
-
+  
 })

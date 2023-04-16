@@ -17,13 +17,13 @@ export default function CourseScreen({route,navigation}){
            <CustomHeader title={route.params.HeaderText}></CustomHeader>
             <View style={coursescreenStyle.container}>
            <Text style={coursescreenStyle.listTitle}>{t('yourCourses')}</Text>
+           <CourseList navigation={navigation}></CourseList>
            { userData.role=='TEACHER' &&
-           <CustomButton buttonName={t('publishedTests')} onPress={()=> navigation.navigate('Tesztek',{testListMode:'upComingTests'})}></CustomButton>
+           <CustomButton buttonName={t('tests')} onPress={()=> navigation.navigate('Tesztek',{testListMode:'Tests'})}></CustomButton>
            }
             {userData.role=='TEACHER' && 
             <CustomButton buttonName='Kurzus létrehozása' theme={{roundness:30}} onPress={()=> {navigation.navigate('CreateCourse',{editMode:false})}}></CustomButton>
             }
-            <CourseList navigation={navigation}></CourseList>
             </View>
         </SafeAreaView>
     )

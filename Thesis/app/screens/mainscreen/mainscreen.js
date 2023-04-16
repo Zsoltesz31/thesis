@@ -23,20 +23,19 @@ export default function MainScreen({route}){
             <View style={mainScreenStyle.container}>
                 {userData.role=='STUDENT' &&
                 <View>
-                <Text style={mainScreenStyle.desc}>Az alkalmazás az online oktatás során felmerülő számonkérések, szintfelmérések megvalósítását próbálja megkönnyebbíteni, vagy éppen ezen problémákra ad egy megoldást.
+                <Text style={mainScreenStyle.desc}>{t('appDesc')}
                 </Text>
-                <Text style={mainScreenStyle.desc}>Jelenlegi fiókja egy hallgatói fiók amelyben lehetősége van az önhöz rendelt kurzusokban megjelenő tesztek kitöltésére. Ezen tesztek zöme akár zárthelyi dolgozatoknak is megfelelhetnek vagy éppen vizsgaidőszakok során előforduló vizsgákat is.</Text>
-                <Text style={mainScreenStyle.desc}>A navigálást az alsó menü sáv segíti a különböző menüpontok eléréséért!</Text>
+                <Text style={mainScreenStyle.desc}>{t('studentAccDesc')}</Text>
+                <Text style={mainScreenStyle.desc}>{t('navigationDesc')}</Text>
                 </View>
                 }
                  {userData.role=='TEACHER' &&
                 <View>
-                <Text style={mainScreenStyle.desc}>Az alkalmazás az online oktatás során felmerülő számonkérések, szintfelmérések megvalósítását próbálja megkönnyebbíteni, vagy éppen ezen problémákra ad egy megoldást.
+                <Text style={mainScreenStyle.desc}>{t('appDesc')}
                 </Text>
-                <Text style={mainScreenStyle.desc}>Jelenlegi fiókja egy oktatói fiók, amelyben lehetősége van kurzusok valamint tesztek létrehozására egyaránt. A kurzusokhoz tetszőleges hallgatókat rendelhet hozzá a meglévő felhasználó listából (eddig regisztrált felhasználók) így reprezentálhatja egy neptunban meglévő kurzusát. Később a kurzusokat tetszés szerint módosítja.
-                 Továbbá teszteket hozhat létre amelyeket adott kurzusok számára publikálhat. Természetesen szintúgy tetszőlegesen módosítathja a teszteket is kérdéseikkel, válaszaikkal együtt!
+                <Text style={mainScreenStyle.desc}>{t('teacherAccDesc')}
                 </Text>
-                <Text style={mainScreenStyle.desc}>A navigálást az alsó menü sáv segíti a különböző menüpontok eléréséért!</Text>
+                <Text style={mainScreenStyle.desc}>{t('navigationDesc')}</Text>
                 </View>
                 }
             </View>

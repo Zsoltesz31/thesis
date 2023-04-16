@@ -96,7 +96,6 @@ export default function RegisterScreen({navigation,route}){
         validateNames(firstName,lastName)
         if(nameErrors=='' && emailErrors=='' && passwordErrors==''){
             register(firstName,lastName,email,password)
-            navigation.navigate('Login',{loginType:route.params.loginType})
         }
         else{
            console.log('fail')
@@ -112,7 +111,6 @@ export default function RegisterScreen({navigation,route}){
                 <Text style={registerScreenStyle.screenTitle}>{t('register')}</Text>
                 <View style={registerScreenStyle.registerFormContainer}>
                     <View style={registerScreenStyle.inputs}>
-                    <Text style={registerScreenStyle.formTitle}>{route.params.loginType=='student'? t('forStudent') : t('forTeacher')}</Text>
                     <CustomInput label={t('lastName')}  onChangeTextEvent={text => setFirstName(text)} outlineColor={outlineColorNames} />
                     <CustomInput label={t('firstName')} onChangeTextEvent={text => setLastName(text)} outlineColor={outlineColorNames} />
                     {nameErrors.length>0 && 
@@ -141,7 +139,7 @@ export default function RegisterScreen({navigation,route}){
                                 {registerError}
                             </Text>
                             }
-                        <CustomButton buttonName={t('back')} onPress={()=>navigation.navigate('Login',{loginType:route.params.loginType})}/>
+                        <CustomButton buttonName={t('back')} onPress={()=>navigation.navigate('Login')}/>
                     </View>
                 </View>
             <CustomFooter/>

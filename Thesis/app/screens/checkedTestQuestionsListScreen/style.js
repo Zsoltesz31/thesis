@@ -1,6 +1,6 @@
 import { StyleSheet,Dimensions } from "react-native";
 
-export const TestScreenStyle = StyleSheet.create({
+export const CheckedTestQuestionListScreenStyle = StyleSheet.create({
     icon:{
         left:10,
         marginRight:'auto'
@@ -20,18 +20,5 @@ export const TestScreenStyle = StyleSheet.create({
         flexDirection:'row',
         top:45,
     },
-    screenContainer:{
-        marginBottom:70
-    },
-    questionContainer:{
-        display:'flex',
-        marginTop:150
-    },
-    modalContent:{
-        alignItems:'center'
-    },
-    modalTitle:{
-        fontWeight:'bold',
-        fontSize:15
-    },
+   
 })

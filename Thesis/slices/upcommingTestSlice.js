@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
+import BASE_URL from '../config'
 
 const initialState={
     currentAddedUpComingTest:null,
@@ -10,11 +11,16 @@ const initialState={
 
 
 export const getUpcomingTestByUserId = createAsyncThunk('upcomingtest/getUpcomingTestByUserId', (id)=>{
-    return axios.get(`http://192.168.1.64:3333/upcomingtest/${id}`).then((response)=>(response.data))
+    return axios.get(`${BASE_URL}upcomingtest/${id}`).then((response)=>(response.data))
+})
+
+export const getUpcomingTestByCourseId = createAsyncThunk('upcomingtest/getUpcomingTestByCourseId', (id)=>{
+    console.log(id)
+    return axios.get(`${BASE_URL}upcomingtest/course/${id}`).then((response)=>(response.data))
 })
 
 export const addUserToUpcomingTest = createAsyncThunk('upcomingtest/adUsersToUpcomingTests',(values)=>{
-    return axios.post(`http://192.168.1.64:3333/upcomingtest/${values.id}`,{
+    return axios.post(`${BASE_URL}upcomingtest/${values.id}`,{
             userIds:values.userIds
         }
     ).then((response)=>(response.data)).catch(e=>{
@@ -25,10 +31,11 @@ export const addUserToUpcomingTest = createAsyncThunk('upcomingtest/adUsersToUpc
 
 export const addTestToUpcomingTests = createAsyncThunk('upcomingtest/createUpComingTest',(values)=>{
     console.log(values)
-    return axios.post('http://192.168.1.64:3333/upcomingtest',{
+    return axios.post(`${BASE_URL}upcomingtest`,{
             lastStartDate:values.lastStartDate,
             startDate:values.startDate,
-            testId:values.testId
+            testId:values.testId,
+            courseId:values.courseId
         }
     ).then((response)=>(response.data)).catch(e=>{
         console.log(e)
@@ -75,7 +82,18 @@ const upcommingTestSlice = createSlice({
             state.loading=false
             state.error=action.error.message
         })
-        
+        builder.addCase(getUpcomingTestByCourseId.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(getUpcomingTestByCourseId.fulfilled,(state,action) => {
+            state.loading=false
+            state.upComingTests=action.payload
+            state.error=''
+        })
+        builder.addCase(getUpcomingTestByCourseId.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
     }
 })
 

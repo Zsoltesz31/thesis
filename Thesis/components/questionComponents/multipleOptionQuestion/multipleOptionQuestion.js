@@ -1,59 +1,62 @@
-import React, {useState} from 'react'
+import React, {useState,useRef,useContext} from 'react'
 import { useEffect } from 'react'
 import {Text,Pressable,View,FlatList} from 'react-native'
 import { MultipleOptionQuestionStyle } from './style'
 import { useDispatch,useSelector } from 'react-redux'
 import { getAnwser } from '../../../slices/answerSlice'
 import { Checkbox } from 'react-native-paper'
-
-// A VÁLASZ OBJECTET MÓDOSÍTJUK LOKÁLISAN MAJD EGY ÚJ MEZŐVEL AMI TÁROLJA HOGY IGAZ VAGY SEM A CHECKBOX STÁTUSZA
-
-const dummyDATA = [
-    {
-        id:1,
-        answer:'ASDASD',
-        checked:false
-    },
-    {
-        id:2,
-        answer:'ASDASDASDASD',
-        checked:true
-    }
-]
+import { setFillAnswer } from '../../../slices/fillTestSlice'
+import { AuthContext } from '../../../context/AuthContext'
 
 
-export const MultipleOptionQuestion=({getAnwsers,questionId,questionText}) => {
-    const [checked,setChecked] =useState(dummyDATA)
-    const [answer,setAnswer] = useState([])
+export const MultipleOptionQuestion=({questionId,questionData,fillAnswer,upcomingTestId}) => {
     const dispatch=useDispatch()
-    const {answers} =useSelector((state)=>state.answer)
-
-
+    const isMounted = useRef(false)
+    const {userData} = useContext(AuthContext)
+    const [answers,setAnswers] = useState([])
 
     useEffect(()=>{
-        dispatch(getAnwser(questionId))
-    },[])
+        if(isMounted.current){
+        handleFillAnswer()
+        }else{
+            isMounted.current=true
+        }
+    },[fillAnswer])
 
-    const toggleCheckbox = (index) => {
+    const handleFillAnswer = () =>{
+        for (let index = 0; index < answers.length; index++) {
+            let values = {
+                userId:userData.id,
+                questionId:questionId,
+                answerId:answers[index],
+                upcomingTestId:upcomingTestId
+            }
+            dispatch(setFillAnswer(values))
+        }
+    }
 
-        const checkboxData = [...checked];
-        checkboxData[index].checked = !checkboxData[index].checked;
-        setChecked(checkboxData);
-      }
-
-      const onButtonPress = () => {
-
-        const selectedCheckBoxes = checkboxes.find((cb) => cb.checked === true);
-        // selectedCheckBoxes will have checboxes which are selected to export answers as well
-      }
-    
+    const getAnwser = (id) =>{
+        if(!answers.includes(id))
+        {
+        setAnswers([
+            ...answers,
+                id    
+        ])
+        }
+        else{
+            console.log('BEJÖVÖK')
+           setAnswers(
+            answers.filter(a=>a!==id)
+           )
+        }
+       
+    }
 
     const Item = ({item}) => (
 
-        <Pressable onPress={()=>console.log(checked[item.id-1].checked)}  android_ripple="true">
-        <View style={MultipleOptionQuestionStyle.checkBoxContainer}>
-            <Text style={MultipleOptionQuestionStyle.checkBoxText}>{item.answer}</Text>
-            <Checkbox status={checked[item.id-1].checked ? 'checked' : 'unchecked'} onPress={()=>{toggleCheckbox(item.id-1)}} color={'#009AB9'} uncheckedColor={'#009AB9'}></Checkbox>
+        <Pressable onPress={()=>{getAnwser(item.id),console.log(answers)}}  android_ripple="true">
+        <View style={answers.includes(item.id) ? MultipleOptionQuestionStyle.checkBoxContainer : MultipleOptionQuestionStyle.checkBoxContainerNotIn}>
+            <Text style={answers.includes(item.id) ? MultipleOptionQuestionStyle.checkBoxTextIn : MultipleOptionQuestionStyle.checkBoxText}>{item.text}</Text>
         </View>
         </Pressable>
     
@@ -71,10 +74,10 @@ export const MultipleOptionQuestion=({getAnwsers,questionId,questionText}) => {
 
     return(
         <View style={MultipleOptionQuestionStyle.questionContainer}>
-            <Text  style={MultipleOptionQuestionStyle.questionTitle}>KÉRDÉS</Text>
+            <Text  style={MultipleOptionQuestionStyle.questionTitle}>{questionData.text}</Text>
             <FlatList
             showsHorizontalScrollIndicator={false}
-            data={dummyDATA}
+            data={questionData.answers}
             renderItem={renderItem}
             keyExtractor = {item=>item.id.toString()}
             ></FlatList>

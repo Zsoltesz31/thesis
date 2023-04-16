@@ -7,26 +7,17 @@ import { settingsscreenStyle } from './settingsscreenStyle'
 import {SectionList,Pressable } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import CustomHeader from '../../../components/header/header'
-import {CustomSwitch} from '../../../components/switch/customSwitch'
+
 
 
 export default function ProfileScreen({route}){
-    const [isEnabled, setIsEnabled] = useState(false);
     const {t} = useTranslation()
 
-    const toggleSwitch = () => setIsEnabled(previusState=>!previusState)
 
     const settingsOptions = [
+
         {
             id:'1',
-            title:'Megjelenítés',
-            icon: ( <Ionicons name={'color-palette-outline'} size={20} color={"#009AB9"}/> ),
-            data : [
-                <CustomSwitch label={t('darkMode')} value={isEnabled} onValueChangeEvent={toggleSwitch}></CustomSwitch>
-            ]
-        },
-        {
-            id:'2',
             title:'Nyelv',
             icon: ( <Ionicons  name={'language-outline'} size={20} color={"#009AB9"}/> ),
             data:[

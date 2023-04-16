@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import {View,Text,SafeAreaView,FlatList,Pressable } from 'react-native'
+import {View,Text,SafeAreaView,FlatList,Pressable,Alert } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import {answerListStyle} from'./style'
 import { useSelector,useDispatch } from 'react-redux'
@@ -11,10 +11,11 @@ import { Checkbox } from 'react-native-paper';
 import { ModalInputsComponent } from '../modalInputsComponent/modalInputsComponent';
 
 
-export default function AnswerList({navigation,data,changeHappened,questionId}){
+export default function AnswerList({navigation,data,changeHappened,questionId,fullEditMode}){
     const dispatch=useDispatch()
     const [isModalVisible,setIsModalVisible] = useState(false)
     const {currentAddedQuestion} =useSelector((state)=>state.question)
+    let answers = data.data
 
     const handleDelete = (id) =>{
         dispatch(deleteAnswer(id)).then(changeHappened(true))
@@ -22,12 +23,12 @@ export default function AnswerList({navigation,data,changeHappened,questionId}){
 
     const handleEdit = (id,text,correct) =>{
         let values = {
-            questionId:currentAddedQuestion.data.id,
+            questionId:fullEditMode? questionId:currentAddedQuestion.data.id,
             id:id,
             text:text,
-            correct:correct
+            point:1
         }
-        dispatch(updateAnswer(values))
+        dispatch(updateAnswer(values)).then(changeHappened(true))
         modalClose()
     }
 
@@ -35,14 +36,32 @@ export default function AnswerList({navigation,data,changeHappened,questionId}){
         setIsModalVisible(false)
     }
 
+    const onDeleteButtonPress = (id) => {
+        Alert.alert(
+          'Figyelmeztetés',
+          "Biztosan törli a választ?",
+          [
+            {
+              text: "Igen",
+              style: "destructive",
+              onPress: () => handleDelete(id),
+            },
+            {
+              text: "Nem",
+              style: "cancel",
+            },
+          ]
+        );
+      };  
+
 
 
     const Item = ({item}) => (
         <Pressable android_ripple="true"> 
         <View style={answerListStyle.listitem}>
         <Text style={answerListStyle.listItemHeader}>{item.text}</Text> 
-        <Ionicons  name={item.correct ? 'checkmark-outline' : 'close-outline'} size={20} color={item.correct ? 'green':'red'}/>
-        <Pressable onPress={()=>handleDelete(item.id)} style={answerListStyle.buttonTest}><Ionicons  name={'trash-outline'} size={20} color={"white"}/></Pressable>
+        <Text style={answerListStyle.listItemHeader}>{item.point}</Text> 
+        <Pressable onPress={()=>onDeleteButtonPress(item.id)} style={answerListStyle.buttonTest}><Ionicons  name={'trash-outline'} size={20} color={"white"}/></Pressable>
         <Pressable onPress={()=>setIsModalVisible(true)} style={answerListStyle.buttonTest}><Ionicons  name={'create-outline'} size={20} color={"white"}/></Pressable>
         <ConfirmationModal visible={isModalVisible} onClose={modalClose}>
         <ModalInputsComponent idToUpdate={item.id} handleFunction={handleEdit} answertext={item.text} checkedstatus={item.correct} ></ModalInputsComponent>
@@ -60,22 +79,16 @@ export default function AnswerList({navigation,data,changeHappened,questionId}){
     }
 
 
-    if(data==[])
-    {
-    return(
-        <Text>Még nincs hozzáadott válasz!</Text>
-    )
-    }
-    else{
+   
     return(
           <SafeAreaView style={answerListStyle.container}>
             <FlatList
-            data={data.data}
+            data={answers}
             renderItem={renderItem}
             keyExtractor={item=>item.id.toString()}
             ></FlatList>
           </SafeAreaView>  
         
     )
-    }
+    
 }

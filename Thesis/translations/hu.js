@@ -69,6 +69,13 @@ const hu ={
     createCourse:'Kurzus létrehozása',
     courseData:'Kurzus adatok',
     courseName:'Kurzus neve',
-    courseDesc:'Kurzus leírása'
+    courseDesc:'Kurzus leírása',
+    teacherAccDesc:'Jelenlegi fiókja egy oktatói fiók, amelyben lehetősége van kurzusok valamint tesztek létrehozására egyaránt. A kurzusokhoz tetszőleges hallgatókat rendelhet hozzá a meglévő felhasználó listából (eddig regisztrált felhasználók) így reprezentálhatja egy neptunban meglévő kurzusát. Később a kurzusokat tetszés szerint módosítja.Továbbá teszteket hozhat létre amelyeket adott kurzusok számára publikálhat. Természetesen szintúgy tetszőlegesen módosítathja a teszteket is kérdéseikkel, válaszaikkal együtt!',
+    studentAccDesc:'Jelenlegi fiókja egy hallgatói fiók amelyben lehetősége van az önhöz rendelt kurzusokban megjelenő tesztek kitöltésére. Ezen tesztek zöme akár zárthelyi dolgozatoknak is megfelelhetnek vagy éppen vizsgaidőszakok során előforduló vizsgákat is.',
+    appDesc:'Az alkalmazás az online oktatás során felmerülő számonkérések, szintfelmérések megvalósítását próbálja megkönnyebbíteni, vagy éppen ezen problémákra ad egy megoldást.',
+    navigationDesc:'A navigálást az alsó menü sáv segíti a különböző menüpontok eléréséért!',
+    addUsersToCourse:'Tagok hozzáadása',
+    modifyUsersOnCourse:'Tagok módosítása',
+    members:'Tagok kezelése'
 }
 export {hu}

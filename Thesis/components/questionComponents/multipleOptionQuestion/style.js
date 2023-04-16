@@ -29,13 +29,29 @@ export const MultipleOptionQuestionStyle = StyleSheet.create({
     checkBoxContainer:{
         flexDirection:'row',
         width:'100%',
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor:'#009AB9',
+        margin:3
+    },
+    checkBoxContainerNotIn:{
+        flexDirection:'row',
+        width:'100%',
+        justifyContent:'center',
+        margin:3
     },
     checkBoxText:{
         textAlign:'center',
         fontWeight:'bold',
         fontSize:18,
         color: '#009AB9',
+        alignSelf:'center',
+        bottom:2
+    },
+    checkBoxTextIn:{
+        textAlign:'center',
+        fontWeight:'bold',
+        fontSize:18,
+        color: 'white',
         alignSelf:'center',
         bottom:2
     }

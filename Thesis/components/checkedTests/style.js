@@ -1,0 +1,76 @@
+import { StyleSheet } from "react-native";
+
+export const checkedTestsListStyle = StyleSheet.create({
+    container:{
+        alignItems: "center",
+        width:'100%',
+        display:'flex',
+        marginTop:150,
+        height:500
+    },
+    listTitle:{
+        color:'#009AB9',
+        fontSize:25,
+        fontWeight:'bold',
+        borderBottomWidth:5,
+        borderRadius:15,
+        borderColor:'#009AB9',
+        alignSelf:'flex-start',
+        width:'100%'
+    },
+    listitem:{
+        color:'white',
+        backgroundColor:'#009AB9',
+        marginVertical:8,
+        padding:20,
+        width:350,
+        borderRadius:5,
+        elevation:5,
+        flexDirection:'column',
+
+      },
+      listItemHeader:{
+        color:'white',
+        fontWeight:'bold',
+        marginRight:'auto',
+        alignSelf:'center',
+        fontSize:15
+      },
+      deadline:{
+        marginLeft:'auto',
+        color:'white',
+        fontWeight:'bold',
+        top:10
+      },
+      succesBorder:{
+        borderColor:'#28D165',
+        borderWidth:2
+      },
+      failBorder:{
+        borderColor:'#FD2E2E',
+        borderWidth:2
+      },
+      defaultBorder:{
+        borderColor:'white'
+      },
+      icon:{
+        marginRight:'auto',
+        color:'white',
+      },
+      testFooterContainer:{
+        display:'flex',
+        flexDirection:'row',
+      },
+      listCrudButtons:{
+        marginLeft:'auto',
+        bottom:20,
+        marginBottom:0
+      },
+      modalContent:{
+        alignItems:'center'
+      },
+    modalTitle:{
+        fontWeight:'bold',
+        fontSize:15
+      },
+})

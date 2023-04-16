@@ -1,42 +1,164 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
+import BASE_URL from '../config'
 
- const initialState={
+const initialState={
+    currentAddedCourse:null,
+    courses:[],
     loading:false,
-    posts:[],
-    error: '',
+    error:null
  }
 
- // Async Actions to get data from API
+export const getAllCourses = createAsyncThunk('course/getCourses', ()=>{
+    return axios.get(`${BASE_URL}course`).then((response)=>(response.data))
+})
 
- export const fetchPosts = createAsyncThunk('posts/fetchPosts',() => {
-    return axios.get('https://jsonplaceholder.typicode.com/posts')
-    .then((response)=>response.data)
+export const getCoursesByOwnerId = createAsyncThunk('course/getCoursesByOwner', (id)=>{
+    return axios.get(`${BASE_URL}course/owned/${id}`).then((response)=>(response.data))
+})
+
+export const getCoursesByUserId = createAsyncThunk('test/getCoursesByUser', (id)=>{
+    return axios.get(`${BASE_URL}course/user/${id}`).then((response)=>(response.data))
+})
+
+
+export const deleteCourse = createAsyncThunk('course/deleteCourse',(id)=>{
+    return axios.delete(`${BASE_URL}course/${id}`).then((response)=>response.data)
+})
+
+export const createCourse = createAsyncThunk('course/createCourse',(values)=>{
+    console.log(values)
+    return axios.post(`${BASE_URL}course`,{
+            name:values.title,
+            description:values.description,
+            ownerId:values.ownerId
+        }
+    ).then((response)=>(response.data)).catch(e=>{
+        console.log(e)
+    })
+})
+
+export const updateCourse = createAsyncThunk('course/updateCourse',(values)=>{
+    console.log(values)
+   return axios.patch(`${BASE_URL}course/${values.courseId}`,{
+            name: values.title,
+            description: values.description,
+            ownerId:values.ownerId
+    }).then((response)=>(response.data)).catch(e=>{
+        console.log(e)
+    })
+})
+
+export const addUserToCourse = createAsyncThunk('course/addUserToCourse',(values)=>{
+    return axios.post(`${BASE_URL}course/${values.courseId}/user/${values.userId}`).then((response)=>(response.data)).catch(e=>{
+         console.log(e)
+     })
  })
 
-//Reducers
+ export const deleteUserFromCourse = createAsyncThunk('course/deleteUserFromCourse',(values)=>{
+    return axios.delete(`${BASE_URL}course/${values.testId}`)
+    .then((response)=>(response.data)).catch(e=>{
+         console.log(e)
+     })
+ })
 
  const courseSlice = createSlice({
     name:'course',
     initialState,
-    reducers:{
-        clearCourses:(state)=>{
-            state.posts=[]
-        }
-    },
-    //Handling the 3 lifecycle functions: pending,fulfilled,rejected
     extraReducers: (builder) => {
-        builder.addCase(fetchPosts.pending,(state) =>{
+        builder.addCase(getAllCourses.pending,(state) =>{
             state.loading=true
         })
-        builder.addCase(fetchPosts.fulfilled,(state,action) => {
+        builder.addCase(getAllCourses.fulfilled,(state,action) => {
             state.loading=false
-            state.posts=action.payload
+            state.courses=action.payload
             state.error=''
         })
-        builder.addCase(fetchPosts.rejected,(state,action) =>{
+        builder.addCase(getAllCourses.rejected,(state,action) =>{
             state.loading=false
-            state.posts=[]
+            state.courses=[]
+            state.error=action.error.message
+        })
+        builder.addCase(getCoursesByOwnerId.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(getCoursesByOwnerId.fulfilled,(state,action) => {
+            state.loading=false
+            state.courses=action.payload
+            state.error=''
+        })
+        builder.addCase(getCoursesByOwnerId.rejected,(state,action) =>{
+            state.loading=false
+            state.courses=[]
+            state.error=action.error.message
+        })
+        builder.addCase(getCoursesByUserId.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(getCoursesByUserId.fulfilled,(state,action) => {
+            state.loading=false
+            state.courses=action.payload
+            state.error=''
+        })
+        builder.addCase(getCoursesByUserId.rejected,(state,action) =>{
+            state.loading=false
+            state.courses=[]
+            state.error=action.error.message
+        })
+        builder.addCase(deleteCourse.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(deleteCourse.fulfilled,(state,action) => {
+            state.loading=false
+            state.error=''
+        })
+        builder.addCase(deleteCourse.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
+        builder.addCase(createCourse.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(createCourse.fulfilled,(state,action) => {
+            state.loading=false
+            state.currentAddedCourse=action.payload
+            state.error=''
+        })
+        builder.addCase(createCourse.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
+        builder.addCase(updateCourse.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(updateCourse.fulfilled,(state,action) => {
+            state.loading=false
+            state.error=''
+        })
+        builder.addCase(updateCourse.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
+        builder.addCase(addUserToCourse.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(addUserToCourse.fulfilled,(state,action) => {
+            state.loading=false
+            state.error=''
+        })
+        builder.addCase(addUserToCourse.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
+        builder.addCase(deleteUserFromCourse.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(deleteUserFromCourse.fulfilled,(state,action) => {
+            state.loading=false
+            state.error=''
+        })
+        builder.addCase(deleteUserFromCourse.rejected,(state,action) =>{
+            state.loading=false
             state.error=action.error.message
         })
     }

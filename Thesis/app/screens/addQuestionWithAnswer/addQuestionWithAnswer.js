@@ -22,44 +22,34 @@ export default function AddQuestionWithAnswer({navigation,route}){
     const [checked,setChecked] =useState(false)
     const [answer,setAnswer] = useState('')
     const [question,setQuestion] = useState('')
+    const [points,setPoints] = useState('0')
     const [editQuestion,setEditQuestion] = useState(false)
     const {currentAddedQuestion} =useSelector((state)=>state.question)
     const {currentAddedTest} = useSelector((state)=>state.test)
     const {answers} =useSelector((state)=>state.answer)
     const {t} = useTranslation()
-
     const QuestionTypes = [
         {
-         type:'CHECKBOX',
-         label:t('checkbox')
+         type:'SELECT_ONE',
+         value:0,
+         label:t('selectOne')
         },
         {
-            type:'SIMPLE_ANSWER',
-            label:t('simpleAnswer')
-        },
-        {
-            type:'EXPLAIN_ANSWER',
-            label:t('explainAnswer')
-        },
-        {
-            type:'SELECT_ONE',
-            label:t('selectOne')
+        type:'SELECT_MORE',
+        value:1,
+        label:t('checkbox')
         }
     ]
-    const [questionType, setQuestionType] = useState(QuestionTypes[3].type)
-
+    const [questionType, setQuestionType] = useState(QuestionTypes[1].value)
     const dispatch = useDispatch()
-    console.log(questionType)
     if(route.params.FullEditMode!=true)
     {
     useEffect(()=>{
-        if(answerCreated){
-        console.log('HOZZÁADOTT KÉRDÉS ADATOK:',currentAddedQuestion)
+        if(questionCreated){
         dispatch(getAnwser(currentAddedQuestion.data.id))
         setChangeHappened(false)
         }
         setChangeHappened(false)
-        console.log('CURRENT ADDED TEST:',currentAddedTest)
     },[currentAddedQuestion,changeHappened])
     }
     else{
@@ -72,13 +62,14 @@ export default function AddQuestionWithAnswer({navigation,route}){
 
     const handleAddQuestion = ()=>{
             let values = {
+                id:-1,
                 text:question,
                 type:questionType,
-                testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedQuestion.data.id
+                testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedTest.data.id
             }
         dispatch(createQuestion(values))
         setQuestionCreated(true)
-        setChangeHappened(true)
+        //setChangeHappened(true)
     }
     
 
@@ -102,6 +93,7 @@ export default function AddQuestionWithAnswer({navigation,route}){
             id:route.params.questionId,
             testId:route.params.testId
         }
+        console.log(questionType)
          dispatch(updateQuestion(values))
          setQuestionEditMode(false)
          setQuestionCreated(true)
@@ -111,10 +103,10 @@ export default function AddQuestionWithAnswer({navigation,route}){
     const handleAddAnswer = ()=>{
         let values = {
             text:answer,
-            correct:checked,
-            questionId:currentAddedQuestion.data.id,
-            point:0
+            questionId: route.params.FullEditMode ? route.params.questionId : currentAddedQuestion.data.id,
+            point:parseInt(points)
         }
+        console.log(values)
         dispatch(createAnswer(values))
          setQuestionCreated(true)
          setAnswerCreated(true)
@@ -132,6 +124,8 @@ export default function AddQuestionWithAnswer({navigation,route}){
     const resetStatesToAddNewQuestion= () =>{
         setQuestionCreated(false)
         setQuestionEditMode(false)
+        setQuestion('')
+        setAnswer('')
     }
 
     function changeTracker(changed){
@@ -143,7 +137,7 @@ return(
     <SafeAreaView>
         <CustomHeader/>
         <View style={AddQuestionWithAnswerStyle.titleContainer}>
-            <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>navigation.navigate('Tesztek')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
+            <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>navigation.navigate('Tesztek',{testListMode:'Tests'})}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
             <Text style={AddQuestionWithAnswerStyle.title1}>{t('addQuestion')}</Text>
         </View>
         {!questionCreated &&
@@ -152,13 +146,12 @@ return(
             <Dropdown
                 data={QuestionTypes}
                 labelField='label'
-                valueField='type'
+                valueField='value'
                 value={questionType}
                 placeholder="Válassza ki a kérdés típusát"
                 selectedTextStyle={{color:'white',fontWeight:'bold'}}
                 onChange = {item=>{ 
-                    setQuestionType(item.type)
-                    console.log(questionType)
+                    setQuestionType(item.value)
                 }}
                 containerStyle={{width:330,borderRadius:25,left:5}}
                 style={{width:'95%',left:7,backgroundColor:'#009AB9',height:40,padding:10,margin:5}}
@@ -175,16 +168,16 @@ return(
             <View style={AddQuestionWithAnswerStyle.formContainer}>
             <Text style={AddQuestionWithAnswerStyle.formText}>{t('question')}: {question}</Text>
             <CustomButton buttonName={t('modify')} onPress={()=>handleModifyButtonPress()}></CustomButton>
-            { questionType=='CHECKBOX' || questionType=='SELECT_ONE' &&
+       
             <View>
             <CustomInput label={t('answer')} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
                 <View style={AddQuestionWithAnswerStyle.checkBoxContainer}>
-                    <Text style={AddQuestionWithAnswerStyle.checkBoxText}>{t('correctAnswer')}:</Text>
-                    <Checkbox status={checked ? 'checked' : 'unchecked'} onPress={()=>{setChecked(!checked)}} color={'#009AB9'} uncheckedColor={'#009AB9'}></Checkbox>
+                    <Text style={AddQuestionWithAnswerStyle.checkBoxText}>Pontok:</Text>
+                    <CustomInput label={'Pontok'} inputValue={points} onChangeTextEvent={text => setPoints(text)} outlineColor={'#009AB9'}/>
                 </View>
             <CustomButton buttonName={t('addAnswer')} onPress={()=>handleAddAnswer()}></CustomButton>
             </View>
-            }
+            
                 <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
             <CustomButton buttonName={t('nextQuestion')} onPress={()=>resetStatesToAddNewQuestion()}></CustomButton>
             <CustomButton buttonName={t('end')} onPress={()=>navigation.replace('Tesztek',{testListMode:'Tests'})}></CustomButton>
@@ -199,7 +192,7 @@ else{
         <SafeAreaView>
         <CustomHeader/>
         <View style={AddQuestionWithAnswerStyle.titleContainer}>
-            <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>navigation.navigate('Tesztek')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
+            <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>navigation.navigate('Tesztek',{testListMode:'Tests'})}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
             <Text style={AddQuestionWithAnswerStyle.title1}>{t('modifyQuestion')}</Text>
         </View>
         {editQuestion &&
@@ -233,19 +226,17 @@ else{
         <>
         <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés: {route.params.qestionText}</Text>
         <CustomButton buttonName={t('modifyQuestion')} onPress={()=>handleModifyButtonPress()}></CustomButton>
-        </>
-        }
-        { questionType=='CHECKBOX' || questionType=='SELECT_ONE' &&
         <View> 
         <CustomInput label={t('answer')} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
             <View style={AddQuestionWithAnswerStyle.checkBoxContainer}>
-                <Text style={AddQuestionWithAnswerStyle.checkBoxText}>Helyes válasz:</Text>
-                <Checkbox status={checked ? 'checked' : 'unchecked'} onPress={()=>{setChecked(!checked)}} color={'#009AB9'} uncheckedColor={'#009AB9'}></Checkbox>
+                <Text style={AddQuestionWithAnswerStyle.checkBoxText}>Pontok:</Text>
+                <CustomInput label={'Pontok'} inputValue={points} onChangeTextEvent={text => setPoints(text)} outlineColor={'#009AB9'}/>
             </View>
         <CustomButton buttonName={t('addAnswer')} onPress={()=>handleAddAnswer()}></CustomButton>
         </View>
+        </>
         }
-            <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
+            <AnswerList changeHappened={changeTracker} data={answers} questionId={route.params.questionId} fullEditMode={route.params.FullEditMode}></AnswerList>
         <CustomButton buttonName={t('modifyEnd')} onPress={()=>navigation.replace('QuestionListScreen',{testname:route.params.testName,testId:route.params.testId})}></CustomButton>
         </View>
         </SafeAreaView>

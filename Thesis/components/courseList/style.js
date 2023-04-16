@@ -5,7 +5,6 @@ export const courseListStyle = StyleSheet.create({
         alignItems: "center",
         width:'100%',
         display:'flex',
-        marginBottom:600,
         height:400
     },
     listTitle:{
@@ -35,6 +34,13 @@ export const courseListStyle = StyleSheet.create({
         alignSelf:'center',
         fontSize:15
       },
+      noCoursesText:{
+        
+        fontWeight:'bold',
+        textAlign:'center',
+        color:'#009AB9',
+        fontSize:18
+      }
 
    
 })

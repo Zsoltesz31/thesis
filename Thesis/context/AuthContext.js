@@ -1,6 +1,7 @@
 import React, {createContext,useState} from 'react'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import BASE_URL from '../config'
 
 export const AuthContext = createContext()
 
@@ -11,7 +12,7 @@ export const AuthProvider = ({children}) => {
     const [errorMsg,setErrorMsg] = useState('')
 
     const register = (firstName,lastName,email,password) =>{
-        axios.post('http://192.168.1.64:3333/auth/signup',{
+        axios.post(`${BASE_URL}auth/signup`,{
             firstName,lastName,email,password
         }).then(res=>{
             let userInfo=res.data
@@ -21,7 +22,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const login =(email,password)=>{
-        axios.post('http://192.168.1.64:3333/auth/signin',{
+        axios.post(`${BASE_URL}auth/signin`,{
         email,password
     }).then(res=>{
             let userInfo=res.data
@@ -30,13 +31,12 @@ export const AuthProvider = ({children}) => {
 
         }).catch(e=>{
             setErrorMsg('Sikertelen bejelentkezés! A jelszó vagy az e-mail cím nem megfelelő!')
-            console.log(errorMsg)
         })
     }
 
     const getUserData =(userInfo)=>{
 
-        axios.get('http://192.168.1.64:3333/users/me',{
+        axios.get(`${BASE_URL}users/me`,{
             headers:{
                 'Authorization' : `Bearer ${userInfo.access_token}`
             }

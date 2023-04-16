@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import axios from 'axios'
-import {View,Text,SafeAreaView,FlatList,Pressable } from 'react-native'
+import {View,Text,SafeAreaView,FlatList,Pressable,Alert } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import {testListStyle} from'./style'
 import { deleteTest, getTestById } from '../../slices/testSlice';
@@ -26,15 +26,22 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
     }
 
     const CheckDate = (date,title,id) =>{
+        console.log(title)
         let today = new Date()
         if(date!=today){
-            console.log('NEM KEZDHETŐ EL A TESZT')
-
-            navigation.navigate('TestSheet',{testname:title,testId:id})
+            Alert.alert(
+                "Nem kezdheti el a tesztet!",
+                "A teszt időpontja nem egyezik meg a mai dátummal így nem kezdheti el a tesztet",
+                [
+                  {
+                    text: "Rendben",
+                    style: "cancel",
+                  },
+                ])
         }
         else{
 
-            navigation.navigate('TestSheet',{testname:title,testId:id})
+            navigation.navigate('TestSheet',{testname:title,testId:id,listType:listType})
         }
     }
 
@@ -48,16 +55,33 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
         )
     }
 
+    const onDeleteButtonPress = (id) => {
+        Alert.alert(
+            'Figyelmeztetés',
+          "Biztosan törli a tesztet?",
+          [
+            {
+              text: "Igen",
+              style: "destructive",
+              onPress: () => handleDelete(id),
+            },
+            {
+              text: "Nem",
+              style: "cancel",
+            },
+          ]
+        );
+      };
+
     const Item = ({item}) => (
-        <Pressable onPress={()=>{navigation.navigate('TestSheet',{testname:item.title,testId:item.id})}} android_ripple="true">
+        <Pressable onPress={()=>{navigation.navigate('TestSheet',{testname:item.title,testId:item.id,listType:listType})}} android_ripple="true">
         <View style={testListStyle.listitem}>
         <Text style={testListStyle.listItemHeader}>{item.title}</Text>
         <View style={testListStyle.listCrudButtons}>
         <Pressable onPress={()=>passTestDataById(item.id)}><Ionicons name={'create-outline'} size={20} color={"white"}/></Pressable>
-        <Pressable onPress={()=>handleDelete(item.id)}><Ionicons name={'trash-outline'} size={20} color={"white"}/></Pressable>
+        <Pressable onPress={()=>onDeleteButtonPress(item.id)}><Ionicons name={'trash-outline'} size={20} color={"white"}/></Pressable>
         </View>
         <View style={testListStyle.testFooterContainer}>
-        <Text style={testListStyle.deadline}>Határidő: {item.description}</Text>
         </View>
         </View>
         <ConfirmationModal visible={isModalVisible} onClose={modalClose}>
@@ -74,7 +98,8 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
     const PublishedItem = ({item,date,actualDate}) =>(
         <Pressable onPress={()=>CheckDate(actualDate,item.title,item.id)} android_ripple="true">
         <View style={testListStyle.listitem}>
-        <Text style={testListStyle.listItemHeader}>TestId: {item.testId}</Text>
+        <Text style={testListStyle.listItemHeader}>Teszt neve: elso{item.testName}</Text>
+        <Text style={testListStyle.listItemHeader}>Teszt leírása: elso{item.description}</Text>
         <View style={testListStyle.testFooterContainer}>
         <Text style={testListStyle.deadline}>Kezdés időpontja: {date}</Text>
         </View>

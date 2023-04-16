@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
+import BASE_URL from '../config'
 
 const initialState={
     currentAddedTest:null,
@@ -10,21 +11,25 @@ const initialState={
  }
 
 export const getAllTests = createAsyncThunk('test/getAllTests', ()=>{
-    return axios.get('http://192.168.1.64:3333/test').then((response)=>(response.data))
+    return axios.get(`${BASE_URL}test`).then((response)=>(response.data))
+})
+
+export const getTestsByOwner = createAsyncThunk('test/getTestsByOwner', (id)=>{
+    return axios.get(`${BASE_URL}test/owner/${id}`).then((response)=>(response.data))
 })
 
 export const getTestById = createAsyncThunk('test/getTestById', (id)=>{
-    return axios.get(`http://192.168.1.64:3333/test/${id}`).then((response)=>(response.data))
+    return axios.get(`${BASE_URL}test/${id}`).then((response)=>(response.data))
 })
 
 
 export const deleteTest = createAsyncThunk('test/deleteTest',(id)=>{
     console.log(id)
-    return axios.delete(`http://192.168.1.64:3333/test/${id}`).then((response)=>response.data)
+    return axios.delete(`${BASE_URL}test/${id}`).then((response)=>response.data)
 })
 
 export const createTest = createAsyncThunk('test/createTest',(values)=>{
-    return axios.post('http://192.168.1.64:3333/test',{
+    return axios.post(`${BASE_URL}test`,{
             title:values.title,
             description:values.description,
             ownerId:values.ownerId
@@ -36,7 +41,7 @@ export const createTest = createAsyncThunk('test/createTest',(values)=>{
 
 export const updateTest = createAsyncThunk('test/updateTest',(values)=>{
     console.log(values)
-   return axios.patch(`http://192.168.1.64:3333/test/${values.testId}`,{
+   return axios.patch(`${BASE_URL}test/${values.testId}`,{
             title: values.title,
             description: values.description,
             ownerId:values.ownerId
@@ -49,6 +54,19 @@ const testSlice = createSlice({
     name:'test',
     initialState,
     extraReducers: (builder) => {
+        builder.addCase(getTestsByOwner.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(getTestsByOwner.fulfilled,(state,action) => {
+
+            state.loading=false
+            state.tests=action.payload
+            state.error=''
+        })
+        builder.addCase(getTestsByOwner.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
         builder.addCase(getAllTests.pending,(state) =>{
             state.loading=true
         })

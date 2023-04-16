@@ -67,7 +67,7 @@ export default function LoginScreen({ route,navigation }) {
         <SafeAreaView style={loginScreenStyle.content} theme={theme}>
             <CustomHeader></CustomHeader>
            <View style={loginScreenStyle.view}>
-                    <Text style={loginScreenStyle.title}>{t('login')} {route.params.loginType=='student'? t('forStudent') : t('forTeacher')}</Text>
+                    <Text style={loginScreenStyle.title}>{t('login')}</Text>
                     <CustomInput outlineColor={outlineColor} onBlurEvent={()=>validateNk(username)} label={t('e_mail')} mode='outlined' theme={{roundness:40}} value={username} onChangeTextEvent={text => setUsername(text)}></CustomInput>
                     {userNameError.length>0 && 
                     <Text style={{color:'red'}}>
@@ -84,7 +84,7 @@ export default function LoginScreen({ route,navigation }) {
                     <Text style={{color:'red'}}>
                     {errorMsg}
                     </Text>
-                    <CustomButton buttonName={t('register')} onPress={()=>navigation.navigate('Register',{loginType:route.params.loginType})}></CustomButton>
+                    <CustomButton buttonName={t('register')} onPress={()=>navigation.navigate('Register')}></CustomButton>
                     <CustomButton buttonName={t('back')} onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
   
             </View>

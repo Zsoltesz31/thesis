@@ -69,6 +69,13 @@ const eng = {
     createCourse:'Create course',
     courseData:'Course data',
     courseName:'Course name',
-    courseDesc:'Course description'
+    courseDesc:'Course description',
+    teacherAccDesc:'You are currently using a tutor account, which gives you the opportunity to create tests and-or courses. You can assign any student to any course, provided they are on the user-list, this way you can represent one of your Neptun courses. Of course, later on you can manage and modify the courses to your liking. ',
+    studentAccDesc:'You are currently using a stundent account, that allows you to take tests in the courses assigned to you. Most of these tests can correspond to midterm exams or exams that occur during exam periods.',
+    appDesc:'This application is aiming to solve the problems of online-education, and make creating tests and participating in them much less troublesome for both parties.',
+    navigationDesc:'To navigate between the screens use the bottom navigation bar!',
+    addUsersToCourse:'Add member to course',
+    modifyUsersOnCourse:'Modify members',
+    members:'Manage members'
 }
 export {eng}

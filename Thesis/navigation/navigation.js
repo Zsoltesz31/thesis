@@ -11,14 +11,18 @@ import TestListScreen from '../app/screens/testlistscreen/testlistscreen'
 import TestSheetScreen from '../app/screens/testSheetScreen/testSheetScreen'
 import ForgotPassword from '../app/screens/forgotPasswordscreen/forgotPasswordscreen'
 import RegisterScreen from '../app/screens/registerScreen/registerScreen';
-import TestEndScreen from '../app/screens/testEndScreen/testEndScreen';
+import CheckedTestsScreen from '../app/screens/checkedTestsScreen/checkedTestScreen';
 import CreateTestScreen from '../app/screens/createTestScreen/createTestScreen';
 import AddQuestionWithAnswer from '../app/screens/addQuestionWithAnswer/addQuestionWithAnswer';
 import QuestionListScreen from '../app/screens/questionListScreen/questionListScreen';
 import TestScreen from '../app/screens/testScreen/testScreen';
 import CreateCourseScreen from '../app/screens/createCourseScreen/createCourseScreen';
+import UsersToCourse from '../app/screens/usersToCourse/usersToCourse';
+import CheckedTestQuestionsListScreen from '../app/screens/checkedTestQuestionsListScreen/checkedTestQuestionsListScreen';
 import {theme} from '../AppStyle'
 
+import { useLayoutEffect } from 'react';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -49,20 +53,40 @@ export default function Navigations() {
     useEffect(()=>{
       getUserData(userInfo)
     },[userInfo])
-
    
-    createCourseStack = () =>  {
+    createCourseStack = ({navigation,route}) =>  {
+
+        useLayoutEffect(()=>{
+          const routeName=getFocusedRouteNameFromRoute(route)
+          if(routeName==='TestScreen'){
+            navigation.setOptions({tabBarStyle:{display:'none'}})
+          } else{
+            navigation.setOptions({tabBarStyle:{ backgroundColor:'#009AB9',
+            display:'flex',
+            position:'absolute',
+            elevation:1,
+            right:10,
+            left:10,
+            borderRadius:17,
+            height:55,
+            color:'white',
+            bottom:10,}})
+          }
+        },[navigation,route])
+
         return(
         <Stack.Navigator>
           <Stack.Screen name="Kurzusaid" component={CourseScreen} initialParams={{HeaderText:coursescreenName}} options={{headerShown:false}}></Stack.Screen>
           <Stack.Screen name="Tesztek" component={TestListScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="TestSheet" component={TestSheetScreen} options={{headerShown:false}} ></Stack.Screen>
-          <Stack.Screen name="TestEndScreen" component={TestEndScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="CheckedTestsScreen" component={CheckedTestsScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="AddQuestionWithAnswer" component={AddQuestionWithAnswer} options={{headerShown:false}} ></Stack.Screen>
-          <Stack.Screen name="TestScreen" component={TestScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CreateTest" component={CreateTestScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="QuestionListScreen" component={QuestionListScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CreateCourse" component={CreateCourseScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="UsersToCourse" component={UsersToCourse} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="TestScreen" component={TestScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="CheckedTestQuestionsListScreen" component={CheckedTestQuestionsListScreen} options={{headerShown:false}} ></Stack.Screen>
         </Stack.Navigator>
         )}
    
@@ -129,11 +153,9 @@ export default function Navigations() {
                 )}/>
          </BottomTabs.Navigator>:
          <Stack.Navigator>
-         <Stack.Screen name="ChooseUserType" component={ChooseUserType} options={{header: () => null}}></Stack.Screen>
          <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
-         <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{header: () => null}}></Stack.Screen>
          <Stack.Screen name="Register" component={RegisterScreen} options={{header: () => null}}></Stack.Screen>
-       </Stack.Navigator>}
+         </Stack.Navigator>}
         
         </NavigationContainer>
         </PaperProvider>

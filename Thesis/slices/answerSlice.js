@@ -1,5 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
+import BASE_URL from '../config'
 
 const initialState={
     answers:[],
@@ -8,21 +9,18 @@ const initialState={
  }
 
 export const getAnwser = createAsyncThunk('answer/getAnswer', (id)=>{
-    return axios.get(`http://192.168.1.64:3333/answer/${id}`).then((response)=>(response.data))
+    return axios.get(`${BASE_URL}answer/${id}`).then((response)=>(response.data))
 })
 
 export const deleteAnswer = createAsyncThunk('answer/deleteAnswer',(id)=>{
-    console.log('lefutok',id)
-    return axios.delete(`http://192.168.1.64:3333/answer/${id}`).then((response)=>response.data)
+    return axios.delete(`${BASE_URL}answer/${id}`).then((response)=>response.data)
 })
 
 export const createAnswer = createAsyncThunk('answer/createAnswer',(values)=>{
-    return axios.post('http://192.168.1.64:3333/answer',{
+    return axios.post(`${BASE_URL}answer`,{
             questionId:values.questionId,
             text:values.text,
-            correct:values.correct,
             point:values.point
-           
         }
     ).then((response)=>response.data).catch(e=>{
         console.log(e)
@@ -30,17 +28,14 @@ export const createAnswer = createAsyncThunk('answer/createAnswer',(values)=>{
 })
 
 export const updateAnswer = createAsyncThunk('answer/updateAnswer',(values)=>{
-    console.log('ANSWERSLICE:',values)
-   return axios.patch(`http://192.168.1.64:3333/answer/${values.id}}`,{
-        headers:{
-            "Content-type":"application/json"
-        },
-        body:{
+   return axios.patch(`${BASE_URL}answer/${values.id}`,{
             questionId:values.questionId,
+            answerId:values.id,
             text:values.text,
-            correct:values.correct
-        }
-    }).then((response)=>console.log(response.data))
+            point:values.point,
+    }).then((response)=>response.data).catch(e=>{
+        console.log(e)
+    })
 })
 
 const answerSlice = createSlice({

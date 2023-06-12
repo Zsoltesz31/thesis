@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
+import BaseInstance from "../api/api";
 
 const initialState={
     currentAddedUpComingTest:null,
@@ -11,12 +12,12 @@ const initialState={
 
 
 export const getUpcomingTestByUserId = createAsyncThunk('upcomingtest/getUpcomingTestByUserId', (id)=>{
-    return axios.get(`${BASE_URL}upcomingtest/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`upcomingtest/${id}`).then((response)=>(response.data))
 })
 
 export const getUpcomingTestByCourseId = createAsyncThunk('upcomingtest/getUpcomingTestByCourseId', (id)=>{
     console.log(id)
-    return axios.get(`${BASE_URL}upcomingtest/course/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`upcomingtest/course/${id}`).then((response)=>(response.data))
 })
 
 export const addUserToUpcomingTest = createAsyncThunk('upcomingtest/adUsersToUpcomingTests',(values)=>{

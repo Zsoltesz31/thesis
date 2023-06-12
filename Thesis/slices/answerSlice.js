@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
+import BaseInstance from "../api/api";
 
 const initialState={
     answers:[],
@@ -9,7 +10,7 @@ const initialState={
  }
 
 export const getAnwser = createAsyncThunk('answer/getAnswer', (id)=>{
-    return axios.get(`${BASE_URL}answer/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`answer/${id}`).then((response)=>(response.data))
 })
 
 export const deleteAnswer = createAsyncThunk('answer/deleteAnswer',(id)=>{

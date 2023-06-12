@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
+import MainApiInstance from "../api/api";
 
 const initialState={
     currentAddedTest:null,
@@ -11,15 +12,15 @@ const initialState={
  }
 
 export const getAllTests = createAsyncThunk('test/getAllTests', ()=>{
-    return axios.get(`${BASE_URL}test`).then((response)=>(response.data))
+    return MainApiInstance.BaseInstance.get(`test`).then((response)=>(response.data))
 })
 
 export const getTestsByOwner = createAsyncThunk('test/getTestsByOwner', (id)=>{
-    return axios.get(`${BASE_URL}test/owner/${id}`).then((response)=>(response.data))
+    return MainApiInstance.BaseInstance.get(`test/owner/${id}`).then((response)=>(response.data))
 })
 
 export const getTestById = createAsyncThunk('test/getTestById', (id)=>{
-    return axios.get(`${BASE_URL}test/${id}`).then((response)=>(response.data))
+    return MainApiInstance.BaseInstance.get(`test/${id}`).then((response)=>(response.data))
 })
 
 

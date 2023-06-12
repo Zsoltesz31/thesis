@@ -27,7 +27,7 @@ export const AuthProvider = ({children}) => {
     }).then(res=>{
             let userInfo=res.data
             setUserInfo(userInfo)
-            AsyncStorage.setItem('userInfo',JSON.stringify(userInfo))
+            AsyncStorage.setItem('userInfo',userInfo.access_token)
 
         }).catch(e=>{
             setErrorMsg('Sikertelen bejelentkezés! A jelszó vagy az e-mail cím nem megfelelő!')
@@ -35,7 +35,6 @@ export const AuthProvider = ({children}) => {
     }
 
     const getUserData =(userInfo)=>{
-
         axios.get(`${BASE_URL}users/me`,{
             headers:{
                 'Authorization' : `Bearer ${userInfo.access_token}`
@@ -60,4 +59,6 @@ export const AuthProvider = ({children}) => {
     return(
     <AuthContext.Provider value={{login,userInfo,logout,register,getUserData,userData,errorMsg}}>{children}</AuthContext.Provider>
     )
+    
 }
+

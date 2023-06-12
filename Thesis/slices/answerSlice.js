@@ -14,11 +14,11 @@ export const getAnwser = createAsyncThunk('answer/getAnswer', (id)=>{
 })
 
 export const deleteAnswer = createAsyncThunk('answer/deleteAnswer',(id)=>{
-    return axios.delete(`${BASE_URL}answer/${id}`).then((response)=>response.data)
+    return BaseInstance.delete(`answer/${id}`).then((response)=>response.data)
 })
 
 export const createAnswer = createAsyncThunk('answer/createAnswer',(values)=>{
-    return axios.post(`${BASE_URL}answer`,{
+    return BaseInstance.post(`answer`,{
             questionId:values.questionId,
             text:values.text,
             point:values.point
@@ -29,7 +29,7 @@ export const createAnswer = createAsyncThunk('answer/createAnswer',(values)=>{
 })
 
 export const updateAnswer = createAsyncThunk('answer/updateAnswer',(values)=>{
-   return axios.patch(`${BASE_URL}answer/${values.id}`,{
+   return BaseInstance.patch(`answer/${values.id}`,{
             questionId:values.questionId,
             answerId:values.id,
             text:values.text,

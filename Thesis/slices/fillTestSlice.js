@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
+import BaseInstance from "../api/api";
 
 const initialState={
     startedTest:null,
@@ -11,7 +12,7 @@ const initialState={
 
 
 export const setFillStartTest = createAsyncThunk('fill/setFillStartTest', (values)=>{
-    return axios.post(`${BASE_URL}fill/start-test`,{
+    return BaseInstance.post(`fill/start-test`,{
         userId:values.userId,
         upComingTestId:values.upComingTestId
     }).then((response)=>(response.data)).catch(e=>{
@@ -21,20 +22,20 @@ export const setFillStartTest = createAsyncThunk('fill/setFillStartTest', (value
 
 export const setFillEndTest = createAsyncThunk('fill/setFillEndTest', (id) =>{
     console.log('END ID:',id)
-    return axios.post(`${BASE_URL}fill/end-test/${id}`).then((response)=>(response.data)).catch(e=>{
+    return BaseInstance.post(`fill/end-test/${id}`).then((response)=>(response.data)).catch(e=>{
         console.log(e)
     })
 })
 
 export const getTestResultsTest = createAsyncThunk('fill/getTestResults', (id)=>{
-    return axios.get(`${BASE_URL}fill/test-results/${id}`).then((response)=>(response.data)).catch(e=>{
+    return BaseInstance.get(`fill/test-results/${id}`).then((response)=>(response.data)).catch(e=>{
         console.log(e)
     })
 })
 
 export const setFillAnswer = createAsyncThunk('fill/setFillAnswer',(values)=>{
     console.log('FILL ANSWER ÉRTÉKEK:',values)
-    return axios.post(`${BASE_URL}fill/answer`,{
+    return BaseInstance.post(`fill/answer`,{
             userId:values.userId,
             questionId:values.questionId,
             answerId:values.answerId,

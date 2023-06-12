@@ -12,25 +12,25 @@ const initialState={
  }
 
 export const getAllTests = createAsyncThunk('test/getAllTests', ()=>{
-    return MainApiInstance.BaseInstance.get(`test`).then((response)=>(response.data))
+    return BaseInstance.get(`test`).then((response)=>(response.data))
 })
 
 export const getTestsByOwner = createAsyncThunk('test/getTestsByOwner', (id)=>{
-    return MainApiInstance.BaseInstance.get(`test/owner/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`test/owner/${id}`).then((response)=>(response.data))
 })
 
 export const getTestById = createAsyncThunk('test/getTestById', (id)=>{
-    return MainApiInstance.BaseInstance.get(`test/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`test/${id}`).then((response)=>(response.data))
 })
 
 
 export const deleteTest = createAsyncThunk('test/deleteTest',(id)=>{
     console.log(id)
-    return axios.delete(`${BASE_URL}test/${id}`).then((response)=>response.data)
+    return BaseInstance.delete(`test/${id}`).then((response)=>response.data)
 })
 
 export const createTest = createAsyncThunk('test/createTest',(values)=>{
-    return axios.post(`${BASE_URL}test`,{
+    return BaseInstance.post(`test`,{
             title:values.title,
             description:values.description,
             ownerId:values.ownerId
@@ -42,7 +42,7 @@ export const createTest = createAsyncThunk('test/createTest',(values)=>{
 
 export const updateTest = createAsyncThunk('test/updateTest',(values)=>{
     console.log(values)
-   return axios.patch(`${BASE_URL}test/${values.testId}`,{
+   return BaseInstance.patch(`test/${values.testId}`,{
             title: values.title,
             description: values.description,
             ownerId:values.ownerId

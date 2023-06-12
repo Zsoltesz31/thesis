@@ -6,13 +6,13 @@ const getData = async ()=>{
     try{
         const storageValue = await AsyncStorage.getItem('userInfo')
         if(storageValue!==null){
-            console.log(storageValue)
+           return storageValue
         }
     }catch(e){
         console.log(e)
     }
 }
-getData()
+const token = getData()
 const BaseInstance = axios.create({
     baseURL:'http://192.168.1.64:3333/',
     headers:{

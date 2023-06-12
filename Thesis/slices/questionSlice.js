@@ -1,7 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
-import { getAnwser } from "./answerSlice";
 import BASE_URL from '../config'
+import BaseInstance from "../api/api";
 
 const initialState={
     currentAddedQuestion:null,
@@ -13,24 +13,24 @@ const initialState={
 
 export const getQuestion = createAsyncThunk('question/getQuestion', (id)=>{
     console.log('KÉRDÉS ID:',id)
-    return axios.get(`${BASE_URL}question/${id}`).then((response)=>(response))
+    return BaseInstance.get(`question/${id}`).then((response)=>(response))
 })
 
 export const getQuestionByTestIdWithAnswers = createAsyncThunk('question/getQuestionsByTestIdWithAnswers', (id)=>{
     console.log(id)
-    return axios.get(`${BASE_URL}answer/${id}`).then((response)=>response.data)
+    return BaseInstance.get(`answer/${id}`).then((response)=>response.data)
 })
 
 export const getQuestionByTestId = createAsyncThunk('question/getQuestionsByTestId', (id)=>{
-    return axios.get(`${BASE_URL}question/test/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`question/test/${id}`).then((response)=>(response.data))
 })
 
 export const deleteQuestion = createAsyncThunk('question/deleteQuestion',(id)=>{
-    return axios.delete(`${BASE_URL}question/${id}`).then((response)=>response.data)
+    return BaseInstance.delete(`question/${id}`).then((response)=>response.data)
 })
 
 export const createQuestion = createAsyncThunk('question/createQuestion',(values)=>{
-    return axios.post(`${BASE_URL}question`,{
+    return BaseInstance.post(`question`,{
             testId:values.testId,
             text:values.text,
             type:values.type,
@@ -43,7 +43,7 @@ export const createQuestion = createAsyncThunk('question/createQuestion',(values
 
 export const updateQuestion = createAsyncThunk('question/updateQuestion',(values)=>{
     console.log(values)
-   return axios.patch(`${BASE_URL}question/${values.id}`,{
+   return BaseInstance.patch(`question/${values.id}`,{
             testId:values.testId,
             type:values.type,
             text:values.text,

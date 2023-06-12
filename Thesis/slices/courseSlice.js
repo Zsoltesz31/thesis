@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
+import BaseInstance from "../api/api";
 
 const initialState={
     currentAddedCourse:null,
@@ -10,25 +11,25 @@ const initialState={
  }
 
 export const getAllCourses = createAsyncThunk('course/getCourses', ()=>{
-    return axios.get(`${BASE_URL}course`).then((response)=>(response.data))
+    return BaseInstance.get(`course`).then((response)=>(response.data))
 })
 
 export const getCoursesByOwnerId = createAsyncThunk('course/getCoursesByOwner', (id)=>{
-    return axios.get(`${BASE_URL}course/owned/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`course/owned/${id}`).then((response)=>(response.data))
 })
 
 export const getCoursesByUserId = createAsyncThunk('test/getCoursesByUser', (id)=>{
-    return axios.get(`${BASE_URL}course/user/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`course/user/${id}`).then((response)=>(response.data))
 })
 
 
 export const deleteCourse = createAsyncThunk('course/deleteCourse',(id)=>{
-    return axios.delete(`${BASE_URL}course/${id}`).then((response)=>response.data)
+    return BaseInstance.delete(`course/${id}`).then((response)=>response.data)
 })
 
 export const createCourse = createAsyncThunk('course/createCourse',(values)=>{
     console.log(values)
-    return axios.post(`${BASE_URL}course`,{
+    return BaseInstance.post(`course`,{
             name:values.title,
             description:values.description,
             ownerId:values.ownerId
@@ -40,7 +41,7 @@ export const createCourse = createAsyncThunk('course/createCourse',(values)=>{
 
 export const updateCourse = createAsyncThunk('course/updateCourse',(values)=>{
     console.log(values)
-   return axios.patch(`${BASE_URL}course/${values.courseId}`,{
+   return BaseInstance.patch(`course/${values.courseId}`,{
             name: values.title,
             description: values.description,
             ownerId:values.ownerId
@@ -50,13 +51,13 @@ export const updateCourse = createAsyncThunk('course/updateCourse',(values)=>{
 })
 
 export const addUserToCourse = createAsyncThunk('course/addUserToCourse',(values)=>{
-    return axios.post(`${BASE_URL}course/${values.courseId}/user/${values.userId}`).then((response)=>(response.data)).catch(e=>{
+    return BaseInstance.post(`course/${values.courseId}/user/${values.userId}`).then((response)=>(response.data)).catch(e=>{
          console.log(e)
      })
  })
 
  export const deleteUserFromCourse = createAsyncThunk('course/deleteUserFromCourse',(values)=>{
-    return axios.delete(`${BASE_URL}course/${values.testId}`)
+    return BaseInstance.delete(`course/${values.testId}`)
     .then((response)=>(response.data)).catch(e=>{
          console.log(e)
      })

@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
+import BaseInstance from "../api/api";
 
 const initialState={
     users:[],
@@ -9,7 +10,7 @@ const initialState={
  }
 
 export const getAllUsers = createAsyncThunk('users/getAllUsers', ()=>{
-    return axios.get(`${BASE_URL}users`).then((response)=>(response.data))
+    return BaseInstance.get(`users`).then((response)=>(response.data))
 })
 
 

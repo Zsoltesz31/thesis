@@ -1,6 +1,4 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios'
-import BASE_URL from '../config'
 import BaseInstance from "../api/api";
 
 const initialState={
@@ -16,12 +14,13 @@ export const getUpcomingTestByUserId = createAsyncThunk('upcomingtest/getUpcomin
 })
 
 export const getUpcomingTestByCourseId = createAsyncThunk('upcomingtest/getUpcomingTestByCourseId', (id)=>{
-    console.log(id)
-    return BaseInstance.get(`upcomingtest/course/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`upcomingtest/course/${id}`).then((response)=>{
+        return response.data
+    })
 })
 
 export const addUserToUpcomingTest = createAsyncThunk('upcomingtest/adUsersToUpcomingTests',(values)=>{
-    return axios.post(`${BASE_URL}upcomingtest/${values.id}`,{
+    return BaseInstance.post(`upcomingtest/${values.id}`,{
             userIds:values.userIds
         }
     ).then((response)=>(response.data)).catch(e=>{
@@ -31,8 +30,8 @@ export const addUserToUpcomingTest = createAsyncThunk('upcomingtest/adUsersToUpc
 
 
 export const addTestToUpcomingTests = createAsyncThunk('upcomingtest/createUpComingTest',(values)=>{
-    console.log(values)
-    return axios.post(`${BASE_URL}upcomingtest`,{
+    console.log(`BEJÖN IDE AZ ADATOT AMI MAJD PUBLIKÁL: ${values}`)
+    return BaseInstance.post(`upcomingtest`,{
             lastStartDate:values.lastStartDate,
             startDate:values.startDate,
             testId:values.testId,

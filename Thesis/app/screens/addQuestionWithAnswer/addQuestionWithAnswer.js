@@ -1,6 +1,6 @@
 import React, {useState,useEffect}  from 'react'
-import { View,SafeAreaView,Text,Pressable,ScrollView } from 'react-native'
-import { Checkbox } from 'react-native-paper'
+import { View,SafeAreaView,Text,Pressable,Image, Platform } from 'react-native'
+import * as ImagePicker from 'expo-image-picker';
 import { CustomButton } from '../../../components/buttons/buttons'
 import { CustomInput } from '../../../components/inputs/inputs'
 import CustomHeader from '../../../components/header/header'
@@ -8,10 +8,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import { AddQuestionWithAnswerStyle } from './style'
 import { useDispatch,useSelector } from 'react-redux'
-import { createQuestion,getQuestion,updateQuestion } from '../../../slices/questionSlice'
+import { createQuestion,getQuestion,updateQuestion,upsertImageToQuestion } from '../../../slices/questionSlice'
 import AnswerList from '../../../components/answerList/answerList'
-import { getAnwser,createAnswer } from '../../../slices/answerSlice'
+import { getAnwser,createAnswer,reset } from '../../../slices/answerSlice'
 import { useTranslation } from 'react-i18next'
+import { useContext } from 'react';
+import { AuthContext } from '../../../context/AuthContext';
+import * as FileSystem from 'expo-file-system';
+import axios from 'axios'
+import FormData from 'form-data'
+
 
 
 export default function AddQuestionWithAnswer({navigation,route}){
@@ -19,15 +25,19 @@ export default function AddQuestionWithAnswer({navigation,route}){
     const [answerCreated,setAnswerCreated] = useState(false)
     const [questionCreated,setQuestionCreated] = useState(false)
     const [questionEditMode,setQuestionEditMode] = useState(false)
-    const [checked,setChecked] =useState(false)
     const [answer,setAnswer] = useState('')
     const [question,setQuestion] = useState('')
     const [points,setPoints] = useState('0')
     const [editQuestion,setEditQuestion] = useState(false)
+    const [image,setImage] = useState(null)
     const {currentAddedQuestion} =useSelector((state)=>state.question)
     const {currentAddedTest} = useSelector((state)=>state.test)
     const {answers} =useSelector((state)=>state.answer)
     const {t} = useTranslation()
+    const {userInfo} = useContext(AuthContext)
+    let editDone = false
+
+
     const QuestionTypes = [
         {
          type:'SELECT_ONE',
@@ -46,68 +56,74 @@ export default function AddQuestionWithAnswer({navigation,route}){
     {
     useEffect(()=>{
         if(questionCreated){
-        dispatch(getAnwser(currentAddedQuestion.data.id))
-        setChangeHappened(false)
+        dispatch(getAnwser(currentAddedQuestion.id)).then(setChangeHappened(false))
         }
-        setChangeHappened(false)
     },[currentAddedQuestion,changeHappened])
     }
     else{
     useEffect(()=>{
         dispatch(getQuestion(route.params.questionId))
-        dispatch(getAnwser(route.params.questionId))
+        getA()
         setChangeHappened(false)
     },[changeHappened])
     }
 
-    const handleAddQuestion = ()=>{
-            let values = {
+    const getA = async () =>{
+        await Promise.all([dispatch(getAnwser(route.params.questionId))])
+    }
+
+    const handleAddQuestion = async ()=>{
+
+            console.log('ezfutle')
+            let values ={
                 id:-1,
                 text:question,
                 type:questionType,
-                testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedTest.data.id
+                testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedTest.id
             }
-        dispatch(createQuestion(values))
-        setQuestionCreated(true)
-        //setChangeHappened(true)
+            console.log(values)
+            await Promise.all([dispatch(createQuestion(values))])
+            setQuestionCreated(true)
+            setChangeHappened(true)
     }
+
     
 
-    const handleEditQuestion = ()=>{ 
+    const handleEditQuestion = async ()=>{ 
         let values = {
             text:question,
             type:questionType,
-            id:currentAddedQuestion.data.id,
-            testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedQuestion.data.id
+            id:currentAddedQuestion.id,
+            testId:route.params.AddNewQuestion ? route.params.TestId : currentAddedQuestion.id
         }
-         dispatch(updateQuestion(values))
+         await Promise.all([dispatch(updateQuestion(values))])
          setQuestionEditMode(false)
          setQuestionCreated(true)
          setEditQuestion(false)
+         setImage(null)
     }
 
-    const handleEditQuestionFromQuestList = ()=>{
+    const handleEditQuestionFromQuestList = async ()=>{
         let values = {
             text:question,
             type:questionType,
             id:route.params.questionId,
             testId:route.params.testId
         }
-        console.log(questionType)
-         dispatch(updateQuestion(values))
+         await Promise.all([dispatch(updateQuestion(values))])
          setQuestionEditMode(false)
          setQuestionCreated(true)
          setEditQuestion(false)
+         setImage(null)
     }
 
-    const handleAddAnswer = ()=>{
+    const handleAddAnswer = async ()=>{
         let values = {
             text:answer,
-            questionId: route.params.FullEditMode ? route.params.questionId : currentAddedQuestion.data.id,
+            questionId: route.params.FullEditMode ? route.params.questionId : currentAddedQuestion.id,
             point:parseInt(points)
         }
-        console.log(values)
-        dispatch(createAnswer(values))
+        await Promise.all([dispatch(createAnswer(values))])
          setQuestionCreated(true)
          setAnswerCreated(true)
          setChangeHappened(true)
@@ -117,8 +133,8 @@ export default function AddQuestionWithAnswer({navigation,route}){
         setEditQuestion(true)
         setQuestionCreated(false)
         setQuestionEditMode(true)
-        setQuestion(currentAddedQuestion.data.text)
-        setQuestionType(currentAddedQuestion.data.type)
+        setQuestion(currentAddedQuestion.text)
+        setQuestionType(currentAddedQuestion.type)
     }
 
     const resetStatesToAddNewQuestion= () =>{
@@ -126,18 +142,54 @@ export default function AddQuestionWithAnswer({navigation,route}){
         setQuestionEditMode(false)
         setQuestion('')
         setAnswer('')
+        dispatch(reset())
+        
     }
 
     function changeTracker(changed){
         setChangeHappened(changed)
     }
+
+    const handleOpenImagePicker = async () =>{
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.Images,
+            allowsEditing:false,
+            aspect:[4,3],
+            quality:1,
+            base64: false
+        })
+        if(!result.canceled){
+            setImage(result.assets[0])
+
+        }
+    }
+
+    const handleAddImageToQuestion = async () => {
+        if(image){
+            const r = await FileSystem.uploadAsync(
+                `http://192.168.50.50:3333/question/image/${currentAddedQuestion.id}`,
+                image.uri,
+                {
+                    headers: {
+                        "authorization": `Bearer ${userInfo.access_token}`
+                    },
+                    httpMethod: 'POST',
+                    uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                    fieldName: 'image',
+                    mimeType: 'image/jpeg'
+                }
+            )
+        }
+        setImage(null)
+    }
+
 if(!route.params.FullEditMode)
 {
 return(
     <SafeAreaView>
         <CustomHeader/>
         <View style={AddQuestionWithAnswerStyle.titleContainer}>
-            <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>navigation.navigate('Tesztek',{testListMode:'Tests'})}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
+            <Pressable style={AddQuestionWithAnswerStyle.icon} onPress={()=>{navigation.navigate('Tesztek',{testListMode:'Tests'}),dispatch(reset())}}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
             <Text style={AddQuestionWithAnswerStyle.title1}>{t('addQuestion')}</Text>
         </View>
         {!questionCreated &&
@@ -161,7 +213,6 @@ return(
             />
                 <Text style={AddQuestionWithAnswerStyle.formText}>{t('questionText')}:</Text>
             <CustomInput label={t('question')} inputValue={question} onChangeTextEvent={text => setQuestion(text)} outlineColor={'#009AB9'}></CustomInput>
-           
             <CustomButton buttonName={questionEditMode ? t('modify') : t('add')} onPress={questionEditMode ? ()=>{handleEditQuestion()} : ()=>{handleAddQuestion()}}></CustomButton>
         </View> }
         { questionCreated &&
@@ -180,7 +231,14 @@ return(
             
                 <AnswerList changeHappened={changeTracker} data={answers}></AnswerList>
             <CustomButton buttonName={t('nextQuestion')} onPress={()=>resetStatesToAddNewQuestion()}></CustomButton>
-            <CustomButton buttonName={t('end')} onPress={()=>navigation.replace('Tesztek',{testListMode:'Tests'})}></CustomButton>
+            <CustomButton buttonName={t('selectImage')} onPress={()=>handleOpenImagePicker()}></CustomButton>
+            {
+                image &&
+                <View>
+                <Text style={AddQuestionWithAnswerStyle.formText}>{t('imageSelected')}</Text>
+                </View>
+            }
+            <CustomButton buttonName={t('end')} onPress={()=>(handleAddImageToQuestion(),navigation.replace('Tesztek',{testListMode:'Tests'}))}></CustomButton>
             </View>
         }
           
@@ -207,7 +265,6 @@ else{
                 selectedTextStyle={{color:'white',fontWeight:'bold'}}
                 onChange = {item=>{ 
                     setQuestionType(item.type)
-                    console.log(questionType)
                 }}
                 containerStyle={{width:330,borderRadius:25,left:5}}
                 style={{width:'95%',left:7,backgroundColor:'#009AB9',height:40,padding:10,margin:5}}
@@ -224,7 +281,7 @@ else{
         <View style={AddQuestionWithAnswerStyle.formContainer}>
         {!editQuestion &&
         <>
-        <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés: {route.params.qestionText}</Text>
+        <Text style={AddQuestionWithAnswerStyle.formText}>Kérdés: {currentAddedQuestion?.text}</Text>
         <CustomButton buttonName={t('modifyQuestion')} onPress={()=>handleModifyButtonPress()}></CustomButton>
         <View> 
         <CustomInput label={t('answer')} onChangeTextEvent={text => setAnswer(text)} outlineColor={'#009AB9'}></CustomInput>
@@ -237,7 +294,14 @@ else{
         </>
         }
             <AnswerList changeHappened={changeTracker} data={answers} questionId={route.params.questionId} fullEditMode={route.params.FullEditMode}></AnswerList>
-        <CustomButton buttonName={t('modifyEnd')} onPress={()=>navigation.replace('QuestionListScreen',{testname:route.params.testName,testId:route.params.testId})}></CustomButton>
+            <CustomButton buttonName={t('selectImage')} onPress={()=>handleOpenImagePicker()}></CustomButton>
+            {
+                image &&
+                <View>
+                <Text style={AddQuestionWithAnswerStyle.formText}>{t('imageSelected')}</Text>
+                </View>
+            }
+        <CustomButton buttonName={t('modifyEnd')} onPress={()=>{handleAddImageToQuestion(),navigation.replace('QuestionListScreen',{testname:route.params.testName,testId:route.params.testId}),dispatch(reset())}}></CustomButton>
         </View>
         </SafeAreaView>
     )

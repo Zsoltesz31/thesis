@@ -1,14 +1,12 @@
 import React, {useContext, useState } from 'react'
-import { SafeAreaView, View, Image, Pressable,Text } from 'react-native'
-import {TextInput, Button} from 'react-native-paper'
+import { SafeAreaView, View,Text } from 'react-native'
 import { loginScreenStyle } from './loginscreenstyle'
-import Images from '../../../images/index';
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
 import {theme} from '../../../AppStyle'
 import { useTranslation } from 'react-i18next'
-import { useDispatch,useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch} from 'react-redux';
+
 import CustomHeader from '../../../components/header/header';
 import CustomFooter from '../../../components/footer/footer';
 
@@ -45,6 +43,11 @@ export default function LoginScreen({ route,navigation }) {
         }
     }
 
+    const goLogin = () => {
+        login(username,password)
+    }
+
+
     const validatePassword = (password1) =>{
         if(password1.length <=0 )
         {
@@ -65,7 +68,7 @@ export default function LoginScreen({ route,navigation }) {
 
     return(
         <SafeAreaView style={loginScreenStyle.content} theme={theme}>
-            <CustomHeader></CustomHeader>
+           <CustomHeader></CustomHeader>
            <View style={loginScreenStyle.view}>
                     <Text style={loginScreenStyle.title}>{t('login')}</Text>
                     <CustomInput outlineColor={outlineColor} onBlurEvent={()=>validateNk(username)} label={t('e_mail')} mode='outlined' theme={{roundness:40}} value={username} onChangeTextEvent={text => setUsername(text)}></CustomInput>
@@ -80,12 +83,12 @@ export default function LoginScreen({ route,navigation }) {
                     {pswError}
                     </Text>
                     }
-                    <CustomButton disabledStatus={disableStatus} buttonName={t('login')} onPress={()=>{login(username,password)}}></CustomButton>
+                    <CustomButton  buttonName={t('login')} onPress={()=> goLogin()}></CustomButton>
                     <Text style={{color:'red'}}>
                     {errorMsg}
                     </Text>
+                    <CustomButton buttonName={t('forgotPassword')} onPress={()=>navigation.navigate('ForgotPasswordScreen')}></CustomButton>
                     <CustomButton buttonName={t('register')} onPress={()=>navigation.navigate('Register')}></CustomButton>
-                    <CustomButton buttonName={t('back')} onPress={()=>navigation.replace('ChooseUserType')}></CustomButton>
   
             </View>
             <CustomFooter></CustomFooter>

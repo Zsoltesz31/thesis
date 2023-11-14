@@ -26,7 +26,6 @@ export const MultipleOptionQuestion=({questionId,questionData,fillAnswer,upcomin
     const handleFillAnswer = () =>{
         for (let index = 0; index < answers.length; index++) {
             let values = {
-                userId:userData.id,
                 questionId:questionId,
                 answerId:answers[index],
                 upcomingTestId:upcomingTestId
@@ -77,7 +76,7 @@ export const MultipleOptionQuestion=({questionId,questionData,fillAnswer,upcomin
             <Text  style={MultipleOptionQuestionStyle.questionTitle}>{questionData.text}</Text>
             <FlatList
             showsHorizontalScrollIndicator={false}
-            data={questionData.answers}
+            data={questionData.Answers}
             renderItem={renderItem}
             keyExtractor = {item=>item.id.toString()}
             ></FlatList>

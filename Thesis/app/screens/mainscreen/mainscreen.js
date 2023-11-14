@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef,useContext } from 'react'
-import { SafeAreaView, Text,Pressable,View,ScrollView } from 'react-native'
+import { SafeAreaView, Text,Pressable,View,Platform } from 'react-native'
 import {CustomInput} from '../../../components/inputs/inputs'
 import {CustomButton} from '../../../components/buttons/buttons'
 import {ConfirmationModal} from "../../../components/modals/confirmation_modal"
@@ -18,8 +18,11 @@ export default function MainScreen({route}){
     return(
         <SafeAreaView style={mainScreenStyle.container}>
             <CustomHeader></CustomHeader>
-            <Text style={mainScreenStyle.title}>{userData.firstName} {userData.lastName}</Text>
+            <View style={Platform.OS==='android' ? mainScreenStyle.titleContainerOnAndroid : mainScreenStyle.titleContainerOnIos}>
             <Text style={mainScreenStyle.welcomeTitle}>{t('welcome')}</Text>
+            <Text style={mainScreenStyle.title}>{userData.firstName} {userData.lastName}</Text>
+            </View>
+            <Text style={mainScreenStyle.desc}>{t('userRoleType')}: {userData.role=='STUDENT' ? t('student'): t('teacher')}</Text>
             <View style={mainScreenStyle.container}>
                 {userData.role=='STUDENT' &&
                 <View>

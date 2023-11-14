@@ -2,6 +2,7 @@ import React, {createContext,useState} from 'react'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import BASE_URL from '../config'
+import BaseInstance from '../api/api'
 
 export const AuthContext = createContext()
 
@@ -17,21 +18,42 @@ export const AuthProvider = ({children}) => {
         }).then(res=>{
             let userInfo=res.data
         }).catch(e=>{
-            console.log(e)
+            console.log('authContext:',JSON.stringify(e))
         })
     }
 
-    const login =(email,password)=>{
-        axios.post(`${BASE_URL}auth/signin`,{
-        email,password
-    }).then(res=>{
+    const login = async (email,password)=>{
+        axios.post(`${BASE_URL}auth/signin`, 
+        {
+            email,password
+        },
+    )
+    .then(async (res)=>{
             let userInfo=res.data
             setUserInfo(userInfo)
-            AsyncStorage.setItem('userInfo',userInfo.access_token)
+            await AsyncStorage.setItem('token',userInfo.access_token)
+
+            const tokenValue = res.data.access_token
+            console.log(`Token value: ${tokenValue}`)
+            BaseInstance.interceptors.request.clear()
+            BaseInstance.interceptors.request.use((config)=>{
+                config.headers.Authorization = `Bearer ${tokenValue}`
+
+                return config
+            })
+            BaseInstance.interceptors.response.use(value => value, (error) => {
+                    if(error.response?.status === 401)
+                    {
+                       logout()
+                    }
+
+            })
 
         }).catch(e=>{
             setErrorMsg('Sikertelen bejelentkezés! A jelszó vagy az e-mail cím nem megfelelő!')
         })
+
+        
     }
 
     const getUserData =(userInfo)=>{
@@ -40,19 +62,22 @@ export const AuthProvider = ({children}) => {
                 'Authorization' : `Bearer ${userInfo.access_token}`
             }
         }
-    ).then(res=>{
+        ).then(async(res)=>{
             let userData=res.data
             setUserData(userData)
-            AsyncStorage.setItem('userData',JSON.stringify(userData))
-
+            await AsyncStorage.setItem('userData',JSON.stringify(userData))
         }).catch(e=>{
      
         })
+    
     }
 
-    const logout = () =>{
-        AsyncStorage.removeItem('userInfo')
+    const logout = async () =>{
+        console.log('Logout called')
+        await AsyncStorage.removeItem('userData')
+        await AsyncStorage.removeItem('token')
         setUserInfo({})
+        BaseInstance.interceptors.request.clear()
     }
 
 

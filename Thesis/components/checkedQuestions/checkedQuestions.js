@@ -6,31 +6,52 @@ import {CheckedQuestionsListStyle} from'./style'
 
 export default function CheckedQuestionsList({data}){
 
-    const Item = ({item}) => (
-        <Pressable onPress={()=>console.log('semmi')} android_ripple="true">
-        <View style={item.selectedAnswer[0].point>0 ?  CheckedQuestionsListStyle.listitemCorrect : CheckedQuestionsListStyle.listitemUnCorrect}>
-        <Text style={CheckedQuestionsListStyle.listItemHeader}>Kérdés: {item.question.text}</Text>
-        <Text style={CheckedQuestionsListStyle.listItemHeader}>Leadott válasz: {item.selectedAnswer[0].text}</Text>
+    const QuestionItem = ({item}) => (
+        <View style={CheckedQuestionsListStyle.listitem}>
+        <Text style={CheckedQuestionsListStyle.listItemHeader}>Kérdés: {item.text}</Text>
+        <View>
+        <FlatList
+        data = {item.answers}
+        renderItem = {renderItemAnswersToQuestion}
+        keyExtractor = {(item,index)=>index.toString()}
+        />
         </View>
-        </Pressable>
+        </View>
         
     )
 
+    const AnswerItem = ({item}) => (
+
+        <View style={item.point>0 ?  CheckedQuestionsListStyle.listitemCorrect : CheckedQuestionsListStyle.listitemUnCorrect}>
+        <Text style={CheckedQuestionsListStyle.listItemHeader}>Leadott válasz: {item.text}</Text>
+        </View>
+         
+    )
     
-    const renderItem=({item}) =>{
+    const renderItemQuestion=({item}) =>{
         return(
-            <Item
+            <QuestionItem
             item={item}
             />
            
         )
     }
+
+    const renderItemAnswersToQuestion=({item}) =>{
+        console.log(item)
+        return(
+            <AnswerItem
+            item={item}
+            />
+        )
+    }
+
+
     return(
           <SafeAreaView style={CheckedQuestionsListStyle.container}>
             <FlatList
-            showsHorizontalScrollIndicator={false}
             data={data}
-            renderItem={renderItem}
+            renderItem={renderItemQuestion}
             keyExtractor = {(item,index)=>index.toString()}
             ></FlatList>
           </SafeAreaView>  

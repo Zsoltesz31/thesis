@@ -6,16 +6,31 @@ export const UsersToCourseScreenStyle = StyleSheet.create({
         flexDirection:'row',
         top:45,
     },
+    titleContainer2:{
+        display:'flex',
+        flexDirection:'row',
+        top:10,
+
+    },
     icon:{
         left:10,
-        marginRight:'auto'
+        marginRight:'auto',
+        position:'absolute',
+        zIndex:10
     },
     title1:{
+        flex:1,
         color:'white',
         textAlign:'center',
         fontWeight:'bold',
         fontSize:25,
-        right:Dimensions.get('window').width/2/2
+        
+    },
+    title2:{
+        flex:1,
+        color:'#009AB9',
+        textAlign:'center',
+        fontWeight:'bold',
     },
     formContainer:{
         top:Dimensions.get('window').height/2/2,
@@ -64,7 +79,11 @@ export const UsersToCourseScreenStyle = StyleSheet.create({
     },
     listContainer:{
         marginTop:200,
-        height:250
+        height:400
+    },
+    listContainer2:{
+        height:150,
+        top:10
     },
     listTitle:{
         textAlign:'center',

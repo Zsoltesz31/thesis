@@ -11,6 +11,7 @@ import TestList from '../../../components/testList/testList'
 import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../../../context/AuthContext'
 import { getAllUsers } from '../../../slices/usersSlice'
+import { getUsersInCourse } from '../../../slices/courseSlice'
 
 
 export default function TestListScreen({navigation,route}){
@@ -23,9 +24,8 @@ export default function TestListScreen({navigation,route}){
 
     useEffect(()=>{
         dispatch(getAllUsers())
-        if(route.params.testListMode=='Tests'){
-        dispatch(getTestsByOwner(userData.id))
-        console.log(tests)
+        if(route.params.testListMode=='Tests'){ 
+       dispatch(getTestsByOwner())
         }
         else if(route.params.testListMode=='upComingTests')
         {
@@ -43,19 +43,19 @@ export default function TestListScreen({navigation,route}){
         <SafeAreaView>
             <CustomHeader/>
             <View style={testListScreenStyle.titleContainer}>
-                <Pressable style={testListScreenStyle.icon} onPress={()=>navigation.navigate('Kurzusaid')}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
+                <Pressable style={testListScreenStyle.icon} onPress={()=>navigation.goBack()}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
                 <Text style={testListScreenStyle.title}>{route.params.testListMode=='upComingTests' ? route.params.courseName : t('tests')}</Text>
             </View>
             <View style={testListScreenStyle.listContainer}>
-            <TestList changeListener={changeTracker} data={route.params.testListMode=='Tests'? tests : upComingTests} navigation={navigation} listType={route.params.testListMode}></TestList>
-            {route.params.testListMode=='upComingTests' &&
-            <CustomButton buttonName={'Kitöltött tesztek'} onPress={()=>navigation.navigate('CheckedTestsScreen')}></CustomButton>
+            <TestList changeListener={changeTracker} data={route.params.testListMode=='Tests'? tests : upComingTests} navigation={navigation} listType={route.params.testListMode} c={userData}></TestList>
+            {route.params.testListMode=='upComingTests' && userData.role=='STUDENT' &&
+            <CustomButton buttonName={t('filledTests')} onPress={()=>navigation.navigate('CheckedTestsScreen',{courseId:route.params.courseId})}></CustomButton>
             }
             { userData.role=='TEACHER' && route.params.testListMode=='Tests' &&
-            <CustomButton buttonName={t('createTest')} onPress={()=>navigation.navigate('CreateTest',{edit:false,testData:{title:'',description:''}})}></CustomButton>
+            <CustomButton buttonName={t('createTest')} onPress={()=>navigation.navigate('CreateTest',{edit:false,testData:{title:'',description:''},testListMode:route.params.testListMode})}></CustomButton>
             }
              { userData.role=='TEACHER' && route.params.testListMode=='upComingTests' &&
-            <CustomButton buttonName={t('addUsersToCourse')} onPress={()=>navigation.navigate('UsersToCourse',{courseId:route.params.courseId})}></CustomButton>
+            <CustomButton buttonName={t('addUsersToCourse')} onPress={()=>{dispatch(getUsersInCourse(route.params.courseId)),navigation.navigate('UsersToCourse',{courseId:route.params.courseId})}}></CustomButton>
             }
             </View>
         </SafeAreaView>

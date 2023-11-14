@@ -16,13 +16,15 @@ export default function CourseScreen({route,navigation}){
         <SafeAreaView>
            <CustomHeader title={route.params.HeaderText}></CustomHeader>
             <View style={coursescreenStyle.container}>
+            <View style={coursescreenStyle.titleContainer}>
            <Text style={coursescreenStyle.listTitle}>{t('yourCourses')}</Text>
+           </View>
            <CourseList navigation={navigation}></CourseList>
            { userData.role=='TEACHER' &&
            <CustomButton buttonName={t('tests')} onPress={()=> navigation.navigate('Tesztek',{testListMode:'Tests'})}></CustomButton>
            }
             {userData.role=='TEACHER' && 
-            <CustomButton buttonName='Kurzus létrehozása' theme={{roundness:30}} onPress={()=> {navigation.navigate('CreateCourse',{editMode:false})}}></CustomButton>
+            <CustomButton buttonName={t('createCourse')} theme={{roundness:30}} onPress={()=> {navigation.navigate('CreateCourse',{editMode:false})}}></CustomButton>
             }
             </View>
         </SafeAreaView>

@@ -5,6 +5,7 @@ export const answerListStyle = StyleSheet.create({
         alignItems: "center",
         width:'100%',
         display:'flex',
+        height:140
 
     },
     listTitle:{

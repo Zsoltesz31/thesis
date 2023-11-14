@@ -13,13 +13,13 @@ export const coursescreenStyle = StyleSheet.create({
       color:'#009AB9',
       fontSize:25,
       fontWeight:'bold',
-      borderBottomWidth:5,
-      borderRadius:15,
-      borderColor:'#009AB9',
-      alignSelf:'flex-start',
-      width:'90%',
-      left:10,
-      marginBottom:20
-      
+      width:'100%',
+      paddingLeft:10
     },
+    titleContainer:{
+      borderBottomWidth:5,
+      borderColor:'#009AB9',
+      marginBottom:20,
+      borderRadius:15,
+    }
 })

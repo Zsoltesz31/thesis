@@ -9,6 +9,7 @@ export const headerStyle = StyleSheet.create({
     header: {
         backgroundColor:'#009AB9',
         height:90,
+        zIndex:-5
     },
     title:{
         color:'white',

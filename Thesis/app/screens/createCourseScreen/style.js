@@ -8,14 +8,16 @@ export const CreateCourseScreenStyle = StyleSheet.create({
     },
     icon:{
         left:10,
-        marginRight:'auto'
+        marginRight:'auto',
+        position:'absolute',
+        zIndex:10
     },
     title1:{
+        flex:1,
         color:'white',
         textAlign:'center',
         fontWeight:'bold',
         fontSize:25,
-        right:Dimensions.get('window').width/2/2
     },
     formContainer:{
         top:Dimensions.get('window').height/2/2,

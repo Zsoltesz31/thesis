@@ -2,6 +2,8 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
 import MainApiInstance from "../api/api";
+import BaseInstance from "../api/api";
+
 
 const initialState={
     currentAddedTest:null,
@@ -15,12 +17,13 @@ export const getAllTests = createAsyncThunk('test/getAllTests', ()=>{
     return BaseInstance.get(`test`).then((response)=>(response.data))
 })
 
-export const getTestsByOwner = createAsyncThunk('test/getTestsByOwner', (id)=>{
-    return BaseInstance.get(`test/owner/${id}`).then((response)=>(response.data))
+export const getTestsByOwner = createAsyncThunk('test/getTestsByOwner', ()=>{
+    console.log(JSON.stringify(BaseInstance))
+    return BaseInstance.get(`test/owned`).then((response)=>(response.data)).catch(e=>console.log(e))
 })
 
 export const getTestById = createAsyncThunk('test/getTestById', (id)=>{
-    return BaseInstance.get(`test/${id}`).then((response)=>(response.data))
+    return BaseInstance.get(`test/${id}`).then((response)=>(response.data)).catch(e=>console.log(e))
 })
 
 
@@ -33,7 +36,6 @@ export const createTest = createAsyncThunk('test/createTest',(values)=>{
     return BaseInstance.post(`test`,{
             title:values.title,
             description:values.description,
-            ownerId:values.ownerId
         }
     ).then((response)=>(response.data)).catch(e=>{
         console.log(e)
@@ -41,7 +43,7 @@ export const createTest = createAsyncThunk('test/createTest',(values)=>{
 })
 
 export const updateTest = createAsyncThunk('test/updateTest',(values)=>{
-    console.log(values)
+
    return BaseInstance.patch(`test/${values.testId}`,{
             title: values.title,
             description: values.description,
@@ -94,6 +96,7 @@ const testSlice = createSlice({
             state.error=action.error.message
         })
         builder.addCase(createTest.pending,(state) =>{
+
             state.loading=true
         })
         builder.addCase(createTest.fulfilled,(state,action) => {
@@ -104,6 +107,7 @@ const testSlice = createSlice({
         builder.addCase(createTest.rejected,(state,action) =>{
             state.loading=false
             state.error=action.error.message
+            console.log(state.error)
         })
         builder.addCase(updateTest.pending,(state) =>{
             state.loading=true
@@ -117,16 +121,19 @@ const testSlice = createSlice({
             state.error=action.error.message
         })
         builder.addCase(getTestById.pending,(state) =>{
+            console.log('HALÓKA')
             state.loading=true
         })
         builder.addCase(getTestById.fulfilled,(state,action) => {
             state.loading=false
+            console.log('ACTION:',action)
             state.testById=action.payload
             state.error=''
         })
         builder.addCase(getTestById.rejected,(state,action) =>{
             state.loading=false
             state.error=action.error.message
+            console.log('HELÓ: ',action)
         })
         
     }

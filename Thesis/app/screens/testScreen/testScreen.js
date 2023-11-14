@@ -16,7 +16,7 @@ import { MultipleOptionQuestion } from "../../../components/questionComponents/m
 import { useDispatch, useSelector } from "react-redux";
 import { CustomButton } from "../../../components/buttons/buttons";
 import { setFillEndTest } from "../../../slices/fillTestSlice";
-import { useIsFocused } from "@react-navigation/native";
+
 
 export default function TestScreen({ navigation, route }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,6 +27,7 @@ export default function TestScreen({ navigation, route }) {
   const [timer, setTimer] = useState("00:00:00");
   const Ref = useRef(null);
   const dispatch=useDispatch()
+
 
   const modalClose = () => {
     setIsModalVisible(false);
@@ -81,12 +82,12 @@ export default function TestScreen({ navigation, route }) {
   };
 
   useEffect(() => {
-    clearTimer(getDeadTime());
+   clearTimer(getDeadTime());
   }, []);
 
   const onLeaveTest = () =>{
     setFillAnswers(true)
-    dispatch(setFillEndTest(startedTest.data.id))
+    dispatch(setFillEndTest(startedTest.id))
     setTestFilled(true)
 
   }
@@ -99,7 +100,7 @@ export default function TestScreen({ navigation, route }) {
         {
           text: "Elhagyom",
           style: "destructive",
-          onPress: () => navigation.navigate("Kurzusaid"),
+          onPress: () => {navigation.navigate("Kurzusaid"),onLeaveTest()},
         },
         {
           text: "Maradok",
@@ -116,7 +117,7 @@ export default function TestScreen({ navigation, route }) {
           questionId={item.id}
           questionData={item}
           fillAnswer={fillAnswers}
-          upcomingTestId={route.params.testId}
+          upcomingTestId={route.params.upTestId}
         ></OptionChoiceQuestion>
       );
     } else if (item.type == "SELECT_MORE") {
@@ -125,7 +126,7 @@ export default function TestScreen({ navigation, route }) {
           questionId={item.id}
           questionData={item}
           fillAnswer={fillAnswers}
-          upcomingTestId={route.params.testId}
+          upcomingTestId={route.params.upTestId}
         ></MultipleOptionQuestion>
       );
     }
@@ -145,7 +146,7 @@ export default function TestScreen({ navigation, route }) {
       </View>
       <View style={TestScreenStyle.questionContainer}>
         <FlatList
-          data={testById.data.test.questions}
+          data={testById.Questions}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
         />

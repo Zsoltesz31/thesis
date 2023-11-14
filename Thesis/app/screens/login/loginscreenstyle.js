@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native"
-import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes"
 
 export const loginScreenStyle = StyleSheet.create({
     content:{

@@ -1,5 +1,6 @@
 import React from 'react'
-import {Text,Pressable,View, TouchableOpacity} from 'react-native'
+import {Text} from 'react-native'
+import {Pressable} from 'react-native'
 import {buttonsStyle} from './buttonsstyle'
 
 export const CustomButton=({buttonName,onPress,disabledStatus}) => {

@@ -12,8 +12,7 @@ const initialState={
  }
 
 export const getQuestion = createAsyncThunk('question/getQuestion', (id)=>{
-    console.log('KÉRDÉS ID:',id)
-    return BaseInstance.get(`question/${id}`).then((response)=>(response))
+    return BaseInstance.get(`question/${id}`).then((response)=>(response.data))
 })
 
 export const getQuestionByTestIdWithAnswers = createAsyncThunk('question/getQuestionsByTestIdWithAnswers', (id)=>{
@@ -30,14 +29,20 @@ export const deleteQuestion = createAsyncThunk('question/deleteQuestion',(id)=>{
 })
 
 export const createQuestion = createAsyncThunk('question/createQuestion',(values)=>{
-    return BaseInstance.post(`question`,{
-            testId:values.testId,
-            text:values.text,
-            type:values.type,
-            id:values.id
-        }
-    ).then((response)=>(response.data)).catch(e=>{
-        console.log(e)
+    console.log(values.id)
+    return BaseInstance.post(`question`,
+         {
+             testId:values.testId,
+             text:values.text,
+             type:values.type,
+             id:values.id,
+         }
+
+    ).then((response)=>{
+        console.log('kaka',response)
+        return response
+    }).catch(e=>{
+        console.log('asdsaas', e)
     })
 })
 
@@ -94,7 +99,6 @@ const questionSlice = createSlice({
             state.loading=true
         })
         builder.addCase(createQuestion.fulfilled,(state,action) => {
-            console.log('CREATE:',action.payload)
             state.loading=false
             state.currentAddedQuestion=action.payload
             state.error=''

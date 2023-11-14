@@ -16,6 +16,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { setFillStartTest } from '../../../slices/fillTestSlice';
 
 
+
 export default function TestSheetScreen({navigation,route}){
     const [isModalVisible,setIsModalVisible] = useState(false)
     const [isDateModalVisible,setIsDateModalVisible] = useState(false)
@@ -31,14 +32,17 @@ export default function TestSheetScreen({navigation,route}){
     const {courses} = useSelector((state)=>state.course)
     const {t} = useTranslation()
 
+
     useEffect(()=>{
         dispatch(getTestById(route.params.testId))
+        if(userData.role=='TEACHER'){
         dispatch(getCoursesByOwnerId(userData.id))
+        }
     },[])
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
-        setShow(false); //Platform.OS === 'ios'
+        setShow(Platform.OS === 'ios');
         setDate(currentDate);
         let tempDate = new Date(currentDate)
         let tempLastStartDate = new Date(tempDate.getTime() + 15*60000)
@@ -76,10 +80,10 @@ export default function TestSheetScreen({navigation,route}){
         modalClose()
         let values = {
             userId:userData.id,
-            upComingTestId:route.params.testId
+            upComingTestId:route.params.upcomingTestId
         }
         dispatch(setFillStartTest(values))
-        navigation.navigate('TestScreen',{testId:route.params.testId,testName:route.params.testName,courseId:route.params.courseId})
+        navigation.navigate('TestScreen',{testId:route.params.testId,testName:route.params.testName,courseId:route.params.courseId,upTestId:route.params.upcomingTestId})
     }
 
     return(
@@ -89,14 +93,15 @@ export default function TestSheetScreen({navigation,route}){
                 <Pressable style={testSheetScreenStyle.icon} onPress={()=>navigation.navigate('Tesztek',{courseId:route.params.courseId,testListMode:route.params.listType})}><Ionicons name={'chevron-back-outline'} size={25} color={'white'}/></Pressable>
                 <Text style={testSheetScreenStyle.title}>{route.params.testname}</Text>
             </View>
-            {show && (
+            {show && Platform.OS=='android'&& (
             <DateTimePicker
             testID="dateTimePicker"
             value={date}
             mode={mode}
             is24Hour={true}
             onChange={onChange}
-            display='default'
+            display='inline'
+            backgroundColor='black'
             />
             )}
             <View style={testSheetScreenStyle.screenContent}>
@@ -117,8 +122,11 @@ export default function TestSheetScreen({navigation,route}){
                     {userData.role=='TEACHER' && route.params.listType != 'upComingTests' &&
                     <CustomButton buttonName={t('addQuestion')} onPress={()=>(navigation.navigate('AddQuestionWithAnswer',{FullEditMode:false,AddNewQuestion:true,TestId:route.params.testId}))}></CustomButton>
                     }
-                    {userData.role=='TEACHER' && route.params.listType != 'upComingTests' &&
+                    {userData.role=='TEACHER' && route.params.listType != 'upComingTests' && Platform.OS=='android' &&
                     <CustomButton buttonName={t('publishTest')} onPress={()=>setIsDateModalVisible(true)}></CustomButton>
+                    }
+                     {userData.role=='TEACHER' && route.params.listType != 'upComingTests' && Platform.OS=='ios' &&
+                    <CustomButton buttonName={t('publishTest')} onPress={()=>navigation.navigate('IosPublish',{testname:route.params.testname,testId:route.params.testId,courseId:route.params.courseId})}></CustomButton>
                     }
             </View>
             </View>
@@ -152,7 +160,9 @@ export default function TestSheetScreen({navigation,route}){
                 itemContainerStyle={{backgroundColor:'#009AB9',left:7}}
                 itemTextStyle={{color:'white',fontWeight:'bold'}}
                 />
-                <CustomButton buttonName={t('publish')} onPress={()=>handleAddTestToUpcommingTests()}></CustomButton>
+                {Platform.OS==='android'&&(
+                <CustomButton buttonName={t('publish')} onPress={()=>{handleAddTestToUpcommingTests(),navigation.navigate('Kurzusok')}}></CustomButton>
+                )}
                 </View>
             </ConfirmationModal>
         </SafeAreaView>

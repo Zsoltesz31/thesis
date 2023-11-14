@@ -9,7 +9,8 @@ export const buttonsStyle = StyleSheet.create({
     paddingHorizontal:'25%',
     elevation:4,
     borderRadius:25,
-    margin:10
+    margin:10,
+    zIndex:0.5
 
  },
  text:{

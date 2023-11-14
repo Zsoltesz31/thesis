@@ -25,7 +25,8 @@ export const TestScreenStyle = StyleSheet.create({
     },
     questionContainer:{
         display:'flex',
-        marginTop:150
+        marginTop:120,
+        height:600
     },
     modalContent:{
         alignItems:'center'

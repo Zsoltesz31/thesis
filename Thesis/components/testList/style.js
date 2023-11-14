@@ -5,7 +5,6 @@ export const testListStyle = StyleSheet.create({
         alignItems: "center",
         width:'100%',
         display:'flex',
-
     },
     listTitle:{
         color:'#009AB9',
@@ -63,7 +62,7 @@ export const testListStyle = StyleSheet.create({
       listCrudButtons:{
         marginLeft:'auto',
         bottom:20,
-        marginBottom:0
+        marginBottom:0,
       },
       modalContent:{
         alignItems:'center'
@@ -72,4 +71,7 @@ export const testListStyle = StyleSheet.create({
         fontWeight:'bold',
         fontSize:15
       },
+      button:{
+        padding:5
+      }
 })

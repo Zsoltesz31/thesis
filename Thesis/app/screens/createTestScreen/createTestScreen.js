@@ -17,7 +17,8 @@ export default function CreateTestScreen({route,navigation}){
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
     const {t} = useTranslation()
-
+    const testListMode=route.params.testListMode
+ 
     useEffect(()=>{
         if(editMode){
             setTitle(route.params.testData.title)
@@ -29,23 +30,23 @@ export default function CreateTestScreen({route,navigation}){
         let values = {
             title:title,
             description:description,
-            ownerId:userData.id
         }
-         dispatch(createTest(values))
+        console.log(values)
+        dispatch(createTest(values))
         dispatch(getAllTests())
         navigation.navigate('AddQuestionWithAnswer',{FullEditMode:false})
     }
 
-    const handleEdit = () =>{
+    const handleEdit = async ()  =>{
         let values = {
             title:title,
             description:description,
             ownerId:userData.id,
             testId: route.params.testData.id
         }
-         dispatch(updateTest(values))
+        await Promise.all([dispatch(updateTest(values))])
         dispatch(getAllTests())
-        navigation.navigate('Tesztek')
+        navigation.navigate('Tesztek',{testListMode:route.params.testListMode})
     }
 
     if(editMode==false)

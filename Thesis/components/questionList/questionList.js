@@ -9,8 +9,9 @@ import { deleteQuestion } from '../../slices/questionSlice';
 export default function QuestionList({navigation,data,changeListener,testId,testName}){
     const dispatch=useDispatch()
 
-    const handleDelete = (id) =>{
-        dispatch(deleteQuestion(id)).then(changeListener(true))
+    const handleDelete = async (id) =>{
+        await Promise.all([dispatch(deleteQuestion(id))])
+        changeListener(true)
     }
 
     const onDeleteButtonPress = (id) => {
@@ -61,9 +62,10 @@ export default function QuestionList({navigation,data,changeListener,testId,test
     return(
           <SafeAreaView style={questionListStyle.container}>
             <FlatList
-            data={data.data}
+            data={data}
             renderItem={renderItem}
             keyExtractor={item=>item.id.toString()}
+            extraData={data}
             ></FlatList>
           </SafeAreaView>  
         

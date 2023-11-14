@@ -23,22 +23,22 @@ export const CheckedQuestionsListStyle = StyleSheet.create({
         backgroundColor:'#009AB9',
         marginVertical:8,
         padding:20,
-        width:350,
+        width:300,
         borderRadius:5,
         elevation:5,
         flexDirection:'column',
-        borderWidth:1,
-        borderColor:'green'
+        borderColor:'green',
+        borderLeftWidth:10
       },listitemUnCorrect:{
         color:'white',
         backgroundColor:'#009AB9',
         marginVertical:8,
         padding:20,
-        width:350,
+        width:300,
         borderRadius:5,
         elevation:5,
         flexDirection:'column',
-        borderWidth:1,
+        borderLeftWidth:10,
         borderColor:'red'
       },
       listItemHeader:{
@@ -48,5 +48,15 @@ export const CheckedQuestionsListStyle = StyleSheet.create({
         alignSelf:'center',
         fontSize:15
       },
+      listitem:{
+        color:'white',
+        backgroundColor:'#009AB9',
+        marginVertical:8,
+        padding:20,
+        width:350,
+        borderRadius:5,
+        elevation:5,
+        flexDirection:'column',
+      }
   
 })

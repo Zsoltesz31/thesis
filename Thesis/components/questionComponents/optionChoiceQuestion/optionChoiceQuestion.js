@@ -28,7 +28,6 @@ export const OptionChoiceQuestion=({questionId,questionData,fillAnswer,upcomingT
 
     const handleFillAnswer = () =>{
         let values = {
-            userId:userData.id,
             questionId:questionId,
             answerId:answerId,
             upcomingTestId:upcomingTestId
@@ -67,7 +66,7 @@ export const OptionChoiceQuestion=({questionId,questionData,fillAnswer,upcomingT
         <View style={OptionChoiceQuestionStyle.questionContainer}>
             <Text  style={OptionChoiceQuestionStyle.questionTitle}>{questionData.text}</Text>
             <FlatList
-            data={questionData.answers}
+            data={questionData.Answers}
             renderItem={renderItem}
             keyExtractor={item=>item.id.toString()}
             />

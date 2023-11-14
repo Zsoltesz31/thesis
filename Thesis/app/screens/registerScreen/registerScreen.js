@@ -96,6 +96,7 @@ export default function RegisterScreen({navigation,route}){
         validateNames(firstName,lastName)
         if(nameErrors=='' && emailErrors=='' && passwordErrors==''){
             register(firstName,lastName,email,password)
+            navigation.navigate('Login')
         }
         else{
            console.log('fail')
@@ -124,8 +125,8 @@ export default function RegisterScreen({navigation,route}){
                         {emailErrors}
                     </Text>
                     }
-                    <CustomInput label={t('password')}  onChangeTextEvent={text => setPassword(text)} outlineColor={outlineColorPw}/>
-                    <CustomInput label={t('passwordRe')}  onChangeTextEvent={text => setPassword2(text)} outlineColor={outlineColorPw}/>
+                    <CustomInput label={t('password')} secureTextEntry={true}  onChangeTextEvent={text => setPassword(text)} outlineColor={outlineColorPw}/>
+                    <CustomInput label={t('passwordRe')}  secureTextEntry={true} onChangeTextEvent={text => setPassword2(text)} outlineColor={outlineColorPw}/>
                     {passwordErrors.length>0 && 
                     <Text>
                         {passwordErrors}

@@ -6,7 +6,8 @@ export const footerStyle = StyleSheet.create({
         position:'absolute',
         top:300,
         backgroundColor:'black',
-        height:0
+        height:0,
+        zIndex:-5
       },
     footer2:{
         backgroundColor:'#009AB9',

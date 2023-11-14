@@ -42,6 +42,9 @@ export const updateAnswer = createAsyncThunk('answer/updateAnswer',(values)=>{
 const answerSlice = createSlice({
     name:'answer',
     initialState,
+    reducers:{
+        reset: () => initialState
+    },
     extraReducers: (builder) => {
         builder.addCase(getAnwser.pending,(state) =>{
             state.loading=true
@@ -93,4 +96,5 @@ const answerSlice = createSlice({
     }
 })
 
+export const {reset} = answerSlice.actions
 export default answerSlice.reducer

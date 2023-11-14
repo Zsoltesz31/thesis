@@ -3,22 +3,19 @@ import { StyleSheet,Dimensions } from "react-native";
 export const testSheetScreenStyle = StyleSheet.create({
     icon:{
         left:10,
-        marginRight:'auto'
+        marginRight:'auto',
+        zIndex:225,
+        top:30
     },
     title:{
         color:'white',
         textAlign:'center',
         fontWeight:'bold',
         fontSize:25,
-        width:Dimensions.get('window').width/2,
-        justifyContent:'center',
-        right:Dimensions.get('window').width/2/2,
-
     },
     titleContainer:{
         display:'flex',
-        flexDirection:'row',
-        top:45,
+        top:10,
     },
     testInformations:{
         marginTop:150,
@@ -54,7 +51,7 @@ export const testSheetScreenStyle = StyleSheet.create({
             top:130
         },
         modalContent:{
-            alignItems:'center'
+            alignItems:'center',
         },
         modalTitle:{
             fontWeight:'bold',

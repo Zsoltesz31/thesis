@@ -1,11 +1,12 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios'
 import BASE_URL from '../config'
-import BaseInstance from "../api/api";
+import BaseInstance, { BaseAxios } from "../api/api";
 
 const initialState={
     currentAddedCourse:null,
     courses:[],
+    usersInCourse:[],
     loading:false,
     error:null
  }
@@ -14,12 +15,22 @@ export const getAllCourses = createAsyncThunk('course/getCourses', ()=>{
     return BaseInstance.get(`course`).then((response)=>(response.data))
 })
 
-export const getCoursesByOwnerId = createAsyncThunk('course/getCoursesByOwner', (id)=>{
-    return BaseInstance.get(`course/owned/${id}`).then((response)=>(response.data))
+export const getCoursesByOwnerId = createAsyncThunk('course/getCoursesByOwner', ()=>{
+    return BaseInstance.get(`course/owned`).then((response)=>{
+
+        return response
+    })
+    .catch(e => {
+        console.log(`getCourseByOwner error: ${JSON.stringify(e.request, undefined, 2)}`)
+    })
 })
 
-export const getCoursesByUserId = createAsyncThunk('test/getCoursesByUser', (id)=>{
-    return BaseInstance.get(`course/user/${id}`).then((response)=>(response.data))
+export const getCoursesByUserId = createAsyncThunk('test/getCoursesByUser', ()=>{
+    return BaseInstance.get(`course/connected`)
+    .then((response)=>{
+        return response
+    })
+    .catch(e=>console.log(`$getConnectedCourses ${JSON.stringify(e.request, undefined, 2)}`))
 })
 
 
@@ -28,7 +39,6 @@ export const deleteCourse = createAsyncThunk('course/deleteCourse',(id)=>{
 })
 
 export const createCourse = createAsyncThunk('course/createCourse',(values)=>{
-    console.log(values)
     return BaseInstance.post(`course`,{
             name:values.title,
             description:values.description,
@@ -40,7 +50,6 @@ export const createCourse = createAsyncThunk('course/createCourse',(values)=>{
 })
 
 export const updateCourse = createAsyncThunk('course/updateCourse',(values)=>{
-    console.log(values)
    return BaseInstance.patch(`course/${values.courseId}`,{
             name: values.title,
             description: values.description,
@@ -57,11 +66,19 @@ export const addUserToCourse = createAsyncThunk('course/addUserToCourse',(values
  })
 
  export const deleteUserFromCourse = createAsyncThunk('course/deleteUserFromCourse',(values)=>{
-    return BaseInstance.delete(`course/${values.testId}`)
+    return BaseInstance.delete(`course/${values.courseId}/user/${values.userId}`)
     .then((response)=>(response.data)).catch(e=>{
          console.log(e)
      })
  })
+
+ export const getUsersInCourse = createAsyncThunk('course/getUsersInCourse',(id)=>{
+    return BaseInstance.get(`course/user/in/${id}`)
+    .then((response)=>(response.data)).catch(e=>{
+         console.log(e)
+     })
+ })
+
 
  const courseSlice = createSlice({
     name:'course',
@@ -159,6 +176,18 @@ export const addUserToCourse = createAsyncThunk('course/addUserToCourse',(values
             state.error=''
         })
         builder.addCase(deleteUserFromCourse.rejected,(state,action) =>{
+            state.loading=false
+            state.error=action.error.message
+        })
+        builder.addCase(getUsersInCourse.pending,(state) =>{
+            state.loading=true
+        })
+        builder.addCase(getUsersInCourse.fulfilled,(state,action) => {
+            state.loading=false
+            state.usersInCourse=action.payload
+            state.error=''
+        })
+        builder.addCase(getUsersInCourse.rejected,(state,action) =>{
             state.loading=false
             state.error=action.error.message
         })

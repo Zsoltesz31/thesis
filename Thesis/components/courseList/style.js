@@ -5,7 +5,7 @@ export const courseListStyle = StyleSheet.create({
         alignItems: "center",
         width:'100%',
         display:'flex',
-        height:400
+        height:'65%'
     },
     listTitle:{
         color:'#009AB9',

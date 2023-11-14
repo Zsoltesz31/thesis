@@ -3,18 +3,19 @@ import { StyleSheet,Dimensions } from "react-native";
 export const questionListScreenStyle = StyleSheet.create({
     icon:{
         left:10,
-        marginRight:'auto'
+        marginRight:'auto',
+        zIndex:10,
+        position:'absolute'
     },
     title:{
         color:'white',
         textAlign:'center',
         fontWeight:'bold',
         fontSize:25,
-        right:Dimensions.get('window').width/2
+        flexGrow:1
     },
     titleContainer:{
         display:'flex',
-        flexDirection:'row',
         top:45,
     },
     listContainer:{

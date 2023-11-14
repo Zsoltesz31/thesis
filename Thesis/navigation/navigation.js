@@ -1,15 +1,13 @@
-import React, {useState,useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons';
 import LoginScreen from '../app/screens/login/loginscreen'
 import MainScreen from '../app/screens/mainscreen/mainscreen'
-import ChooseUserType from '../app/screens/chooseUserTypescreen/chooseUserTypescreen'
 import ProfileScreen from '../app/screens/profilescreen/profilescreen'
 import CourseScreen from '../app/screens/coursescreen/coursescreen'
 import SettingsScreen from '../app/screens/settingsscreen/settingsscreen'
 import TestListScreen from '../app/screens/testlistscreen/testlistscreen'
 import TestSheetScreen from '../app/screens/testSheetScreen/testSheetScreen'
-import ForgotPassword from '../app/screens/forgotPasswordscreen/forgotPasswordscreen'
 import RegisterScreen from '../app/screens/registerScreen/registerScreen';
 import CheckedTestsScreen from '../app/screens/checkedTestsScreen/checkedTestScreen';
 import CreateTestScreen from '../app/screens/createTestScreen/createTestScreen';
@@ -19,6 +17,10 @@ import TestScreen from '../app/screens/testScreen/testScreen';
 import CreateCourseScreen from '../app/screens/createCourseScreen/createCourseScreen';
 import UsersToCourse from '../app/screens/usersToCourse/usersToCourse';
 import CheckedTestQuestionsListScreen from '../app/screens/checkedTestQuestionsListScreen/checkedTestQuestionsListScreen';
+import IosScreenToPublishTest from '../app/screens/iosScreenToPublishTest/iosScreenToPublishTest';
+import FilledTestListinForTeachers from '../app/screens/filledTestListinForTeachers/filledTestListinForTeachers';
+import QuestionAnswersForTeachersScreen from '../app/screens/questionAnswersForTeachersScreen/questionAnswersForTeachersScreen';
+import ForgotPasswordScreen from '../app/screens/forgotPasswordscreen/forgotPasswordscreen';
 import {theme} from '../AppStyle'
 
 import { useLayoutEffect } from 'react';
@@ -29,13 +31,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../context/AuthContext';
-
-const loginscreenName= 'Kijelentkezés'
-const mainscreenName = 'Főoldal'
-const profilescreenName ='Profil'
-const coursescreenName ='Kurzusok'
-const settingsscreenName ='Beállítások'
-
+import { SafeAreaView } from 'react-native';
 
 export default function Navigations() {
     const {userInfo,logout,getUserData} = useContext(AuthContext)
@@ -61,16 +57,23 @@ export default function Navigations() {
           if(routeName==='TestScreen'){
             navigation.setOptions({tabBarStyle:{display:'none'}})
           } else{
-            navigation.setOptions({tabBarStyle:{ backgroundColor:'#009AB9',
-            display:'flex',
-            position:'absolute',
-            elevation:1,
-            right:10,
-            left:10,
-            borderRadius:17,
-            height:55,
-            color:'white',
-            bottom:10,}})
+            navigation.setOptions({
+              tabBarStyle: {
+                backgroundColor: '#009aB9',
+                marginHorizontal: 8,
+                borderRadius: 17,
+                marginBottom: 10,
+                height: 65,
+                padding: 8,
+
+              },
+              tabBarItemStyle: {
+                
+              },
+              tabBarLabelStyle: {
+                marginBottom: 8,
+              },
+        })
           }
         },[navigation,route])
 
@@ -79,6 +82,7 @@ export default function Navigations() {
           <Stack.Screen name="Kurzusaid" component={CourseScreen} initialParams={{HeaderText:coursescreenName}} options={{headerShown:false}}></Stack.Screen>
           <Stack.Screen name="Tesztek" component={TestListScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="TestSheet" component={TestSheetScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="IosPublish" component={IosScreenToPublishTest} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CheckedTestsScreen" component={CheckedTestsScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="AddQuestionWithAnswer" component={AddQuestionWithAnswer} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CreateTest" component={CreateTestScreen} options={{headerShown:false}} ></Stack.Screen>
@@ -87,45 +91,45 @@ export default function Navigations() {
           <Stack.Screen name="UsersToCourse" component={UsersToCourse} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="TestScreen" component={TestScreen} options={{headerShown:false}} ></Stack.Screen>
           <Stack.Screen name="CheckedTestQuestionsListScreen" component={CheckedTestQuestionsListScreen} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="FilledTestListinForTeachers" component={FilledTestListinForTeachers} options={{headerShown:false}} ></Stack.Screen>
+          <Stack.Screen name="QuestionAnswersForTeachersScreen" component={QuestionAnswersForTeachersScreen} options={{headerShown:false}} ></Stack.Screen>
         </Stack.Navigator>
         )}
    
       return (
         
         <PaperProvider theme={theme}>
+          
+
         <NavigationContainer>
       
         {userInfo.access_token?
+        <>
         <BottomTabs.Navigator
                 initialRouteName={mainscreenName}
                 screenOptions={({route})=>({
                   tabBarActiveTintColor: "#8CECFF",
                   tabBarInactiveTintColor: "white",
-                    tabBarStyle:{
-                      backgroundColor:'#009AB9',
-                      display:'flex',
-                      position:'absolute',
-                      elevation:1,
-                      right:10,
-                      left:10,
-                      borderRadius:17,
-                      height:55,
-                      color:'white',
-                      bottom:10,
+                    tabBarStyle: {
+                      backgroundColor: '#009aB9',
+                      marginHorizontal: 8,
+                      borderRadius: 17,
+                      marginBottom: 10,
+                      height: 65,
+                      padding: 8,
+
                     },
-                    tabBarItemStyle:{
-                      margin:6,
+                    tabBarItemStyle: {
+                      
                     },
-                    tabBarLabelStyle:{
-                      fontWeight:'bold',
+                    tabBarLabelStyle: {
+                      marginBottom: 8,
                     },
                     tabBarIcon:({focused,size}) =>{
                         let iconName
                         let routeName = route.name
                         if(routeName == mainscreenName){
                             iconName = focused ? 'home' : 'home-outline'
-                        } else if(routeName == loginscreenName ){
-                            iconName = focused ? 'log-in' : 'log-in-outline'
                         } else if(routeName==profilescreenName){
                             iconName = focused ? 'person' : 'person-outline'
                         }
@@ -139,22 +143,23 @@ export default function Navigations() {
                         return <Ionicons name={iconName} size={size} color={'white'}/>
                         
                     }
-                })}>
+
+                    
+                })}
+                safeAreaInsets={{bottom: 0}}
+                >
                 <BottomTabs.Screen name={mainscreenName} component={MainScreen} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={profilescreenName} component={ProfileScreen} initialParams={{HeaderText:profilescreenName}} options={{headerShown:false}}/>
                 <BottomTabs.Screen name={coursescreenName} children={createCourseStack} options={{header: () => null}}/>
-                <BottomTabs.Screen name={settingsscreenName} component={SettingsScreen} initialParams={{HeaderText:settingsscreenName}} options={{headerShown:false}}/>
-                <BottomTabs.Screen name={loginscreenName} component={LoginScreen} listeners={({navigation}) => ({
-                  tabPress: (e) => {
-                    e.preventDefault()
-                    logout()
-                  }
-                }
-                )}/>
-         </BottomTabs.Navigator>:
+                <BottomTabs.Screen name={settingsscreenName} component={SettingsScreen} initialParams={{HeaderText:settingsscreenName}} options={{headerShown:false}}/>          
+         </BottomTabs.Navigator>
+        <SafeAreaView style={{backgroundColor: 'transparent'}}/>
+         </>
+         :
          <Stack.Navigator>
          <Stack.Screen name="Login" component={LoginScreen} options={{header: () => null}}></Stack.Screen>
          <Stack.Screen name="Register" component={RegisterScreen} options={{header: () => null}}></Stack.Screen>
+         <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} options={{headerShown:false}} ></Stack.Screen>
          </Stack.Navigator>}
         
         </NavigationContainer>

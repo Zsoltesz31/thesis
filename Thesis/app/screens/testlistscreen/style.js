@@ -3,14 +3,16 @@ import { StyleSheet,Dimensions } from "react-native";
 export const testListScreenStyle = StyleSheet.create({
     icon:{
         left:10,
-        marginRight:'auto'
+        marginRight:'auto',
+        position:'absolute',
+        zIndex:10
     },
     title:{
         color:'white',
         textAlign:'center',
         fontWeight:'bold',
         fontSize:25,
-        right:Dimensions.get('window').width/2-25,
+        width:'100%'
     },
     titleContainer:{
         display:'flex',

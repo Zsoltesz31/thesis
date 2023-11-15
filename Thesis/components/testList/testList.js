@@ -28,22 +28,22 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
         modalClose()
     }
 
-    const CheckDate = (title,id,upTestId) =>{
-        //let today = new Date()
-        //if(date!=today){
-          //  Alert.alert(
-            //    "Nem kezdheti el a tesztet!",
-           //     "A teszt időpontja nem egyezik meg a mai dátummal így nem kezdheti el a tesztet",
-             //   [
-            //      {
-                 //   text: "Rendben",
-                //    style: "cancel",
-               //   },
-            //    ])
-       // }
-      //  else{
+    const CheckDate = (date,title,id,upTestId) =>{
+        let today = new Date()
+        if(date!=today){
+            Alert.alert(
+                "Nem kezdheti el a tesztet!",
+              "A teszt időpontja nem egyezik meg a mai dátummal így nem kezdheti el a tesztet",
+                [
+                 {
+                    text: "Rendben",
+                    style: "cancel",
+                  },
+                ])
+        }
+        else{
             navigation.navigate('TestSheet',{testname:title,testId:id,listType:listType,upcomingTestId:upTestId})
-       // }
+        }
     }
 
      const passTestDataById = async (id) =>{
@@ -92,7 +92,7 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
 
       const handleClick = async (item) =>{
         if(c.role=='STUDENT'){
-          CheckDate(item.test.title,item.testId,item.id)
+          CheckDate(item.test.title,item.testId,item.id,item.date)
         }
         else{
           await Promise.all([dispatch(getTeacherFilledTestsGroupedByUpcomingTest(item.id))])

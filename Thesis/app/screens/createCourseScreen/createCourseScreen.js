@@ -1,6 +1,6 @@
 import React, {useState,useContext,useEffect} from 'react'
 import { useDispatch,useSelector } from 'react-redux'
-import { SafeAreaView,View,Text,Pressable,ActivityIndicator} from 'react-native'
+import { SafeAreaView,View,Text,Pressable} from 'react-native'
 import CustomHeader from '../../../components/header/header'
 import { CustomButton } from '../../../components/buttons/buttons'
 import { CustomInput } from '../../../components/inputs/inputs'
@@ -85,7 +85,6 @@ export default function CreateCourseScreen({route,navigation}){
                 <CustomInput inputValue={title} label={t('courseName')} onChangeTextEvent={text => setTitle(text)} outlineColor={'#009AB9'}></CustomInput>
                 <CustomInput inputValue={description} label={t('courseDesc')} onChangeTextEvent={text => setDescription(text)} outlineColor={'#009AB9'}></CustomInput>
                 <CustomButton buttonName={t('modify')} onPress={()=>handleEdit()}></CustomButton>
-                <ActivityIndicator size="large" color="#009AB9"/>
             </View>
         </SafeAreaView>
         )

@@ -25,7 +25,8 @@ export default function TestListScreen({navigation,route}){
     useEffect(()=>{
         dispatch(getAllUsers())
         if(route.params.testListMode=='Tests'){ 
-       dispatch(getTestsByOwner())
+        console.log('LUFTOK')
+        dispatch(getTestsByOwner())
         }
         else if(route.params.testListMode=='upComingTests')
         {

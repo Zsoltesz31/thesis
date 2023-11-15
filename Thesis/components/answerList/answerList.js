@@ -17,27 +17,28 @@ export default function AnswerList({navigation,data,changeHappened,questionId,fu
     const [isVisible, setVisible] = useState(false)
     const [editingAnswer, setEditingAnswer] = useState()
 
-
     const handleDelete = async (id) =>{
       await Promise.all([dispatch(deleteAnswer(id))])
       changeHappened(true)
     }
 
     const handleEdit = async (id,text,checked) =>{
-
+      console.log('Mevvan? :',currentAddedQuestion)
         let values = {
-            questionId:fullEditMode? questionId:currentAddedQuestion.data.id,
+            questionId:fullEditMode? questionId : currentAddedQuestion?.data?.id,
             id:id,
             text:text,
             point: checked ? 1 :0
         }
+        console.log('Values:',values)
         await Promise.all([dispatch(updateAnswer(values))])
         changeHappened(true)
         closeModal()
     }
 
     const showModal = (answerId) => {
-      setEditingAnswer(answers.find(a => a.id === answerId))
+      console.log('ASD')
+      setEditingAnswer(answers.find(a => a?.id === answerId))
       setVisible(true)
     }
 
@@ -97,13 +98,13 @@ export default function AnswerList({navigation,data,changeHappened,questionId,fu
             <FlatList
             data={answers}
             renderItem={renderItem}
-            keyExtractor={item=>`${item.id.toString()}${isVisible[item.id]}`}
+            keyExtractor={item=>`${item?.id.toString()}${isVisible[item?.id]}`}
             extraData={answers}
             ></FlatList>
             
             { editingAnswer && 
               <ConfirmationModal visible={isVisible} onClose={() => closeModal()}>
-              <ModalInputsComponent idToUpdate={editingAnswer.id} handleFunction={handleEdit} answertext={editingAnswer.text} checkedstatus={editingAnswer.point}></ModalInputsComponent>
+              <ModalInputsComponent idToUpdate={editingAnswer?.id} handleFunction={handleEdit} answertext={editingAnswer?.text} checkedstatus={editingAnswer?.point}></ModalInputsComponent>
               </ConfirmationModal>
 
             }

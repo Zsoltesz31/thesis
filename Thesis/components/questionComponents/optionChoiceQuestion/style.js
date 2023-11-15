@@ -6,16 +6,19 @@ export const OptionChoiceQuestionStyle = StyleSheet.create({
         fontWeight:'bold',
         textAlign:'center',
         color:'#009AB9',
-        margin:10
+        margin:10,
+        borderWidth:1,
+        borderColor:'#009AB9',
+        borderRadius:5
     },
     questionContainer:{
-        elevation:2,
-        height:150,
         justifyContent:'center',
         borderRadius:5,
+        borderWidth:2,
         width:'95%',
         alignSelf:'center',
-        margin:10
+        margin:10,
+        borderColor:'#009AB9'
     },
     answerContainer:{
         borderWidth:1,
@@ -24,7 +27,7 @@ export const OptionChoiceQuestionStyle = StyleSheet.create({
         width:'80%',
         alignSelf:'center',
         margin:5,
-        padding:2
+        padding:2,
     },
     answerText:{
         fontSize:15,
@@ -38,5 +41,11 @@ export const OptionChoiceQuestionStyle = StyleSheet.create({
         flexDirection:'row',
         alignSelf:'center'
     },
+    iamgecontainer:{
+        flex:1,
+        alignSelf:'center',
+
+    },
+
 
 })

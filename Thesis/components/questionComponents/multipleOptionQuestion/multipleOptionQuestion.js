@@ -1,13 +1,11 @@
 import React, {useState,useRef,useContext} from 'react'
 import { useEffect } from 'react'
-import {Text,Pressable,View,FlatList} from 'react-native'
+import {Text,Pressable,View,FlatList,Image} from 'react-native'
 import { MultipleOptionQuestionStyle } from './style'
 import { useDispatch,useSelector } from 'react-redux'
-import { getAnwser } from '../../../slices/answerSlice'
-import { Checkbox } from 'react-native-paper'
 import { setFillAnswer } from '../../../slices/fillTestSlice'
 import { AuthContext } from '../../../context/AuthContext'
-
+import BASE_URL from '../../../config'
 
 export const MultipleOptionQuestion=({questionId,questionData,fillAnswer,upcomingTestId}) => {
     const dispatch=useDispatch()
@@ -52,13 +50,11 @@ export const MultipleOptionQuestion=({questionId,questionData,fillAnswer,upcomin
     }
 
     const Item = ({item}) => (
-
         <Pressable onPress={()=>{getAnwser(item.id),console.log(answers)}}  android_ripple="true">
         <View style={answers.includes(item.id) ? MultipleOptionQuestionStyle.checkBoxContainer : MultipleOptionQuestionStyle.checkBoxContainerNotIn}>
             <Text style={answers.includes(item.id) ? MultipleOptionQuestionStyle.checkBoxTextIn : MultipleOptionQuestionStyle.checkBoxText}>{item.text}</Text>
         </View>
         </Pressable>
-    
         
     )
 
@@ -74,12 +70,26 @@ export const MultipleOptionQuestion=({questionId,questionData,fillAnswer,upcomin
     return(
         <View style={MultipleOptionQuestionStyle.questionContainer}>
             <Text  style={MultipleOptionQuestionStyle.questionTitle}>{questionData.text}</Text>
+            <View style={MultipleOptionQuestionStyle.iamgecontainer}>
+            {questionData.QuestionImage?.source &&
+            <Image
+            style={{
+                width:100,
+                height:100,
+            }}
+            source={{uri:BASE_URL +'question/image/'+questionData.QuestionImage?.source}}
+            />
+           
+            }
+            </View>
+            <View style={MultipleOptionQuestionStyle.listContainer}>
             <FlatList
             showsHorizontalScrollIndicator={false}
             data={questionData.Answers}
             renderItem={renderItem}
             keyExtractor = {item=>item.id.toString()}
             ></FlatList>
+            </View>
         </View>
     )
 }

@@ -7,6 +7,7 @@ import { deleteQuestion } from '../../slices/questionSlice';
 
 
 export default function QuestionList({navigation,data,changeListener,testId,testName}){
+  console.log(data)
     const dispatch=useDispatch()
 
     const handleDelete = async (id) =>{

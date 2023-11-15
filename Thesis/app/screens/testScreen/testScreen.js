@@ -86,6 +86,8 @@ export default function TestScreen({ navigation, route }) {
   }, []);
 
   const onLeaveTest = () =>{
+    console.log('EZLEFUT?')
+    console.log('ASDASDASD:',startedTest)
     setFillAnswers(true)
     dispatch(setFillEndTest(startedTest.id))
     setTestFilled(true)

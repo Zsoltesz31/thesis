@@ -6,16 +6,19 @@ export const MultipleOptionQuestionStyle = StyleSheet.create({
         fontWeight:'bold',
         textAlign:'center',
         color:'#009AB9',
-        margin:10
+        margin:10,
+        borderWidth:1,
+        borderColor:'#009AB9',
+        borderRadius:5
     },
     questionContainer:{
-        elevation:2,
-        height:150,
+        borderWidth:2,
         justifyContent:'center',
         borderRadius:5,
         width:'95%',
         alignSelf:'center',
-        margin:10
+        margin:10,
+        borderColor:'#009AB9',
     },
     answerContainer:{
         borderWidth:1,
@@ -24,7 +27,8 @@ export const MultipleOptionQuestionStyle = StyleSheet.create({
         width:'80%',
         alignSelf:'center',
         margin:5,
-        padding:2
+        padding:2,
+        height:50
     },
     checkBoxContainer:{
         flexDirection:'row',
@@ -37,7 +41,7 @@ export const MultipleOptionQuestionStyle = StyleSheet.create({
         flexDirection:'row',
         width:'100%',
         justifyContent:'center',
-        margin:3
+        margin:3,
     },
     checkBoxText:{
         textAlign:'center',
@@ -54,5 +58,11 @@ export const MultipleOptionQuestionStyle = StyleSheet.create({
         color: 'white',
         alignSelf:'center',
         bottom:2
-    }
+    },
+    iamgecontainer:{
+        flex:1,
+        alignSelf:'center',
+
+    },
+
 })

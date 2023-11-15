@@ -1,5 +1,5 @@
 import React, {useState,useEffect}  from 'react'
-import { View,SafeAreaView,Text,Pressable,Image, Platform } from 'react-native'
+import { View,SafeAreaView,Text,Pressable} from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 import { CustomButton } from '../../../components/buttons/buttons'
 import { CustomInput } from '../../../components/inputs/inputs'
@@ -8,15 +8,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import { AddQuestionWithAnswerStyle } from './style'
 import { useDispatch,useSelector } from 'react-redux'
-import { createQuestion,getQuestion,updateQuestion,upsertImageToQuestion } from '../../../slices/questionSlice'
+import { createQuestion,getQuestion,updateQuestion} from '../../../slices/questionSlice'
 import AnswerList from '../../../components/answerList/answerList'
 import { getAnwser,createAnswer,reset } from '../../../slices/answerSlice'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'react';
 import { AuthContext } from '../../../context/AuthContext';
 import * as FileSystem from 'expo-file-system';
-import axios from 'axios'
-import FormData from 'form-data'
+import BASE_URL from '../../../config';
+
 
 
 
@@ -167,7 +167,7 @@ export default function AddQuestionWithAnswer({navigation,route}){
     const handleAddImageToQuestion = async () => {
         if(image){
             const r = await FileSystem.uploadAsync(
-                `http://192.168.50.50:3333/question/image/${currentAddedQuestion.id}`,
+                `${BASE_URL}question/image/${currentAddedQuestion.id}`,
                 image.uri,
                 {
                     headers: {

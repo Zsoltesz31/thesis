@@ -1,11 +1,12 @@
 import React, {useState,useContext,useRef} from 'react'
 import { useEffect } from 'react'
-import {Text,Pressable,View,FlatList} from 'react-native'
+import {Text,Pressable,View,FlatList,Image} from 'react-native'
 import { OptionChoiceQuestionStyle } from './style'
 import { useSelector,useDispatch } from 'react-redux'
 import { RadioButton } from 'react-native-paper'
 import { setFillAnswer } from '../../../slices/fillTestSlice'
 import { AuthContext } from '../../../context/AuthContext'
+import BASE_URL from '../../../config'
 
 
 
@@ -16,8 +17,7 @@ export const OptionChoiceQuestion=({questionId,questionData,fillAnswer,upcomingT
     const [answer,setAnswer] = useState('')
     const {userData} = useContext(AuthContext)
     const isMounted = useRef(false)
-
-
+    console.log(questionData.QuestionImage?.source)
     useEffect(()=>{
         if(isMounted.current){
         handleFillAnswer()
@@ -65,6 +65,18 @@ export const OptionChoiceQuestion=({questionId,questionData,fillAnswer,upcomingT
     return(
         <View style={OptionChoiceQuestionStyle.questionContainer}>
             <Text  style={OptionChoiceQuestionStyle.questionTitle}>{questionData.text}</Text>
+            <View style={OptionChoiceQuestionStyle.iamgecontainer}>
+            {questionData.QuestionImage?.source &&
+            <Image
+            style={{
+                width:100,
+                height:100,
+            }}
+            source={{uri:BASE_URL +'question/image/'+questionData.QuestionImage?.source}}
+            />
+           
+            }
+             </View>
             <FlatList
             data={questionData.Answers}
             renderItem={renderItem}

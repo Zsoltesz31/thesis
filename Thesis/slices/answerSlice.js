@@ -18,6 +18,7 @@ export const deleteAnswer = createAsyncThunk('answer/deleteAnswer',(id)=>{
 })
 
 export const createAnswer = createAsyncThunk('answer/createAnswer',(values)=>{
+
     return BaseInstance.post(`answer`,{
             questionId:values.questionId,
             text:values.text,
@@ -29,12 +30,15 @@ export const createAnswer = createAsyncThunk('answer/createAnswer',(values)=>{
 })
 
 export const updateAnswer = createAsyncThunk('answer/updateAnswer',(values)=>{
+    console.log('DISPATCHIG ELJUTSZ?', values)
    return BaseInstance.patch(`answer/${values.id}`,{
             questionId:values.questionId,
-            answerId:values.id,
+            id:values.id,
             text:values.text,
             point:values.point,
-    }).then((response)=>response.data).catch(e=>{
+    }).then((response)=>{
+        return response.data
+    }).catch(e=>{
         console.log(e)
     })
 })

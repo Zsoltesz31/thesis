@@ -22,8 +22,9 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
         setIsModalVisible(false)
     }
 
-    const handleDelete = (id) =>{
-        dispatch(deleteTest(id)).then(changeListener(true))
+    const handleDelete = async (id) =>{
+        await Promise.all([dispatch(deleteTest(id))])
+        changeListener(true)
         modalClose()
     }
 
@@ -77,6 +78,7 @@ export default function TestList({navigation,courseId,data,changeListener,listTy
         <Pressable onPress={()=>{navigation.navigate('TestSheet',{testname:item.title,testId:item.id,listType:listType})}} android_ripple="true">
         <View style={testListStyle.listitem}>
         <Text style={testListStyle.listItemHeader}>{item.title}</Text>
+        <Text style={testListStyle.listItemHeader}>{item.description}</Text>
         <View style={testListStyle.listCrudButtons}>
         <Pressable style={testListStyle.button} onPress={()=>passTestDataById(item.id)}><Ionicons name={'create-outline'} size={25} color={"white"}/></Pressable>
         <Pressable style={testListStyle.button} onPress={()=>onDeleteButtonPress(item.id)}><Ionicons name={'trash-outline'} size={25} color={"white"}/></Pressable>

@@ -9,6 +9,7 @@ import { Checkbox } from "react-native-paper";
 export const ModalInputsComponent = ({idToUpdate,answertext,checkedstatus,handleFunction}) => {
     const [checked,setChecked] =useState(checkedstatus === 1 )
     const [answer,setAnswer] = useState(answertext)
+
     return(
         <View style={ModalInputsComponentStyle.modalContent}>
         <Text style={ModalInputsComponentStyle.modalTitle}>Válasz módosítása</Text>

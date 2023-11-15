@@ -29,7 +29,6 @@ export const deleteQuestion = createAsyncThunk('question/deleteQuestion',(id)=>{
 })
 
 export const createQuestion = createAsyncThunk('question/createQuestion',(values)=>{
-    console.log(values.id)
     return BaseInstance.post(`question`,
          {
              testId:values.testId,
@@ -39,8 +38,7 @@ export const createQuestion = createAsyncThunk('question/createQuestion',(values
          }
 
     ).then((response)=>{
-        console.log('kaka',response)
-        return response
+        return response.data
     }).catch(e=>{
         console.log('asdsaas', e)
     })
@@ -50,10 +48,13 @@ export const updateQuestion = createAsyncThunk('question/updateQuestion',(values
     console.log(values)
    return BaseInstance.patch(`question/${values.id}`,{
             testId:values.testId,
+            id:values.id,
             type:values.type,
             text:values.text,
         
-    }).then((response)=>response.data)
+    }).then((response)=>response.data).catch(
+        console.log('ez az error:',e)
+    )
 })
 
 const questionSlice = createSlice({
